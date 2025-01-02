@@ -7,4 +7,6 @@ typedef struct s_context {
 	in_red *char;
 	out_fd = STDOUT;
 	in_fd = STDIN;
+	out_append_mode_flg int;
+	here_doc_delim *char;
 } t_context;
