@@ -6,28 +6,11 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:47:33 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/03 01:31:40 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:44:28 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-//ft_strncmp will be removed when libft is here
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)(s1[i]) - (unsigned char)(s2[i]));
-		if (s1[i] == 0)
-			break ;
-		i++;
-	}
-	return (0);
-}
 
 void	echo(int fd, char **args)
 {
@@ -57,4 +40,3 @@ void	echo(int fd, char **args)
 	if (newline)
 		write (fd, "\n", 1);
 }
-
