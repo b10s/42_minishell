@@ -1,6 +1,10 @@
 /*
 TODO
 	add function to free context struct on exit
+	free line returned by readline
+	setup tests for our shel
+		include mem leak testing
+		go over all tests from eval page
 */
 
 /* Q
