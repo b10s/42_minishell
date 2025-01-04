@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include "../libft/libft.h"
 
-typedef char ** t_cmd;
+typedef char **t_cmd;
 
 typedef struct s_context {
 	t_cmd *commands;

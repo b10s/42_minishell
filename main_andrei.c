@@ -23,13 +23,12 @@ TODO
 
 #include "./parse/parse.h"
 
-
 int main(int argc, char **argv) {
 	char *line;
 	int	res;
 	t_context *ctx;
 
-	line = readline("yo> ");
+	line = readline("msh> ");
 	printf("argc [%d], argv addr [%p]\n", argc, argv);
 	printf("line [%s]\n", line);
 
@@ -38,6 +37,14 @@ int main(int argc, char **argv) {
 		printf("fatal ERR\n");
 	}
 	// inf loop until EOF?
+	/*
+	man readline
+	...
+	RETURN VALUE
+  	readline returns the text of the line read. A blank line returns the empty string.
+		If EOF is encountered while reading a line, and the line is empty, NULL is returned.
+		If an EOF is  read  with  a non-empty line, it is treated as a newline.
+	*/
 	res = parse(line, ctx);
 	if (res != 0) {
 		//ERR
