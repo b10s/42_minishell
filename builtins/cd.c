@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/05 23:20:40 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/01/04 23:23:38 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/01/05 23:21:53 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "builtins.h"
 
-# include "../libft/libft.h"
-
-void	echo(int fd, char **args);
-void	cd(char *path);
-void	pwd(int fd);
-
-#endif
+void	cd(char *path)
+{
+	if (chdir(path) == -1)
+	{
+		ft_putstr_fd("ch: ", STDERR_FILENO);
+		perror(path);
+	}
+}

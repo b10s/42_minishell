@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/05 23:20:40 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/01/05 22:23:27 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/01/05 23:21:57 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "builtins.h"
 
-# include "../libft/libft.h"
+void	pwd(int fd)
+{
+	char	*buff;
 
-void	echo(int fd, char **args);
-void	cd(char *path);
-void	pwd(int fd);
-
-#endif
+	buff = getcwd(NULL, 0);
+	if (buff != NULL)
+	{
+		ft_putstr_fd(buff, fd);
+		free(buff);
+	}
+	else
+		perror("pwd: ");
+}
