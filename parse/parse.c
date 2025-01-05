@@ -17,7 +17,7 @@ int parse(char *line, t_context *ctx)
 	return 1;
 }
 
-// execve("/usr/bin/ls", ["ls", "-lah"], 0x560e91e56530 /* 65 vars */) = 0
+// execve("/usr/bin/ls", ["ls", "-lah", NULL], 0x560e91e56530 /* 65 vars */) = 0
 
 // use split to split into '|' pipes e.g.: ls -lah | cat
 
