@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 23:31:48 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/05 23:11:19 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:36:09 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	char			**args;
+	char		**args;
+	t_variable	*vars;
 
 	if (argc != 1)
 		return (0);
@@ -27,25 +26,15 @@ int	main(int argc, char *argv[], char *envp[])
 		return (0);
 	if (envp == NULL)
 		return (0);
-	cd("libft");
-	dir = opendir(".");
-	if (dir == NULL)
-	{
-		perror("opendir");
-		return (1);
-	}
-	args = calloc(2, sizeof(char *));
-	if (args == NULL)
-		return (1);
-	entry = readdir(dir);
-	while (entry != NULL)
-	{
-		args[0] = entry->d_name;
-		args[1] = NULL;
-		echo(1, args);
-		entry = readdir(dir);
-	}
-	closedir(dir);
+	args = (char **)ft_calloc(2, sizeof(char *));
+	args[0] = "VAR2=ok";
+	vars = (t_variable *)ft_calloc(1, sizeof(t_variable));
+	vars->content = "VAR=wow";
+	export(args, vars);
+	printf("%s\n", vars->next->content);
+	free(vars->next);
+	free(vars);
+	free(args[0]);
 	free(args);
 	return (0);
 }

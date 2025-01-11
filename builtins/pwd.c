@@ -6,22 +6,23 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 22:23:27 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/05 23:21:57 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:27:50 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	pwd(int fd)
+int	pwd(void)
 {
 	char	*buff;
 
 	buff = getcwd(NULL, 0);
 	if (buff != NULL)
 	{
-		ft_putstr_fd(buff, fd);
+		ft_putstr_fd(buff, STDOUT_FILENO);
 		free(buff);
+		return (0);
 	}
 	else
-		perror("pwd: ");
+		return (perror("pwd: "), -1);
 }
