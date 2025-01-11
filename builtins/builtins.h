@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/10 22:27:47 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/11 13:06:39 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include "../libft/libft.h"
 
 //this global variable automatically holds the environment variables
-//It allows the environment variables to be changed
+//It allows the environment variables to be changed for the program
 extern char	**environ;
 
 //variable linked list
+//holds all variables whether exported or not
 typedef struct s_variable
 {
 	int					exported;
@@ -34,6 +35,5 @@ int	echo(char **args);
 int	cd(char *path);
 int	pwd(void);
 int	export(char **args, t_variable *vars);
-void	print_with_var_quotes(char *args);
 
 #endif

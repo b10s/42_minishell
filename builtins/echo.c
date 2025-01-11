@@ -6,25 +6,27 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:47:33 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/10 22:27:48 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/11 13:13:03 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
+//prints args to STDOUT with a space inbetween them, then adds a newline
+//if there are no args it just adds a newline
+//with "-n" string as first argument, no newline is added at the end
 int	echo(char **args)
 {
 	int	newline;
 	int	i;
 
 	if (args[0] == NULL)
-	{
-		printf("\n");
-		return (0);
-	}
+		return (printf("\n"), 0);
 	newline = 1;
 	if (ft_strncmp(args[0], "-n", 3) == 0)
 	{
+		if (args[1] == NULL)
+			return (0);
 		newline = 0;
 		args++;
 	}
