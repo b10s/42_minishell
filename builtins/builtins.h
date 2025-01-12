@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/11 13:06:39 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/11 23:38:45 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int	echo(char **args);
 int	cd(char *path);
 int	pwd(void);
 int	export(char **args, t_variable *vars);
+int	unset(char **args, t_variable *vars);
 
 #endif
