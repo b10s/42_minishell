@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:29:06 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/11 23:38:44 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/14 22:46:38 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	vars_check_loop(char **args, t_variable *vars, int end_or_eq, int i)
 //if the name does not exist, the name is added to the vars linked list
 //char **args looks like this {"NAME=var", "NAME2=var2", "NAME3"}
 //as seen with NAME3 it is not necessary to give the name a value
-int	export(char **args, t_variable *vars)
+int	ft_export(char **args, t_variable *vars)
 {
 	int			end_or_eq;
 	int			i;

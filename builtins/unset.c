@@ -6,12 +6,13 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:46:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/12 16:41:07 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/14 22:46:36 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
+//removes the node **vars is pointing to and frees it and its content
 void	update_vars(t_variable **vars, t_variable **prev)
 {
 	t_variable	*to_free;
@@ -46,7 +47,7 @@ void	check_var_loop(char *args, t_variable **vars, int end_or_eq)
 }
 
 //deletes a variable or mutliple variables
-int	unset(char **args, t_variable *vars)
+int	ft_unset(char **args, t_variable *vars)
 {
 	int		i;
 	int		end_or_eq;

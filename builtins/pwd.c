@@ -6,14 +6,14 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 22:23:27 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/11 23:38:43 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/14 22:46:37 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
 //prints current working directory
-int	pwd(void)
+int	ft_pwd(void)
 {
 	char	*buff;
 

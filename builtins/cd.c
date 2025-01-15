@@ -6,20 +6,20 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 23:23:38 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/11 23:38:45 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/14 22:46:40 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
 //changes working directory to path
-int	cd(char *path)
+int	ft_cd(char *path)
 {
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("ch: ", STDERR_FILENO);
 		perror(path);
-		return (-1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
