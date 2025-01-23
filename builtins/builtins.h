@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/14 22:50:04 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/21 20:31:32 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define BUILTINS_H
 
 # include "../libft/libft.h"
+
+# include "dirent.h"
 
 //this global variable automatically holds the environment variables
 //It allows the environment variables to be changed for the program

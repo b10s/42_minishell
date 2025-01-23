@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:46:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/14 22:46:36 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/19 19:18:05 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	check_var_loop(char *args, t_variable **vars, int end_or_eq)
 }
 
 //deletes a variable or mutliple variables
-int	ft_unset(char **args, t_variable *vars)
+int	cmd_unset(char **args, t_variable *vars)
 {
 	int		i;
 	int		end_or_eq;

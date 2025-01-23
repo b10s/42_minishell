@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:47:33 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/14 22:46:40 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/19 19:18:23 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //prints args to STDOUT with a space inbetween them, then adds a newline
 //if there are no args it just adds a newline
 //with "-n" string as first argument, no newline is added at the end
-int	ft_echo(char **args)
+int	cmd_echo(char **args)
 {
 	int	newline;
 	int	i;

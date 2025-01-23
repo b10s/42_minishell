@@ -6,35 +6,34 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 23:31:48 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/10 22:36:09 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/01/23 19:45:38 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins/builtins.h"
-#include "dirent.h"
+#include "piping/pipex.h"
 
 //extern char **environ;
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(void)
 {
-	char		**args;
-	t_variable	*vars;
+	int		in;
+	char	*line;
 
-	if (argc != 1)
-		return (0);
-	if (argv == NULL)
-		return (0);
-	if (envp == NULL)
-		return (0);
-	args = (char **)ft_calloc(2, sizeof(char *));
-	args[0] = "VAR2=ok";
-	vars = (t_variable *)ft_calloc(1, sizeof(t_variable));
-	vars->content = "VAR=wow";
-	export(args, vars);
-	printf("%s\n", vars->next->content);
-	free(vars->next);
-	free(vars);
-	free(args[0]);
-	free(args);
+	in = open("wow", O_CREAT | O_WRONLY, 0644);
+	write(in, "die die die\n", 12);
+	close(in);
+	in = open("wow", O_RDONLY);
+	while (1)
+	{
+		line = get_next_line(in);
+		printf("%s", line);
+		if (line == NULL)
+		{
+			printf("\n");
+			break ;
+		}
+		free(line);
+	}
 	return (0);
 }
