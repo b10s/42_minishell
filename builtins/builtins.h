@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/21 20:31:32 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/05 00:36:38 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,13 @@
 # define BUILTINS_H
 
 # include "../libft/libft.h"
+# include "../environ_functions/environ_functions.h"
 
 # include "dirent.h"
-
-//this global variable automatically holds the environment variables
-//It allows the environment variables to be changed for the program
-extern char	**environ;
+# include <signal.h>
 
 //global variable for signal
-int			g_signal;
-
-//variable linked list
-//holds all variables whether exported or not
-typedef struct s_variable
-{
-	int					exported;
-	int					read_only;
-	int					integer;
-	char				*content;
-	struct s_variable	*next;
-}	t_variable;
+volatile sig_atomic_t	g_signal = 0;
 
 //builtins
 int	cmd_echo(char **args);
@@ -42,5 +29,6 @@ int	cmd_pwd(void);
 int	cmd_export(char **args, t_variable *vars);
 int	cmd_unset(char **args, t_variable *vars);
 int	cmd_env(void);
+int	cmd_exit(char **args);
 
 #endif

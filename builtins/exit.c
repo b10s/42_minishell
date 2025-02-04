@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:06:25 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/19 19:18:19 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/01 20:09:24 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int	get_uchar(char *str)
 //quits the shell, it exits with last signal by defualt otherwise
 //it exits with the number given as argument, if the number is not a number
 //it exits with 2 meaning error, 
-int	cmd_exit(char **args)
+int	cmd_exit(char **args, int last_status)
 {
 	int	arg;
 
 	if (args[0] == NULL)
-		exit(g_signal);
+		exit(last_status);
 	if (check_int(args[0]) == 0)
 	{
 		ft_putendl_fd(args[0], 2);

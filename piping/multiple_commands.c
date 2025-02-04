@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_adr.c                                         :+:      :+:    :+:   */
+/*   multiple_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 23:31:48 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/30 21:29:02 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/02/03 20:02:55 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/02/05 00:33:42 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins/builtins.h"
-#include "piping/pipex.h"
+#include "pipex.h"
 
-//extern char **environ;
-
-int	main(void)
+static int	red_execute_builtin(int	in_fd, int out_fd, )
 {
-	char	*wow;
-
-	wow = "PATH=thing";
-	printf("%s\n", wow);
-	printf("%s\n", wow + 5);
+	
 }

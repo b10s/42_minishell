@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_adr.c                                         :+:      :+:    :+:   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 23:31:48 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/30 21:29:02 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/02/05 00:10:24 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/02/05 00:36:23 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins/builtins.h"
-#include "piping/pipex.h"
+#include "environ_functions.h"
 
-//extern char **environ;
-
-int	main(void)
+int	ft_getenv(char *name, t_envs *envs)
 {
-	char	*wow;
+	int	namelen;
 
-	wow = "PATH=thing";
-	printf("%s\n", wow);
-	printf("%s\n", wow + 5);
+	namelen = ft_strlen(name);
+	
 }

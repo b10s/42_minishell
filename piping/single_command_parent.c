@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_adr.c                                         :+:      :+:    :+:   */
+/*   single_command_parent.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 23:31:48 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/30 21:29:02 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/01/31 01:35:00 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/01/31 01:37:30 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins/builtins.h"
-#include "piping/pipex.h"
+#include "pipex.h"
 
-//extern char **environ;
-
-int	main(void)
+int	single_parent(int stdinout_copy, pid_t pid)
 {
-	char	*wow;
+	int	status;
 
-	wow = "PATH=thing";
-	printf("%s\n", wow);
-	printf("%s\n", wow + 5);
+	return_in_out(stdinout_copy);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (EXIT_FAILURE);
 }
