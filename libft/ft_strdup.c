@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:19:01 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/03 16:18:06 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:41:05 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,19 @@ char	*ft_strdup(const char *src)
 {
 	size_t	srcsize;
 	char	*dupped;
+	size_t	i;
 
 	srcsize = ft_strlen(src) + 1;
 	dupped = (char *)malloc(srcsize);
 	if (dupped == NULL)
 		return (NULL);
-	ft_memcpy(dupped, src, srcsize);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dupped[i] = src[i];
+		i++;
+	}
+	dupped[i] = '\0';
 	return (dupped);
 }
 

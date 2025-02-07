@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:32 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/05 00:35:58 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:12:50 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ extern char				**environ;
 typedef struct s_variable
 {
 	int					exported;
-	int					read_only;
-	int					integer;
-	char				*content;
+	char				*name;
+	char				*value;
 	struct s_variable	*next;
 }	t_variable;
 
@@ -34,7 +33,18 @@ typedef struct s_variable
 typedef struct s_envs
 {
 	char		**env_cpy;
-	t_variable	vars;
+	t_variable	*vars;
 }	t_envs;
+
+//free
+void	free_envs(t_envs *envs);
+
+//test
+char	*get_name(char *name_value);
+char	*get_value(char *name_value);
+
+//init
+int		init_vars(t_envs *envs);
+t_envs	*init_envs(void);
 
 #endif
