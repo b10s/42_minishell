@@ -6,13 +6,13 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:19:52 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/06 15:17:18 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:00:57 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ_functions.h"
 
-static void	free_split(char **split)
+void	free_split(char **split)
 {
 	int	i;
 

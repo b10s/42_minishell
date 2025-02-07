@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:10 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/06 16:19:31 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:04:52 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	cpy_env(t_envs *envs)
 	i = 0;
 	while (environ[i] != NULL)
 		i++;
-	envs->env_cpy = (char **)ft_calloc(i + 5, sizeof(char *));
+	envs->env_cpy = (char **)ft_calloc(i + 1, sizeof(char *));
 	if (envs->env_cpy == NULL)
 		return (EXIT_FAILURE);
 	i = 0;

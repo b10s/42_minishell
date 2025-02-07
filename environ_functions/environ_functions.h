@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:32 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/06 15:12:50 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:42:09 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_envs
 
 //free
 void	free_envs(t_envs *envs);
+void	free_split(char **split);
+
 
 //test
 char	*get_name(char *name_value);
@@ -46,5 +48,8 @@ char	*get_value(char *name_value);
 //init
 int		init_vars(t_envs *envs);
 t_envs	*init_envs(void);
+
+//env functions
+char	*ft_getenv(const char *name, t_envs *envs);
 
 #endif

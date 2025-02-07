@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/05 00:07:08 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:42:19 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_pipex	*init_spipex(t_context *ctx);
 
 //free
 void	free_spipex(t_pipex *spipex);
-void	free_split(char **split);
 //close
 void	close_fds(t_pipex *spipex);
 
