@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:19:52 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/07 19:00:57 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/08 18:42:44 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,10 @@ void	free_env_cpy(char **env_cpy)
 	free_split(env_cpy);
 }
 
-void	free_vars(t_variable **vars)
-{
-	t_variable	*prev;
-
-	while (*vars != NULL)
-	{
-		prev = *vars;
-		free(prev->name);
-		free(prev->value);
-		(*vars) = (*vars)->next;
-		free(prev);
-	}
-}
-
 void	free_envs(t_envs *envs)
 {
 	if (envs == NULL)
 		return ;
 	free_env_cpy(envs->env_cpy);
-	free_vars(&(envs->vars));
 	free(envs);
 }

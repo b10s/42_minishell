@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:47:33 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/19 19:18:23 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:41:09 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	cmd_echo(char **args)
 	if (ft_strncmp(args[0], "-n", 3) == 0)
 	{
 		if (args[1] == NULL)
-			return (0);
+			return (EXIT_SUCCESS);
 		newline = 0;
 		args++;
 	}
@@ -40,5 +40,5 @@ int	cmd_echo(char **args)
 	}
 	if (newline)
 		printf("\n");
-	return (0);
+	return (EXIT_SUCCESS);
 }

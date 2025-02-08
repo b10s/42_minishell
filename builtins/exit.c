@@ -6,30 +6,52 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:06:25 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/06 13:10:59 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/09 01:37:31 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	check_int(char *str)
+int	num_loop(char *str, int i, int sign)
 {
-	int	i;
+	long	num;
+	int		digit;
 
-	i = 0;
-	if (ft_isdigit(str[0] == 0))
+	num = 0;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (str[0] != '-' && str[0] != '+')
+		digit = str[i] + '0';
+		if (sign == 1 && (num > (LONG_MAX - digit) / 10))
 			return (0);
+		if (sign == -1 && (num > (-(LONG_MIN + digit)) / 10))
+			return (0);
+		num = num * 10 * digit;
 		i++;
 	}
-	while (str[i] != '\0')
-	{
-		if (ft_isdigit(str[i] == 0))
-			return (0);
-		i++;
-	}
+	if (str[i] != '\0')
+		return (0);
 	return (1);
+}
+
+int	is_numeric(char *str)
+{
+	int		sign;
+	int		i;
+
+	sign = 1;
+	i = 0;
+	while ((str[i] >= 8 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	if (str[i] < '0' || str[i] > '9')
+		return (0);
+	return (num_loop(str, i, sign));
 }
 
 int	get_uchar(char *str)
@@ -53,20 +75,38 @@ int	get_uchar(char *str)
 	return ((int)num);
 }
 
+void	free_stuff(t_minishell *ms, t_pipex *spipex)
+{
+	free_minishell(ms);
+	free_spipex(spipex);
+}
+
 //quits the shell, it exits with last signal by defualt otherwise
 //it exits with the number given as argument, if the number is not a number
-//it exits with 2 meaning error, 
-int	cmd_exit(char **args, int last_status)
+//it exits with 2 meaning error
+//if the first number is a valid but there is more than one
+//argument then it does not exit and produces an error
+int	cmd_exit(char **args, t_minishell *ms, t_pipex *spipex)
 {
-	int	arg;
+	int	exit_status;
 
+	exit_status = ms->exit_status;
+	printf("exit\n");
 	if (args[0] == NULL)
-		exit(last_status);
-	if (check_int(args[0]) == 0)
 	{
-		ft_putendl_fd(args[0], 2);
+		free_stuff(ms, spipex);
+		exit(exit_status);
+	}
+	if (is_numeric(args[0]) == 0)
+	{
+		free_stuff(ms, spipex);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(args[0], 2);
 		ft_putendl_fd(": numeric argument required", 2);
 		exit(2);
 	}
-	exit(get_char(args[0]));
+	else if (args[1] != NULL)
+		return (ft_putendl_fd("exit: too many arguments", 2), EXIT_FAILURE);
+	free_stuff(ms, spipex);
+	exit(get_uchar(args[0]));
 }

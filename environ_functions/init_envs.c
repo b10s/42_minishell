@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:10 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/07 17:04:52 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:15:59 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ t_envs	*init_envs(void)
 	if (envs == NULL)
 		return (NULL);
 	if (cpy_env(envs) == EXIT_FAILURE)
-		return (free_envs(envs), NULL);
-	if (init_vars(envs) == EXIT_FAILURE)
 		return (free_envs(envs), NULL);
 	return (envs);
 }

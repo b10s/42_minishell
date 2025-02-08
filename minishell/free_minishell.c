@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getenv.c                                        :+:      :+:    :+:   */
+/*   free_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 00:10:24 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/08 18:42:45 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/02/08 19:00:23 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/02/08 19:02:16 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ_functions.h"
+#include "minishell.h"
 
-char	*ft_getenv(const char *name, t_envs *envs)
+void	free_minishell(t_minishell *ms)
 {
-	int	namelen;
-	int	i;
-
-	namelen = ft_strlen(name);
-	i = 0;
-	while (envs->env_cpy[i] != NULL)
-	{
-		if (ft_strncmp(name, envs->env_cpy[i], namelen) == 0)
-		{
-			if (envs->env_cpy[i][namelen] == '=' || \
-				envs->env_cpy[i][namelen] == '\0')
-			{
-				return (envs->env_cpy[i]);
-			}
-		}
-		i++;
-	}
-	return (NULL);
+	if (ms == NULL)
+		return ;
+	free_envs(ms->envs);
+	free(ms->line);
+	free(ms);
 }

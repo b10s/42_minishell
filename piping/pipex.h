@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/07 17:42:19 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/08 18:52:36 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEX_H
 
 # include "../libft/libft.h"
+# include "../minishell/minishell.h"
 # include "../parse/parse.h"
 # include "../builtins/builtins.h"
 # include <sys/types.h>
