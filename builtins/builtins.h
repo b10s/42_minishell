@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/09 01:37:57 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/12 23:20:25 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@ int	cmd_export(char **args, t_variable *vars);
 int	cmd_unset(char **args, t_variable *vars);
 int	cmd_env(t_envs *envs);
 int	cmd_exit(char **args, t_minishell *ms, t_pipex *spipex);
+
+//check variable argument for export
+int	valid_var_check(char *v_n);
 
 #endif
