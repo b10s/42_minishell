@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:32 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/08 19:07:49 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/12 00:21:09 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_envs	*init_envs(void);
 char	*ft_getenv(const char *name, t_envs *envs);
 int		ft_setenv(const char *name, const char *value, \
 						int overwrite, t_envs *envs);
-
+//get
+char	*get_name(char *namevalue);
+char	*get_value(char *namevalue);
 
 #endif

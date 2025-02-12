@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_adr.c                                         :+:      :+:    :+:   */
+/*   get_name_value.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 23:31:48 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/12 00:19:53 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/02/11 23:56:03 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/02/12 00:17:13 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <limits.h>
-#include "../libft/libft.h"
+#include "environ_functions.h"
 
 char	*get_name(char *namevalue)
 {
@@ -35,19 +33,4 @@ char	*get_value(char *namevalue)
 	while (namevalue[valuelen] != '\0')
 		valuelen++;
 	return (ft_substr(namevalue, 0, valuelen));
-}
-
-int	main(void)
-{
-	char	*str;
-	char	*name;
-	char	*value;
-
-	str = "NAME=value";
-	name = get_name(str);
-	value = get_value(str);
-	ft_printf("%s\n", name);
-	ft_printf("%s\n", value);
-	free(name);
-	free(value);
 }
