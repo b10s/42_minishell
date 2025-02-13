@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:32 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/12 00:21:09 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/13 22:01:52 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 # define ENVIRON_FUNCTIONS_H
 
 # include "../libft/libft.h"
+
+# define CMD_CD 1
+# define CMD_ECHO 2
+# define CMD_ENV 3
+# define CMD_EXIT 4
+# define CMD_EXPORT 5
+# define CMD_PWD 6
+# define CMD_UNSET 7
+# define CMD_NOT_BUILTIN 0
+# define CMD_FIND_OUT -1
 
 //this global variable automatically holds the environment variables
 extern char				**environ;
@@ -35,8 +45,10 @@ t_envs	*init_envs(void);
 char	*ft_getenv(const char *name, t_envs *envs);
 int		ft_setenv(const char *name, const char *value, \
 						int overwrite, t_envs *envs);
+int		ft_unsetenv(const char *name, t_envs *envs);
 //get
 char	*get_name(char *namevalue);
 char	*get_value(char *namevalue);
+int		get_variable_pos(const char *name, t_envs *envs);
 
 #endif

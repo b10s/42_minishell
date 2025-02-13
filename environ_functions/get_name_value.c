@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:56:03 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/12 23:06:35 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:06:08 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,23 @@ char	*get_value(char *namevalue)
 		valuelen++;
 	value = ft_substr(namevalue, 0, valuelen);
 	return (value);
+}
+
+int	get_variable_pos(const char *name, t_envs *envs)
+{
+	int	namelen;
+	int	i;
+
+	namelen = ft_strlen(name);
+	i = 0;
+	while (envs->env_cpy[i] != NULL)
+	{
+		if (ft_strncmp(name, envs->env_cpy[i], namelen) == 0)
+		{
+			if (envs->env_cpy[i][namelen] == '=')
+				return (i);
+		}
+		i++;
+	}
+	return (-1);
 }

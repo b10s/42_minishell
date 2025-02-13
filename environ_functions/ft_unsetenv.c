@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:15:17 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/08 19:29:21 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/13 21:20:07 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,17 @@
 
 int	ft_unsetenv(const char *name, t_envs *envs)
 {
-	char	*n_v;
-	int		i;
+	int	v_pos;	
 
-	n_v = ft_getenv(name, envs);
-	if (n_v == NULL)
+	v_pos = get_variable_pos(name, envs);
+	if (v_pos == -1)
 		return (EXIT_SUCCESS);
-	i = 0;
-	while (envs->env_cpy[i] != n_v)
-		i++;
-	free(n_v);
-	while (envs->env_cpy[i + 1] != NULL)
+	while (envs->env_cpy[v_pos + 1] != NULL)
 	{
-		envs->env_cpy[i] = envs->env_cpy[i + 1];
-		i++;
+		envs->env_cpy[v_pos] = envs->env_cpy[v_pos + 1];
+		v_pos++;
 	}
-	envs->env_cpy[i] = NULL;
+	free(envs->env_cpy[v_pos]);
+	envs->env_cpy[v_pos] = NULL;
 	return (EXIT_SUCCESS);
 }
