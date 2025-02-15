@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/08 18:52:36 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:50:26 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,6 @@
 # endif
 
 # define CLEAR_MEM -10
-
-# define CMD_CD 1
-# define CMD_ECHO 2
-# define CMD_ENV 3
-# define CMD_EXIT 4
-# define CMD_EXPORT 5
-# define CMD_PWD 6
-# define CMD_UNSET 7
-# define CMD_NOT_BUILTIN 0
-# define CMD_FIND_OUT -1
 
 typedef struct s_pipex
 {
@@ -71,11 +61,9 @@ int		return_in_out(int stdinout_copy[]);
 //path
 char	*find_cmd_path(char *cmd);
 
-//single command
-int		single_parent(int stdinout_copy, pid_t pid);
-
 //bultin stuff
 int		which_builtin(char *cmd);
-int		execute_builtin(char **args, t_variable *vars, int which_builtin);
+int		execute_builtin(char **args, t_minishell *ms, \
+		t_pipex *spipex, int which_builtin);
 
 #endif
