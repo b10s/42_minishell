@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:29:06 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/12 23:54:40 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:42:12 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	add_var(char *arg, t_envs *envs)
 //otherwise it will update the variable and export status of the names given,
 //if the name does not exist, the name is added to the vars linked list
 //char **args looks like this {"NAME=var", "NAME2=var2", NULL}
-
 int	cmd_export(char **args, t_envs *envs)
 {
 	int		i;
@@ -74,7 +73,7 @@ int	cmd_export(char **args, t_envs *envs)
 	i = 0;
 	while (args[i] != NULL)
 	{
-		if (valid_var_check(args[i]) == EXIT_FAILURE)
+		if (valid_var_check(args[i], CMD_EXPORT) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		if (add_var(args[i], envs) == EXIT_FAILURE)
 			return (EXIT_FAILURE);

@@ -6,12 +6,14 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:15:17 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/13 21:20:07 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:26:20 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ_functions.h"
 
+//removes the variable with name
+//does not reallocate the array since it is not necessary to do so
 int	ft_unsetenv(const char *name, t_envs *envs)
 {
 	int	v_pos;	

@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 20:59:04 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/31 17:37:00 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/17 20:02:44 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ t_pipex	*init_spipex(t_context *ctx)
 	spipex->ctx = ctx;
 	spipex->in_fd = -2;
 	spipex->out_fd = -2;
+	spipex->curin = -2;
+	spipex->curout = -2;
 	if (open_files(spipex) == EXIT_FAILURE)
 		return (free_spipex(spipex), NULL);
 	return (spipex);

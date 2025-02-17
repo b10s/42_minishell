@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/15 13:50:26 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/18 01:23:00 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_pipex
 	t_context	*ctx;
 	int			in_fd;
 	int			out_fd;
+	int			curin;
+	int			curout;
 	char		*here_doc_filepath;
 }	t_pipex;
 
@@ -48,15 +50,20 @@ t_pipex	*init_spipex(t_context *ctx);
 void	free_spipex(t_pipex *spipex);
 //close
 void	close_fds(t_pipex *spipex);
+int		close_set_gen(int *fd);
+void	close_pipe(int p[]);
 
 //here_doc
 int		put_input_in_here_doc(t_pipex *spipex);
 char	*find_unique_file_name(void);
 char	*get_next_line(int fd);
 
-//cmd_utils_redirection
-int		redirect_in_out(int stdinout_copy[], int in_fd, int out_fd);
-int		return_in_out(int stdinout_copy[]);
+//in_out_redirection
+int		save_in_out(t_minishell *ms);
+int		redirect_in(int in_fd, t_minishell *ms);
+int		redirect_out(int out_fd, t_minishell *ms);
+int		restore_in_out(t_minishell *ms);
+int		restore_inout_close(t_minishell *ms);
 
 //path
 char	*find_cmd_path(char *cmd);
@@ -64,6 +71,7 @@ char	*find_cmd_path(char *cmd);
 //bultin stuff
 int		which_builtin(char *cmd);
 int		execute_builtin(char **args, t_minishell *ms, \
-		t_pipex *spipex, int which_builtin);
+			t_pipex *spipex, int which_builtin);
+
 
 #endif

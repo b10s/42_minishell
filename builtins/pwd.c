@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 22:23:27 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/19 19:11:42 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/13 21:44:47 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	cmd_pwd(void)
 	buff = getcwd(NULL, 0);
 	if (buff != NULL)
 	{
-		ft_putstr_fd(buff, STDOUT_FILENO);
+		ft_printf(buff);
 		free(buff);
-		return (0);
+		return (EXIT_SUCCESS);
 	}
 	else
-		return (perror("pwd: "), -1);
+		return (perror("pwd: "), EXIT_FAILURE);
 }

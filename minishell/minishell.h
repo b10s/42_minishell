@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:44:19 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/08 19:02:31 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:13:23 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef struct s_minishell
 {
 	char	*line;
 	t_envs	*envs;
-	int		stdin;
-	int		stdout;
+	int		stdin_fd;
+	int		stdout_fd;
 	int		exit_status;
 }	t_minishell;
 
