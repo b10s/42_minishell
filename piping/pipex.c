@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/18 01:29:18 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/20 23:28:34 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,37 @@ int	red_hel(int i, t_pipex *spipex, t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-int	pipeloop(int i, t_pipex *spipex, t_minishell *ms)
+int	pipeloop(int i, pid_t *pid, t_pipex *spipex, t_minishell *ms)
 {
-	int	pipe_fd[2];
+	int		pipe_fd[2];
 
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
 	if (red_hel(i, spipex, ms) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (CRITICAL_EXIT);
 	if (i < spipex->ctx->cmd_cnt - 1)
 	{
 		if (pipe(pipe_fd) == -1)
-			return (EXIT_FAILURE);
+			return (CRITICAL_EXIT);
 		spipex->curin = pipe_fd[0];
 		spipex->curout = pipe_fd[1];
 	}
 	if (redirect_out(spipex->curout, ms) == EXIT_FAILURE)
-		return (close_pipe(pipe_fd), EXIT_FAILURE);
+		return (close_pipe(pipe_fd), CRITICAL_EXIT);
+	return (gen_exec(i, &pid, spipex, ms));
+}
+
+int	exit_status(int last_status)
+{
+
 }
 
 int	pipex(t_context *ctx, t_minishell *ms)
 {
 	t_pipex	*spipex;
 	int		i;
+	int		last_status;
+	pid_t	*pid;
 
 	spipex = init_spipex(ctx);
 	if (spipex == NULL)
@@ -65,5 +75,15 @@ int	pipex(t_context *ctx, t_minishell *ms)
 	i = 0;
 	while (i < spipex->ctx->cmd_cnt)
 	{
+		if (pipeloop(i, &pid, spipex, ms) == CRITICAL_EXIT)
+			return (free(spipex), EXIT_FAILURE);
+		i++;
 	}
+	free_spipex(spipex);
+	waitpid(pid, &last_status, NULL);
+	if (WIFEXITED(last_status))
+		return (WEXITSTATUS(last_status));
+	else if (WIFSIGNALED(last_status))
+		return (128 + WTERMSIG(last_status));
+	return (EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:56:22 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/29 18:35:38 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:20:09 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ void	free_exit_paths(char **paths, char **cmd_path, int exit_value, int prrr)
 	exit(exit_value);
 }
 
-char	**get_paths(void)
+char	**get_paths(char **env_cpy)
 {
 	char	**paths;
 	int		i;
 
 	i = 0;
-	while (environ[i] != NULL)
+	while (env_cpy[i] != NULL)
 	{
-		if (ft_strncmp(environ[i], "PATH=", 5) == 0)
+		if (ft_strncmp(env_cpy[i], "PATH=", 5) == 0)
 		{
-			paths = ft_split(environ[i] + 5, ':');
+			paths = ft_split(env_cpy[i] + 5, ':');
 			if (paths == NULL)
 				return (NULL);
 			return (paths);
@@ -81,18 +81,18 @@ char	*r_cmd_path(char *paths, char *cmd)
 	return (ft_strdup(cmd));
 }
 
-char	*find_cmd_path(char *cmd)
+char	*find_cmd_path(char *cmd, t_envs *envs)
 {
 	char	**paths;
 	char	*cmd_path;
 
 	cmd_path == NULL;
-	paths = get_paths();
+	paths = get_paths(envs->env_cpy);
 	if (paths == NULL)
 		exit(1);
 	cmd_path = r_cmd_path(paths, cmd);
 	if (cmd_path == NULL)
-		free_exit_paths(paths, NULL, 1, 0);
+		free_exit_paths(paths, NULL, EXIT_FAILURE, 0);
 	if (access(cmd_path, F_OK) != 0)
 		free_exit_paths(paths, &cmd_path, 127, 1);
 	if (access(cmd_path, X_OK) != 0)

@@ -14,8 +14,8 @@
 
 void	close_pipe(int p[])
 {
-	close_set_gen(&(p[0]));
-	close_set_gen(&(p[1]));
+	close_set_gen(p);
+	close_set_gen(p + 1);
 }
 
 void	close_fds(t_pipex *spipex)

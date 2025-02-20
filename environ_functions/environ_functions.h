@@ -15,15 +15,7 @@
 
 # include "../libft/libft.h"
 
-# define CMD_CD 1
-# define CMD_ECHO 2
-# define CMD_ENV 3
-# define CMD_EXIT 4
-# define CMD_EXPORT 5
-# define CMD_PWD 6
-# define CMD_UNSET 7
-# define CMD_NOT_BUILTIN 0
-# define CMD_FIND_OUT -1
+
 
 //this global variable automatically holds the environment variables
 extern char				**environ;

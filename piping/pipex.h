@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/18 01:23:00 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:05:05 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # endif
 
 # define CLEAR_MEM -10
+
+# define CRITICAL_EXIT 2
 
 typedef struct s_pipex
 {
@@ -66,12 +68,14 @@ int		restore_in_out(t_minishell *ms);
 int		restore_inout_close(t_minishell *ms);
 
 //path
-char	*find_cmd_path(char *cmd);
+char	*find_cmd_path(char *cmd, t_envs *envs);
 
 //bultin stuff
 int		which_builtin(char *cmd);
 int		execute_builtin(char **args, t_minishell *ms, \
 			t_pipex *spipex, int which_builtin);
 
+//pipex
+int		gen_exec(int i, pid_t *pid, t_pipex *spipex, t_minishell *ms);
 
 #endif
