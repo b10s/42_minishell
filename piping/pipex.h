@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/20 18:05:05 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:02:26 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define WRITE 1
 # define READ 0
@@ -58,7 +60,6 @@ void	close_pipe(int p[]);
 //here_doc
 int		put_input_in_here_doc(t_pipex *spipex);
 char	*find_unique_file_name(void);
-char	*get_next_line(int fd);
 
 //in_out_redirection
 int		save_in_out(t_minishell *ms);
