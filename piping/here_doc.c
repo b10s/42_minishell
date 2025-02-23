@@ -6,50 +6,71 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/23 01:02:45 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/24 00:25:17 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ctrlderrormsg(int numlines, char *limiter, char *line)
+void	ctrlderrormsg(int numlines, char *limiter, char *lines)
 {
-	char	*numlinesstr;
-
-	get_next_line(CLEAR_MEM);
-	free(line);
-	numlinesstr = ft_itoa(numlines);
-	if (numlinesstr == NULL)
-		return (EXIT_FAILURE);
+	free(lines);
 	ft_putstr_fd("warning: here-document at line ", 2);
-	ft_putstr_fd(numlinesstr, 2);
-	free(numlinesstr);
+	ft_putnbr_fd(numlines, 2);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(limiter, 2);
 	ft_putstr_fd("\')\n", 2);
+}
+
+char	*join_line_newline(char *lines, char *to_join)
+{
+	char	*newline;
+	int		fail;
+
+	newline = ft_strjoin(lines, to_join);
+	free(lines);
+	free(to_join);
+	return (newline);
+}
+
+int	write_lines(t_pipex *spipex, char *lines, char *nline)
+{
+	if (write(spipex->in_fd, lines, ft_strlen(lines)) == -1)
+	{
+		free(nline);
+		free(lines);
+		perror("write");
+		return (EXIT_FAILURE);
+	}
+	lines = join_line_newline(lines, nline);
+	if (lines == NULL)
+		return (EXIT_FAILURE);
+	add_history(lines);
+	free(lines);
 	return (EXIT_SUCCESS);
 }
 
 int	input_loop(t_pipex *spipex, char *limiter, int limlen, int numlines)
 {
-	char	*line;
+	char	*nline;
+	char	*lines;
 
+	lines = (char *)ft_calloc(1, sizeof(char));
+	if (lines == NULL)
+		return (EXIT_FAILURE);
+	errno = 0;
 	while (1)
 	{
-		printf("> ");
-		line = get_next_line(STDIN_FILENO);
-		if (line == NULL)
+		nline = readline(">");
+		if (nline == NULL && errno == 0)
+			return (ctrlderrormsg(numlines, limiter, lines), EXIT_SUCCESS);
+		if (errno != 0)
+			return (free(lines), free(nline), EXIT_FAILURE);
+		if (ft_strncmp(nline, limiter, limlen) == 0 && nline[limlen] == '\n')
+			return (write_lines(spipex, lines, nline));
+		lines = join_line_newline(lines, nline);
+		if (lines == NULL)
 			return (EXIT_FAILURE);
-		if (line[0] == '\0')
-			return (ctrlderrormsg(numlines, limiter, line));
-		if (ft_strncmp(line, limiter, limlen) == 0 && line[limlen] == '\n')
-			return (get_next_line(CLEAR_MEM), free(line), EXIT_SUCCESS);
-		if (write(spipex->in_fd, line, ft_strlen(line)) == -1)
-		{
-			return (free(line), get_next_line(CLEAR_MEM), \
-			perror("write"), EXIT_FAILURE);
-		}
-		free(line);
 		numlines++;
 	}
 }
