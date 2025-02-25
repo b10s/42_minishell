@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/23 00:52:15 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:15:53 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	red_hel(int i, t_pipex *spipex, t_minishell *ms)
 int	pipeloop(int i, pid_t *pid, t_pipex *spipex, t_minishell *ms)
 {
 	int		pipe_fd[2];
+	int		ret;
 
 	pipe_fd[0] = -1;
 	pipe_fd[1] = -1;
@@ -52,7 +53,9 @@ int	pipeloop(int i, pid_t *pid, t_pipex *spipex, t_minishell *ms)
 	}
 	if (redirect_out(spipex->curout, ms) == EXIT_FAILURE)
 		return (close_pipe(pipe_fd), CRITICAL_EXIT);
-	return (gen_exec(i, &pid, spipex, ms));
+	ret = gen_exec(i, &pid, spipex, ms);
+	restore_in_out(ms);
+	return (ret);
 }
 
 int	status_check(int last_status)

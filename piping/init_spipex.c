@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 20:59:04 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/17 20:02:44 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:25:01 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	open_files(t_pipex *spipex)
 	}
 	if (spipex->in_fd == -1)
 		perror("open");
+	errno = 0;
 	return (EXIT_SUCCESS);
 }
 
