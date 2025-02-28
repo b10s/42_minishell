@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:11:33 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/28 18:18:56 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:32:24 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ int	get_logname(t_minishell *ms)
 	{
 		logname = ft_getenv("USER", ms->envs);
 		if (logname == NULL)
-			return (EXIT_FAILURE);
+			logname = "unknown-user";
 	}
-	ms->logname = logname;
+	ms->logname = ft_strdup(logname);
+	if (ms->logname == NULL)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -35,7 +37,12 @@ int	get_hostname(t_minishell *ms)
 
 	hostnamefd = open("/etc/hostname", O_RDONLY);
 	if (hostnamefd == -1)
-		return (EXIT_FAILURE);
+	{
+		ms->hostname = ft_strdup("unknown-host");
+		if (ms->hostname == NULL)
+			return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
+	}
 	ft_bzero(hostnamebuf, sizeof(hostnamebuf));
 	if (read(hostnamefd, hostnamebuf, sizeof(hostnamebuf) - 1) == -1)
 		return (close(hostnamefd), EXIT_FAILURE);
