@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/25 18:22:00 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/28 22:01:26 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	pipex(t_context *ctx, t_minishell *ms)
 	int		last_status;
 	pid_t	*pid;
 
-	spipex = init_spipex(ctx);
+	spipex = init_spipex(ctx, ms);
 	if (spipex == NULL)
 		return (EXIT_FAILURE);
 	if (save_in_out(ms) == EXIT_FAILURE)

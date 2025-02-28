@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/23 01:02:26 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/28 22:01:22 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_pipex
 }	t_pipex;
 
 //init
-t_pipex	*init_spipex(t_context *ctx);
+t_pipex	*init_spipex(t_context *ctx, t_minishell *ms);
 
 //free
 void	free_spipex(t_pipex *spipex);
@@ -58,7 +58,7 @@ int		close_set_gen(int *fd);
 void	close_pipe(int p[]);
 
 //here_doc
-int		put_input_in_here_doc(t_pipex *spipex);
+int		put_input_in_here_doc(t_pipex *spipex, t_minishell *ms);
 char	*find_unique_file_name(void);
 
 //in_out_redirection

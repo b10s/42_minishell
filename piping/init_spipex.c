@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 20:59:04 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/24 17:25:01 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/28 22:07:37 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	open_files(t_pipex *spipex)
 		spipex->here_doc_filepath = find_unique_file_name();
 		if (spipex->here_doc_filepath == NULL)
 			return (EXIT_FAILURE);
-		spipex->ctx->in_red = open(spipex->here_doc_filepath, \
+		spipex->in_fd = open(spipex->here_doc_filepath, \
 		O_CREAT | O_WRONLY, 0600);
 	}
 	if (spipex->in_fd == -1)
@@ -41,7 +41,7 @@ int	open_files(t_pipex *spipex)
 	return (EXIT_SUCCESS);
 }
 
-t_pipex	*init_spipex(t_context *ctx)
+t_pipex	*init_spipex(t_context *ctx, t_minishell *ms)
 {
 	t_pipex	*spipex;
 
@@ -55,5 +55,7 @@ t_pipex	*init_spipex(t_context *ctx)
 	spipex->curout = -2;
 	if (open_files(spipex) == EXIT_FAILURE)
 		return (free_spipex(spipex), NULL);
+	if (spipex->ctx->here_doc_delim != NULL && spipex->in_fd >= 0)
+		put_input_in_here_doc(spipex, ms);
 	return (spipex);
 }

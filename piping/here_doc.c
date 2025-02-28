@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/24 00:25:17 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/28 21:57:47 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@ char	*join_line_newline(char *lines, char *to_join)
 	char	*newline;
 	int		fail;
 
+	if (lines == NULL || to_join == NULL)
+		return (free(lines), free(to_join), NULL);
 	newline = ft_strjoin(lines, to_join);
 	free(lines);
 	free(to_join);
 	return (newline);
 }
 
-int	write_lines(t_pipex *spipex, char *lines, char *nline)
+int	write_lines(t_pipex *spipex, t_minishell *ms, char *lines, char *nline)
 {
 	if (write(spipex->in_fd, lines, ft_strlen(lines)) == -1)
 	{
@@ -45,16 +47,19 @@ int	write_lines(t_pipex *spipex, char *lines, char *nline)
 	lines = join_line_newline(lines, nline);
 	if (lines == NULL)
 		return (EXIT_FAILURE);
+	lines = join_line_newline(ft_strdup(ms->line), lines);
 	add_history(lines);
 	free(lines);
 	return (EXIT_SUCCESS);
 }
 
-int	input_loop(t_pipex *spipex, char *limiter, int limlen, int numlines)
+int	input_loop(t_pipex *spipex, t_minishell *ms, char *limiter, int numlines)
 {
 	char	*nline;
 	char	*lines;
+	int		limlen;
 
+	limlen = ft_strlen(limiter);
 	lines = (char *)ft_calloc(1, sizeof(char));
 	if (lines == NULL)
 		return (EXIT_FAILURE);
@@ -67,7 +72,7 @@ int	input_loop(t_pipex *spipex, char *limiter, int limlen, int numlines)
 		if (errno != 0)
 			return (free(lines), free(nline), EXIT_FAILURE);
 		if (ft_strncmp(nline, limiter, limlen) == 0 && nline[limlen] == '\n')
-			return (write_lines(spipex, lines, nline));
+			return (write_lines(spipex, ms, lines, nline));
 		lines = join_line_newline(lines, nline);
 		if (lines == NULL)
 			return (EXIT_FAILURE);
@@ -75,16 +80,14 @@ int	input_loop(t_pipex *spipex, char *limiter, int limlen, int numlines)
 	}
 }
 
-int	put_input_in_here_doc(t_pipex *spipex)
+int	put_input_in_here_doc(t_pipex *spipex, t_minishell *ms)
 {
 	char	*limiter;
-	int		limlen;
 	int		numlines;
 
 	limiter = spipex->ctx->here_doc_delim;
 	numlines = 0;
-	limlen = ft_strlen(limiter);
-	if (input_loop(spipex, limiter, limlen, numlines) == EXIT_FAILURE)
+	if (input_loop(spipex, ms, limiter, numlines) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	close(spipex->in_fd);
 	spipex->in_fd = open(spipex->here_doc_filepath, O_RDONLY);
