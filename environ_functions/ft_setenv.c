@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:14:55 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/13 21:28:09 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:29:13 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	remake_env_cpy_bigger(t_envs *envs)
 	char	**newenv;
 
 	oldlen = count_variables(envs);
-	newenv = (char **)ft_calloc(oldlen, sizeof(char *));
+	newenv = (char **)ft_calloc(oldlen + 1, sizeof(char *));
 	if (newenv == NULL)
 		return (EXIT_FAILURE);
 	if (copy_env_cpy(newenv, envs) == EXIT_FAILURE)
@@ -88,7 +88,7 @@ int	ft_setenv(const char *name, const char *value, int overwrite, t_envs *envs)
 	else
 	{
 		free(envs->env_cpy[var_pos]);
-		envs->env_cpy[var_pos] == NULL;
+		envs->env_cpy[var_pos] = NULL;
 	}
 	return (add_var(name, value, envs));
 }

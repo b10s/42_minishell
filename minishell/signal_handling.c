@@ -6,22 +6,30 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:29:13 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/24 20:46:38 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/02/25 23:45:51 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "readline/readline.h"
 
 void	signal_handler(int signo)
 {
 	(void)signo;
-	write(STDOUT_FILENO, "\nSIGINT received!\n", 18);
+	printf("\n");
 }
 
 int	main(void)
 {
+	char	*line;
+
 	signal(SIGINT, signal_handler);
-	printf("Sleeping for 10 seconds... Press Ctrl-C\n");
-	sleep(10);
-	printf("Sleep finished (if not interrupted).\n");
+	while (1)
+	{
+		printf("readline... Press Ctrl-C\n");
+		line = readline("");
+		if (line[0] == 'd')
+			break ;
+	}
+	free(line);
 }
