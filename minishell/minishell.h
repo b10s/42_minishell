@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:44:19 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/28 21:37:29 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/01 00:47:50 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ typedef struct s_minishell
 //init
 
 //free
-void	free_minishell(t_minishell *ms);
+void		free_minishell(t_minishell *ms);
+
+//signal handler
+void		signal_handler(int sigint);
+
+//init minishell
+t_minishell	*init_minishell(void);
 
 #endif

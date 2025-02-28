@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/28 22:01:22 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/01 01:10:55 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,7 @@ int		execute_builtin(char **args, t_minishell *ms, \
 
 //pipex
 int		gen_exec(int i, pid_t *pid, t_pipex *spipex, t_minishell *ms);
+//the one
+int		pipex(t_context *ctx, t_minishell *ms);
 
 #endif
