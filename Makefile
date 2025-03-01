@@ -6,7 +6,7 @@
 #    By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/01 16:32:54 by adrgutie          #+#    #+#              #
-#    Updated: 2025/03/01 16:46:34 by adrgutie         ###   ########.fr        #
+#    Updated: 2025/03/01 17:52:37 by adrgutie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,21 +16,57 @@ CFLAGS		= -Wall -Wextra -Werror
 LDLIBS		= -lreadline -lhistory
 RM			= rm -fr
 
-SRCS		= builtins/cd.c
-			  builtins/echo.c
-			  builtins/env.c
-			  builtins/exit.c
-			  builtins/export_utils.c
-			  builtins/export.c
-			  builtins/pwd.c
-			  builtins/unset.c
-			  environ_functions/free_envs.c
-			  environ_functions/ft_getenv.c
-			  environ_functions/ft_setenv.c
-			  environ_functions/ft_unsetenv.c
-			  environ_functions/get_name_value.c
-			  environ_functions/init_envs.c
-			  minishell/
-			  minishell/
-			  minishell/
+SRCS		= main.c \
+			  builtins/cd.c \
+			  builtins/echo.c \
+			  builtins/env.c \
+			  builtins/exit.c \
+			  builtins/export_utils.c \
+			  builtins/export.c \
+			  builtins/pwd.c \
+			  builtins/unset.c \
+			  environ_functions/free_envs.c \
+			  environ_functions/ft_getenv.c \
+			  environ_functions/ft_setenv.c \
+			  environ_functions/ft_unsetenv.c \
+			  environ_functions/get_name_value.c \
+			  environ_functions/init_envs.c \
+			  minishell/free_minishell.c \
+			  minishell/init_minishell.c \
+			  minishell/signal_handling.c \
+			  parse/parse.c \
+			  piping/execute_builtin.c \
+			  piping/find_cmd_path.c \
+			  piping/free_stuff.c \
+			  piping/gen_exec.c \
+			  piping/here_doc_fine_name.c \
+			  piping/here_doc.c \
+			  piping/init_spipex.c \
+			  piping/pipex.c \
+			  piping/redirect_in_out.c
+
+OBJS		= $(SRCS:.c=.o)
+
+INCLUDES = -I. -Ienviron_functions -Iminishell -Iparse -Ipiping -Ilibft
+
+%.o: %.C
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(NAME): $(OBJS)
+	make -C libft
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDLIBS)
+
+clean:
+	$(RM) $(OBJS)
+	make clean -C libft
+
+fclean: clean
+	$(RM) $(NAME)
+	make fclean -C libft
+
+re: fclean all
+
+.PHONEY : all clean fclean re bonus
+
+
 

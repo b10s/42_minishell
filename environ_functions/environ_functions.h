@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:32 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/13 22:01:52 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/01 17:52:27 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define ENVIRON_FUNCTIONS_H
 
 # include "../libft/libft.h"
-
-
 
 //this global variable automatically holds the environment variables
 extern char				**environ;

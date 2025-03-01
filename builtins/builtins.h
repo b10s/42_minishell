@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/15 13:38:54 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/01 17:52:32 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../libft/libft.h"
 # include "../environ_functions/environ_functions.h"
-# include "../minishell/minishell.h"
+# include "../ms/minishell.h"
 # include "../piping/pipex.h"
 
 # define CMD_CD 1
