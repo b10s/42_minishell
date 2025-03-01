@@ -6,7 +6,7 @@
 #    By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/01 16:32:54 by adrgutie          #+#    #+#              #
-#    Updated: 2025/03/01 17:53:24 by adrgutie         ###   ########.fr        #
+#    Updated: 2025/03/01 17:55:43 by adrgutie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,8 @@ INCLUDES = -I. -Ienviron_functions -Iminishell -Iparse -Ipiping -Ilibft
 $(NAME): $(OBJS)
 	make -C libft
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDLIBS)
+
+all: $(NAME)
 
 clean:
 	$(RM) $(OBJS)

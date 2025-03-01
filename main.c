@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/01 16:25:12 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/01 18:02:22 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	main(void)
 {
 	t_minishell	*ms;
 	t_context	*ctx;
-	t_pipex		*spipex;
 
 	ms = init_minishell();
 	if (ms == NULL)
