@@ -6,7 +6,7 @@
 #    By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/01 16:32:54 by adrgutie          #+#    #+#              #
-#    Updated: 2025/03/01 17:52:37 by adrgutie         ###   ########.fr        #
+#    Updated: 2025/03/01 17:53:24 by adrgutie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,9 @@ SRCS		= main.c \
 			  environ_functions/ft_unsetenv.c \
 			  environ_functions/get_name_value.c \
 			  environ_functions/init_envs.c \
-			  minishell/free_minishell.c \
-			  minishell/init_minishell.c \
-			  minishell/signal_handling.c \
+			  ms/free_minishell.c \
+			  ms/init_minishell.c \
+			  ms/signal_handling.c \
 			  parse/parse.c \
 			  piping/execute_builtin.c \
 			  piping/find_cmd_path.c \
