@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "../libft/libft.h"
 
 typedef char **t_cmd;
@@ -16,5 +17,5 @@ typedef struct s_context {
 
 t_context *init_ctx();
 void free_ctx(t_context *ctx);
-int parse(char *line, t_context *ctx);
+t_context *parse(char *line, t_context *ctx);
 

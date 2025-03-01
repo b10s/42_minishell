@@ -14,7 +14,11 @@ TODO
 
 
 /*
-	gcc -Wall -Wextra -Werror main_andrei.c parse/parse.c -lreadline && ./a.out
+	cd libft
+	make
+	cd ..
+
+	gcc -Wall -Wextra -Werror main_andrei.c parse/parse.c libft/libft.a -lreadline && ./a.out
 */
 
 #include <stdio.h>
@@ -23,19 +27,40 @@ TODO
 
 #include "./parse/parse.h"
 
-int main(int argc, char **argv) {
-	char *line;
-	int	res;
+// TODO do we need to use argc, argv?
+// Q: why gcc wanrs on unused params argc, argv? any potential pitfalls?
+int main() {
 	t_context *ctx;
-
-	line = readline("msh> ");
-	printf("argc [%d], argv addr [%p]\n", argc, argv);
-	printf("line [%s]\n", line);
+	char *line;
 
 	ctx = init_ctx();
 	if ( ctx == NULL) {
+		// TODO unify error message and exit
 		printf("fatal ERR\n");
+		return (1);
 	}
+
+	while(true) {
+		//TODO: check what readline can return: NULL, empty string, Crl-D, Crl-C, etc
+		line = readline("c001 she11> ");
+		printf("line from readline [%s]\n", line);
+		if (line == NULL) 
+		{
+			free_ctx(ctx);
+			break;
+		}
+		else
+		{
+			ctx = parse(line, ctx);
+			// TODO check that parsed ok
+			// TODO do operations on parsed line
+		}
+	}
+
+	//printf("argc [%d], argv addr [%p]\n", argc, argv);
+	//printf("line [%s]\n", line);
+
+
 	// inf loop until EOF?
 	/*
 	man readline
@@ -45,14 +70,15 @@ int main(int argc, char **argv) {
 		If EOF is encountered while reading a line, and the line is empty, NULL is returned.
 		If an EOF is  read  with  a non-empty line, it is treated as a newline.
 	*/
-	res = parse(line, ctx);
-	if (res != 0) {
+	
+	//if (res != 0) {
 		//ERR
 		//Q do we need to exit or just print some err msg?
 		//err();
-		printf("ERR parsing\n");
-	}
+	//	printf("ERR parsing\n");
+	//}
 	// here work with context: exec commands
+	return (0);
 }
 
 t_context *init_ctx(t_context *ctx)

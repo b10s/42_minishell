@@ -1,9 +1,11 @@
 #include "./parse.h"
 
-int parse(char *line, t_context *ctx)
+// Q: how do we signal err in parse()? (return NULL or change ctx->some_field)
+
+t_context *parse(char *line, t_context *ctx)
 {
-	printf("line [%s]\n", line);
-	printf("out_red [%s] \n", ctx->out_red);
+	//printf("line [%s]\n", line);
+	//printf("out_red [%s] \n", ctx->out_red);
 	// do I need to free commands?
 	char **commands;
 	commands = ft_split(line, '|');
@@ -13,8 +15,8 @@ int parse(char *line, t_context *ctx)
 	// remove double spaces
 	// count number of commands
 
-	//ctx->commands = ft_split(line, '|');
-	return 1;
+	//commands = ft_split(line, '|');
+	return ctx;
 }
 
 // execve("/usr/bin/ls", ["ls", "-lah", NULL], 0x560e91e56530 /* 65 vars */) = 0
