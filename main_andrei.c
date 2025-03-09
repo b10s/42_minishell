@@ -18,7 +18,7 @@ TODO
 	make
 	cd ..
 
-	gcc -Wall -Wextra -Werror main_andrei.c parse/parse.c libft/libft.a -lreadline && ./a.out
+	gcc -Wall -Wextra -Werror main_andrei.c parse/parse.c libft/libft.a environ_functions/free_envs.c -lreadline && ./a.out
 */
 
 #include <stdio.h>
@@ -36,6 +36,7 @@ int main() {
 	while(true) {
 		//TODO: check what readline can return: NULL, empty string, Crl-D, Crl-C, etc
 		line = readline("c001 she11> ");
+		//line = interpolate(line,);
 		printf("line from readline [%s]\n", line);
 		if (line == NULL) 
 			break;

@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "../libft/libft.h"
+#include "../environ_functions/environ_functions.h"
+
+typedef char **t_cmd;
 
 typedef struct s_context {
-	char **commands;
+	t_cmd *commands;
 	int cmd_cnt;
 	char *out_red;
 	char *in_red;
