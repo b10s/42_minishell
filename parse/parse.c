@@ -51,3 +51,57 @@ int count_commands(char **cmds)
 // A It will fail if there is something there should not be, specifically, special characters
 // like a '|' followed by a '<' instead of a command.
 
+t_context *init_ctx(t_context *ctx)
+{
+	ctx = malloc(sizeof(t_context));
+	if (ctx == NULL) {
+		return NULL;
+	}
+	ctx->commands = malloc(sizeof(char *));
+	if (ctx->commands == NULL)
+	{
+		free_ctx(ctx);
+		return (NULL);
+	}
+	ctx->commands[0] = NULL;
+	ctx->cmd_cnt = 0;
+	ctx->out_red = NULL;
+	ctx->in_red = NULL;
+	ctx->out_append_mode_flg = 0;
+	ctx->here_doc_delim = NULL;
+	return ctx;
+}
+
+void free_ctx(t_context *ctx)
+{
+	printf("free ctx()\n");
+	int i;
+
+	i = 0;
+	while(ctx->commands[i] != NULL)
+	{
+		free(ctx->commands[i]);
+		i++;
+	}
+	free(ctx->commands);
+	free(ctx->out_red);
+	free(ctx->in_red);
+	free(ctx->here_doc_delim);
+	free(ctx);
+}
+
+void print_ctx(t_context *ctx)
+{
+	int i;
+
+	i = 0;
+	printf("commands are\n");
+	while(ctx->commands[i] != NULL)
+	{
+		printf("cmd #%d: [%s]\n", i, ctx->commands[i]);
+		i++;
+	}
+
+	printf("there are [%d] commands in line\n", ctx->cmd_cnt);
+	
+}
