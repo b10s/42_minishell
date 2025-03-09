@@ -33,27 +33,25 @@ int main() {
 	t_context *ctx;
 	char *line;
 
-	ctx = init_ctx();
-	if ( ctx == NULL) {
-		// TODO unify error message and exit
-		printf("fatal ERR\n");
-		return (1);
-	}
-
 	while(true) {
 		//TODO: check what readline can return: NULL, empty string, Crl-D, Crl-C, etc
 		line = readline("c001 she11> ");
 		printf("line from readline [%s]\n", line);
 		if (line == NULL) 
-		{
-			free_ctx(ctx);
 			break;
-		}
 		else
 		{
-			ctx = parse(line, ctx);
+			ctx = parse(line);
+			if ( ctx == NULL) {
+				// TODO unify error message and exit
+				printf("fatal ERR\n");
+				return (1);
+			}
+			print_ctx(ctx);
+
 			// TODO check that parsed ok
 			// TODO do operations on parsed line
+			free_ctx(ctx);
 		}
 	}
 
@@ -87,7 +85,13 @@ t_context *init_ctx(t_context *ctx)
 	if (ctx == NULL) {
 		return NULL;
 	}
-	ctx->commands = NULL;
+	ctx->commands = malloc(sizeof(char *));
+	if (ctx->commands == NULL)
+	{
+		free_ctx(ctx);
+		return (NULL);
+	}
+	ctx->commands[0] = NULL;
 	ctx->cmd_cnt = 0;
 	ctx->out_red = NULL;
 	ctx->in_red = NULL;
@@ -100,6 +104,15 @@ t_context *init_ctx(t_context *ctx)
 
 void free_ctx(t_context *ctx)
 {
+	printf("free ctx()\n");
+	int i;
+
+	i = 0;
+	while(ctx->commands[i] != NULL)
+	{
+		free(ctx->commands[i]);
+		i++;
+	}
 	free(ctx->commands);
 	free(ctx->out_red);
 	free(ctx->in_red);
@@ -107,3 +120,18 @@ void free_ctx(t_context *ctx)
 	free(ctx);
 }
 
+void print_ctx(t_context *ctx)
+{
+	int i;
+
+	i = 0;
+	printf("commands are\n");
+	while(ctx->commands[i] != NULL)
+	{
+		printf("cmd #%d: [%s]\n", i, ctx->commands[i]);
+		i++;
+	}
+
+	printf("there are [%d] commands in line\n", ctx->cmd_cnt);
+	
+}

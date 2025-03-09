@@ -12,6 +12,7 @@
 
 #include "environ_functions.h"
 
+//TODO return const char
 char	*ft_getenv(const char *name, t_envs *envs)
 {
 	int	namelen;
