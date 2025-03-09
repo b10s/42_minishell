@@ -1,7 +1,7 @@
 #include "./parse.h"
 
 // Q: how do we signal err in parse()? (return NULL or change ctx->some_field)
-
+// A: return NULL
 int count_commands(char **cmds);
 t_context *parse(char *line)
 {
@@ -49,7 +49,7 @@ int count_commands(char **cmds)
 // Q fail on wrong syntax here or later?
 
 // A It will fail if there is something there should not be, specifically, special characters
-// like a '|' followed by a '<' instead of a command.
+// like a '|' followed by a '<' instead of a non-special character.
 
 t_context *init_ctx(t_context *ctx)
 {
