@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/01 18:02:22 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/01 23:17:28 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 	while (1)
 	{
 		ms->line = readline("minishell: ");
-		ctx = parse(ms->line);
+		ctx = parse(ms->line, ms);
 		if (ctx == NULL)
 			return (free_minishell(ms), EXIT_FAILURE);
 		ms->exit_status = pipex(ctx, ms);

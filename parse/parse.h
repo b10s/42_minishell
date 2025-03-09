@@ -7,8 +7,6 @@ typedef struct s_context {
 	int cmd_cnt;
 	char *out_red;
 	char *in_red;
-	FILE *out_fd;
-	FILE *in_fd;
 	int out_append_mode_flg;
 	char *here_doc_delim;
 } t_context;

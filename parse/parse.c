@@ -48,3 +48,6 @@ int count_commands(char **cmds)
 
 // Q fail on wrong syntax here or later?
 
+// A It will fail if there is something there should not be, specifically, special characters
+// like a '|' followed by a '<' instead of a command.
+
