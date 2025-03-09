@@ -1,7 +1,7 @@
 #include "./parse.h"
 
 // Q: how do we signal err in parse()? (return NULL or change ctx->some_field)
-
+// A: return NULL
 int count_commands(char **cmds);
 t_context *parse(char *line)
 {
