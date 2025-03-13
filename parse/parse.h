@@ -22,28 +22,28 @@
 # define OUT_APPEND 3
 
 typedef struct s_red {
-    char    *name;
-    int     type;
-}    t_red;
+	char	*name;
+	int		type;
+}	t_red;
 
 typedef struct s_cmd {
-    char    **cmd_with_args;
-    t_red    *reds;
-    int        out_fd;
-    int        in_fd;
-    char    *here_doc_filename;
-}    t_cmd;
+	char	**cmd_with_args;
+	t_red	*reds;
+	int		out_fd;
+	int		in_fd;
+	char	*here_doc_filename;
+}	t_cmd;
 
 typedef struct s_context {
-    t_cmd    **cmds;
-    int        cmd_cnt;
-    int        cur_in;
-    int        cur_out;
-}    t_context;
+	t_cmd	**cmds;
+	int		cmd_cnt;
+	int		cur_in;
+	int		cur_out;
+}	t_context;
 
-t_context *init_ctx();
-void free_ctx(t_context *ctx);
-t_context *parse(char *line);
-void print_ctx(t_context *ctx);
+t_context	*init_ctx();
+void 		free_ctx(t_context *ctx);
+t_context	*parse(char *line);
+void		print_ctx(t_context *ctx);
 
 # endif
