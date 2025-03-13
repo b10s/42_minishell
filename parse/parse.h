@@ -35,7 +35,7 @@ typedef struct s_cmd {
 }    t_cmd;
 
 typedef struct s_context {
-    t_cmd    *cmds;
+    t_cmd    **cmds;
     int        cmd_cnt;
     int        cur_in;
     int        cur_out;
