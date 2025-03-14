@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/13 22:08:31 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 02:33:07 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		close_set_gen(int *fd);
 void	close_pipe(int p[]);
 
 //here_doc
-int		put_input_in_here_doc(t_pipex *spipex, t_minishell *ms);
+int		put_input_in_here_doc(t_cmd *cmd, t_minishell *ms);
 char	*find_unique_file_name(void);
 
 //in_out_redirection

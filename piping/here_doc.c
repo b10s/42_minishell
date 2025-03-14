@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/14 21:56:01 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 02:30:25 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*join_line_newline(char *lines, char *to_join)
 	return (newline);
 }
 
-int	write_lines(t_pipex *spipex, t_minishell *ms, char *lines, char *nline)
+int	write_lines(t_pipex *cmd, t_minishell *ms, char *lines, char *nline)
 {
 	char	*histlines;
 	
@@ -45,7 +45,7 @@ int	write_lines(t_pipex *spipex, t_minishell *ms, char *lines, char *nline)
 	lines = ft_interpolate(lines);
 	if (lines == NULL)
 		return (EXIT_FAILURE);
-	if (write(spipex->in_fd, lines, ft_strlen(lines)) == -1)
+	if (write(cmd->in_fd, lines, ft_strlen(lines)) == -1)
 	{
 		free(nline);
 		free(lines);
@@ -61,7 +61,7 @@ int	write_lines(t_pipex *spipex, t_minishell *ms, char *lines, char *nline)
 	return (EXIT_SUCCESS);
 }
 
-int	input_loop(t_pipex *spipex, t_minishell *ms, char *limiter, int numlines)
+int	input_loop(t_pipex *cmd, t_minishell *ms, char *limiter, int numlines)
 {
 	char	*nline;
 	char	*lines;
@@ -80,7 +80,7 @@ int	input_loop(t_pipex *spipex, t_minishell *ms, char *limiter, int numlines)
 		if (errno != 0)
 			return (free(lines), free(nline), EXIT_FAILURE);
 		if (ft_strncmp(nline, limiter, limlen) == 0 && nline[limlen] == '\n')
-			return (write_lines(spipex, ms, lines, nline));
+			return (write_lines(cmd, ms, lines, nline));
 		lines = join_line_newline(lines, nline);
 		if (lines == NULL)
 			return (EXIT_FAILURE);
@@ -88,17 +88,15 @@ int	input_loop(t_pipex *spipex, t_minishell *ms, char *limiter, int numlines)
 	}
 }
 
-int	put_input_in_here_doc(t_pipex *spipex, t_minishell *ms)
+int	put_input_in_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms)
 {
-	char	*limiter;
 	int		numlines;
 
-	limiter = spipex->ctx->here_doc_delim;
 	numlines = 0;
-	if (input_loop(spipex, ms, limiter, numlines) == EXIT_FAILURE)
+	if (input_loop(cmd, ms, limiter, numlines) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	close(spipex->in_fd);
-	spipex->in_fd = open(spipex->here_doc_filepath, O_RDONLY);
+	close(cmd->in_fd);
+	cmd->in_fd = open(cmd->here_doc_filepath, O_RDONLY);
 	if (spipex->in_fd < 0)
 		return (perror("open"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);

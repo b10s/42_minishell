@@ -6,35 +6,53 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:57:55 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/14 21:48:18 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 02:43:27 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	open_in(char *name)
+
+int	open_in(char *name, t_cmd *cmd)
 {
-	int	fd;
-	fd = open(name, O_RDONLY);
-	if (fd == -1)
-		perror("open");
-	return (fd);
+	if (cmd->here_doc_filename != NULL)
+	{
+		unlink(cmd->here_doc_filename);
+		free(cmd->here_doc_filename);
+		cmd->here_doc_filename = NULL;
+	}
+	close_set_gen(cmd->in_fd);
+	cmd->in_fd = open(name, O_RDONLY);
+	if (cmd->in_fd == -1)
+		return (perror("open"), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
-int	open_out(char *name)
+int	open_out(char *name, t_cmd *cmd)
 {
-	int fd;
-	fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd == -1)
-		perror("open");
-	return (fd);
+	close_set_gen(cmd->out_fd);
+	cmd->out_fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (cmd->out_fd == -1)
+		return (perror("open"), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
-int	open_out_append(char *name)
+int	open_out_append(char *name, t_cmd *cmd)
 {
-	int fd;
-	fd = open(name, O_CREAT | O_WRONLY | O_APPEND);
-	if (fd == -1)
-		perror("open");
-	return (fd);
+	close_set_gen(cmd->out_fd);
+	cmd->out_fd = open(name, O_CREAT | O_WRONLY | O_APPEND);
+	if (cmd->out_fd == -1)
+		return (perror("open"), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+int	open_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms)
+{
+	cmd->here_doc_filename = find_unique_file_name();
+	if (cmd->here_doc_filename == NULL)
+		return (EXIT_FAILURE);
+	if (put_input_in_here_doc(cmd, ms) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+	
 }
