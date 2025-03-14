@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_red_loop.c                                    :+:      :+:    :+:   */
+/*   open.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 22:11:01 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/14 16:59:47 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/03/14 17:57:55 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/03/14 21:48:18 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	open_type(t_context *ctx, t_cmd *cmd, t_red *red)
+int	open_in(char *name)
 {
-	
+	int	fd;
+	fd = open(name, O_RDONLY);
+	if (fd == -1)
+		perror("open");
+	return (fd);
 }
-//loop that opens all the files in a cmd structure, it will also
-//redirect the input and output to the last valid file
-int	open_red_loop(t_context *ctx, t_minishell *ms, int i) 
-{
-	int	j;
 
-	j = 0;
-	while (ctx->cmds[i]->reds[j] != NULL)
-	{
-		
-	}
+int	open_out(char *name)
+{
+	int fd;
+	fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+		perror("open");
+	return (fd);
+}
+
+int	open_out_append(char *name)
+{
+	int fd;
+	fd = open(name, O_CREAT | O_WRONLY | O_APPEND);
+	if (fd == -1)
+		perror("open");
+	return (fd);
 }
