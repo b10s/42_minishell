@@ -28,7 +28,7 @@ typedef struct s_red {
 
 typedef struct s_cmd {
 	char	**cmd_with_args;
-	t_red	*reds;
+	t_red	**reds;
 	int		out_fd;
 	int		in_fd;
 	char	*here_doc_filename;
