@@ -6,12 +6,11 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:57:55 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 02:43:27 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:52:16 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
 
 int	open_in(char *name, t_cmd *cmd)
 {
@@ -48,11 +47,17 @@ int	open_out_append(char *name, t_cmd *cmd)
 
 int	open_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms)
 {
+	if (cmd->here_doc_filename != NULL)
+	{
+		unlink(cmd->here_doc_filename);
+		free(cmd->here_doc_filename);
+		cmd->here_doc_filename = NULL;
+	}
+	close_set_gen(cmd->in_fd);
 	cmd->here_doc_filename = find_unique_file_name();
 	if (cmd->here_doc_filename == NULL)
-		return (EXIT_FAILURE);
+		return (perror("here_doc"), EXIT_FAILURE);
 	if (put_input_in_here_doc(cmd, ms) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (perror("here_doc"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
-	
 }

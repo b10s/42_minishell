@@ -6,26 +6,39 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:11:01 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 02:45:20 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:52:17 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	open_type(t_context *ctx, t_cmd *cmd, t_red *red)
+int	open_type(t_cmd *cmd, t_red *red, t_minishell *ms)
 {
-	if (spipex->ctx->in_red != NULL)
-		spipex->in_fd = open(spipex->ctx->in_red, O_RDONLY);
+	if (red->type == IN)
+		return (open_in(red->name, cmd));
+	if (red->type == OUT)
+		return (open_out(red->name, cmd));
+	if (red->type == OUT_APPEND)
+		return (open_out_append(red->name, cmd));
+	if (red->type == HERE_DOC)
+		return (open_here_doc(red->name, cmd, ms));
+	return (EXIT_FAILURE);
 }
+
 //loop that opens all the files in a cmd structure, it will also
 //redirect the input and output to the last valid file
-int	open_red_loop(t_context *ctx, t_minishell *ms, int i) 
+//if a file fails to open, then the command will not be executed
+//and the next files will not be opened
+int	open_red_loop(t_context *ctx, t_minishell *ms, int i)
 {
 	int	j;
 
 	j = 0;
 	while (ctx->cmds[i]->reds[j] != NULL)
 	{
-		
+		if (open_type(ctx->cmds[i], ctx->cmds[i]->reds[j], ms) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		j++;
 	}
+	return (EXIT_SUCCESS);
 }

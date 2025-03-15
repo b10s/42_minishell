@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 02:30:25 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:52:17 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ int	put_input_in_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms)
 	if (input_loop(cmd, ms, limiter, numlines) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	close(cmd->in_fd);
-	cmd->in_fd = open(cmd->here_doc_filepath, O_RDONLY);
-	if (spipex->in_fd < 0)
+	cmd->in_fd = open(cmd->here_doc_filename, O_RDONLY);
+	if (cmd->in_fd < 0)
 		return (perror("open"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
