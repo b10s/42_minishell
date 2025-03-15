@@ -4,7 +4,7 @@
 # include <stdbool.h>
 # include "../libft/libft.h"
 # include "../environ_functions/environ_functions.h"
-# include "../ms/minishell.h"
+//# include "../ms/minishell.h"
 
 // typedef char **t_cmd;
 

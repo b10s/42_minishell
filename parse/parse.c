@@ -18,14 +18,20 @@ t_context *parse(char *line)
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);
-	int i = 0;
+	//int i = 0;
 
-	ctx->commands = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
-	while( i < ctx->cmd_cnt)
-	{
-		ctx->commands[i] = ft_split(commands[i], ' ');
-		i++;
-	}
+	ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
+
+	// TODO: rm meaningless multi-spaces
+	// TODO: we do interpolation
+	// TODO: parse for redirections
+	// TODO: split for spaces to be ready to pass to execve
+
+	//while( i < ctx->cmd_cnt)
+	//{
+	//	ctx->cmds[i] = ft_split(commands[i], ' ');
+	//	i++;
+	//}
 
 	//TODO split by spaces, 
 	// remove spaces from left and from right
@@ -45,6 +51,19 @@ int count_commands(char **cmds)
 	return (cnt);
 }
 
+char *ft_rm_multi_spaces(char *str) {
+	size_t	spaces_to_rm;
+	size_t	str_len;
+	char	*new_str;
+
+	spaces_to_rm = 0;
+	str_len = ft_strlen(str);
+
+	new_str = malloc(str_len - spaces_to_rm);
+
+	return (new_str);
+}
+
 // execve("/usr/bin/ls", ["ls", "-lah", NULL], 0x560e91e56530 /* 65 vars */) = 0
 
 // use split to split into '|' pipes e.g.: ls -lah | cat
@@ -61,18 +80,18 @@ t_context *init_ctx(t_context *ctx)
 		return NULL;
 	}
 
-	ctx->commands = malloc(sizeof(t_cmd *));
-	if (ctx->commands == NULL)
+	ctx->cmds = malloc(sizeof(t_cmd *));
+	if (ctx->cmds == NULL)
 	{
 		free_ctx(ctx);
 		return (NULL);
 	}
-	ctx->commands[0] = NULL;
+	ctx->cmds[0] = NULL;
 	ctx->cmd_cnt = 0;
-	ctx->out_red = NULL;
-	ctx->in_red = NULL;
-	ctx->out_append_mode_flg = 0;
-	ctx->here_doc_delim = NULL;
+	//ctx->out_red = NULL;
+	//ctx->in_red = NULL;
+	//ctx->out_append_mode_flg = 0;
+	//ctx->here_doc_delim = NULL;
 	return ctx;
 }
 
@@ -82,15 +101,15 @@ void free_ctx(t_context *ctx)
 	int i;
 
 	i = 0;
-	while(ctx->commands[i] != NULL)
+	while(ctx->cmds[i] != NULL)
 	{
-		free_split(ctx->commands[i]);
+		//free_split(ctx->cmds[i]);
 		i++;
 	}
-	free(ctx->commands);
-	free(ctx->out_red);
-	free(ctx->in_red);
-	free(ctx->here_doc_delim);
+	free(ctx->cmds);
+	//free(ctx->out_red);
+	//free(ctx->in_red);
+	//free(ctx->here_doc_delim);
 	free(ctx);
 }
 
@@ -100,13 +119,13 @@ void print_ctx(t_context *ctx)
 
 	i = 0;
 	printf("commands are\n");
-	while(ctx->commands[i] != NULL)
+	while(ctx->cmds[i] != NULL)
 	{
-		printf("cmd #%d: [%s]\n", i, ctx->commands[i][0]);
+		printf("cmd #%d: [%s]\n", i, ctx->cmds[i][0]);
 		int j = 1;
-		while(ctx->commands[i][j] != NULL)
+		while(ctx->cmds[i][j] != NULL)
 		{
-			printf("\targ #%d: [%s]\n", j, ctx->commands[i][j]);
+			printf("\targ #%d: [%s]\n", j, ctx->cmds[i][j]);
 			j++;
 		}
 		i++;
