@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 17:05:14 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 19:23:48 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int	prep_ctx_prep_ms(t_context *ctx, t_minishell *ms)
 
 	if (save_in_out(ms) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	ctx->cur_in = -2;
-	ctx->cur_out = -2;
+	ctx->pipe_read = -2;
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
@@ -40,25 +39,50 @@ int	status_check(int last_status)
 	return (EXIT_FAILURE);
 }
 
+int	close_pipe_exit_failure(int	*pipe_read, int *pipe_write)
+{
+	close_set_gen(pipe_read);
+	close_set_gen(pipe_write);
+	return (EXIT_FAILURE);
+}
+
 int	pipeloop(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
 {
 	int		pipe_fd[2];
+	int		in;
+	int		out;
 	int		ret;
 
-	pipe_fd[0] = -1;
-	pipe_fd[1] = -1;
 	if (open_red_loop(ctx, ms, i) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (ctx->cmds[i]->in_fd > -1)
+		in = ctx->cmds[i]->in_fd;
+	else if (ctx->pipe_read > -1)
+		in = ctx->pipe_read;
+	else
 	{
-		if (redirect_in(ctx->cmds[i]->in_fd, ms) == EXIT_FAILURE)
+		in = dup(ms->stdin_fd);
+		if (in == -1)
 			return (EXIT_FAILURE);
 	}
+	if (redirect_in(in, ms) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	close_set_gen(&(ctx->pipe_read));
 	if (ctx->cmds[i]->out_fd > -1)
+		out = ctx->cmds[i]->out_fd;
+	else
 	{
-		if (redirect_in(ctx->cmds[i]->in_fd, ms) == EXIT_FAILURE)
+		if (pipe(pipe_fd) == -1)
 			return (EXIT_FAILURE);
+		out = pipe_fd[WRITE];
+		ctx->pipe_read = pipe_fd[READ];
 	}
+	if (redirect_out(out, ms) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	ret = gen_exec(i, pid, ctx, ms);
+	if (ret == CRITICAL_EXIT)
+		return (close_set_gen(&(ctx->pipe_read)), EXIT_FAILURE);
+	return (ret);
 }
 
 int	pipex(t_context *ctx, t_minishell *ms)

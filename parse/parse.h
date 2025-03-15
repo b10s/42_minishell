@@ -38,6 +38,7 @@ typedef struct s_context {
 	t_cmd	**cmds;
 	int		cmd_cnt;
 	int		pipe_read;
+	int		pipe_read_index;
 }	t_context;
 
 t_context	*init_ctx();
