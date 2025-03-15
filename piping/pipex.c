@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 15:52:49 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:24:30 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,45 @@ int	status_check(int last_status)
 	return (EXIT_FAILURE);
 }
 
+int	prep_ctx_prep_ms(t_context *ctx, t_minishell *ms)
+{
+	int	i;
+
+	if (save_in_out(ms) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	ctx->cur_in = -2;
+	ctx->cur_out = -2;
+	i = 0;
+	while (i < ctx->cmd_cnt)
+	{
+		ctx->cmds[i]->in_fd = -2;
+		ctx->cmds[i]->out_fd = -2;
+		ctx->cmds[i]->here_doc_filename = NULL;
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	pipex(t_context *ctx, t_minishell *ms)
 {
 	int		i;
 	int		last_status;
 	pid_t	*pid;
 
-	if (save_in_out(ms) == EXIT_FAILURE)
-		return (free_spipex(spipex), EXIT_FAILURE);
+	if (prep_ctx_prep_ms(ctx, ms) == EXIT_FAILURE)
+		return (free_ctx(ctx), EXIT_FAILURE);
 	i = 0;
-	while (i < spipex->ctx->cmd_cnt)
+	while (i < ctx->cmd_cnt)
 	{
-		last_status = pipeloop(i, &pid, spipex, ms);
+		last_status = pipeloop(i, &pid, ctx, ms);
 		if (last_status == CRITICAL_EXIT)
-			return (free(spipex), EXIT_FAILURE);
+			return (free_ctx(ctx), EXIT_FAILURE);
 		i++;
 	}
-	free_spipex(spipex);
-	if (spipex->ctx->cmd_cnt == 1 && \
-		which_builtin(spipex->ctx->commands[0][0] != CMD_NOT_BUILTIN))
-		return (last_status);
+	if (ctx->cmd_cnt == 1 && \
+		which_builtin(ctx->cmds[0]->cmd_with_args[0]) != CMD_NOT_BUILTIN)
+		return (free_ctx(ctx), last_status);
+	free_ctx(ctx);
 	waitpid(pid, &last_status, NULL);
 	restore_inout_close(ms);
 	return (status_check(last_status));

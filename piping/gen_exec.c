@@ -6,18 +6,18 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:40:41 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/28 21:54:31 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:00:10 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	execute_cmd(int i, t_pipex *spipex, t_minishell *ms)
+int	execute_cmd(int i, t_context *ctx, t_minishell *ms)
 {
 	char	*cmd_path;
 	char	*cmd_and_args;
 
-	cmd_and_args = spipex->ctx->commands[i];
+	cmd_and_args = ctx->cmds[i]->cmd_with_args;
 	cmd_path = find_cmd_path(cmd_and_args[0], ms->envs);
 	if (execve(cmd_path, cmd_and_args, ms->envs->env_cpy) == -1)
 	{
@@ -27,13 +27,13 @@ int	execute_cmd(int i, t_pipex *spipex, t_minishell *ms)
 	}
 }
 
-int	gen_exec(int i, pid_t *pid, t_pipex *spipex, t_minishell *ms)
+int	gen_exec(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
 {
 	int		w_b;
 
 	pid = 0;
-	w_b = which_builtin(spipex->ctx->commands[i][0]);
-	if (spipex->ctx->cmd_cnt == 1 && w_b != CMD_NOT_BUILTIN)
+	w_b = which_builtin(ctx->cmds[i]->cmd_with_args[0]);
+	if (ctx->cmd_cnt == 1 && w_b != CMD_NOT_BUILTIN)
 		;
 	else
 	{
@@ -44,10 +44,10 @@ int	gen_exec(int i, pid_t *pid, t_pipex *spipex, t_minishell *ms)
 	if (pid == 0)
 	{
 		if (w_b != CMD_NOT_BUILTIN)
-			return (execute_builtin((spipex->ctx->commands[i]) + 1, \
-													ms, spipex, w_b));
+			return (execute_builtin((ctx->cmds[i]->cmd_with_args) + 1, \
+													ms, ctx, w_b));
 		else
-			return (execute_cmd(i, spipex, ms));
+			return (execute_cmd(i, ctx, ms));
 	}
 	return (EXIT_SUCCESS);
 }

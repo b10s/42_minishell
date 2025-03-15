@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 15:21:39 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:26:41 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		close_set_gen(int *fd);
 void	close_pipe(int p[]);
 
 //here_doc
-int		put_input_in_here_doc(t_cmd *cmd, t_minishell *ms);
+int		put_input_in_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms);
 char	*find_unique_file_name(void);
 
 //in_out_redirection
@@ -73,8 +73,7 @@ char	*find_cmd_path(char *cmd, t_envs *envs);
 
 //bultin stuff
 int		which_builtin(char *cmd);
-int		execute_builtin(char **args, t_minishell *ms, \
-			t_pipex *spipex, int which_builtin);
+int		execute_builtin(char **args, t_minishell *ms, t_context *ctx, int w_b);
 
 //open
 int		open_in(char *name, t_cmd *cmd);
@@ -82,7 +81,7 @@ int		open_out(char *name, t_cmd *cmd);
 int		open_out_append(char *name, t_cmd *cmd);
 int		open_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms);
 //pipex
-int		gen_exec(int i, pid_t *pid, t_pipex *spipex, t_minishell *ms);
+int		gen_exec(int i, pid_t *pid, t_context *ctx, t_minishell *ms);
 //the one
 int		pipex(t_context *ctx, t_minishell *ms);
 

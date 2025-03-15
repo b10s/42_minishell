@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:11:35 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 15:52:20 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:03:13 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	which_builtin(char *cmd)
 	return (CMD_NOT_BUILTIN);
 }
 
-int	execute_builtin(char **args, t_minishell *ms, t_pipex *spipex, int w_b)
+int	execute_builtin(char **args, t_minishell *ms, t_context *ctx, int w_b)
 {
 	if (w_b == CMD_FIND_OUT)
 		w_b = which_builtin(args[0]);
@@ -42,7 +42,7 @@ int	execute_builtin(char **args, t_minishell *ms, t_pipex *spipex, int w_b)
 	if (w_b == CMD_ENV)
 		return (cmd_env(ms->envs));
 	if (w_b == CMD_EXIT)
-		return (cmd_exit(args, ms, spipex));
+		return (cmd_exit(args, ms, ctx));
 	if (w_b == CMD_EXPORT)
 		return (cmd_export(args, ms->envs));
 	if (w_b == CMD_PWD)
