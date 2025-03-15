@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:40:41 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 16:00:10 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:00:07 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	gen_exec(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
 	{
 		(pid) = fork();
 		if ((pid) == -1)
-			return (CRITICAL_EXIT);
+			return (perror("fork"), CRITICAL_EXIT);
 	}
 	if (pid == 0)
 	{
@@ -49,5 +49,6 @@ int	gen_exec(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
 		else
 			return (execute_cmd(i, ctx, ms));
 	}
+	restore_in_out(ms);
 	return (EXIT_SUCCESS);
 }

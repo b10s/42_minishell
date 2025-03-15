@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 17:01:01 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 19:57:57 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ int		open_out_append(char *name, t_cmd *cmd);
 int		open_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms);
 //bigboy open
 int		open_red_loop(t_context *ctx, t_minishell *ms, int i);
+//red_apocalypse
+int		apoc_in(int i, t_context *ctx, t_minishell *ms);
+int		apoc_out(int i, t_context *ctx, t_minishell *ms);
 //pipex
 int		gen_exec(int i, pid_t *pid, t_context *ctx, t_minishell *ms);
 //the one
