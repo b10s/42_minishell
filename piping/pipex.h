@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 16:26:41 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 17:01:01 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,7 @@
 
 # define CRITICAL_EXIT 2
 
-typedef struct s_pipex
-{
-	t_context	*ctx;
-	int			in_fd;
-	int			out_fd;
-	int			curin;
-	int			curout;
-	char		*here_doc_filepath;
-}	t_pipex;
-
-//init
-t_pipex	*init_spipex(t_context *ctx, t_minishell *ms);
-
-//free
-void	free_spipex(t_pipex *spipex);
 //close
-void	close_fds(t_pipex *spipex);
 int		close_set_gen(int *fd);
 void	close_pipe(int p[]);
 
@@ -80,6 +64,8 @@ int		open_in(char *name, t_cmd *cmd);
 int		open_out(char *name, t_cmd *cmd);
 int		open_out_append(char *name, t_cmd *cmd);
 int		open_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms);
+//bigboy open
+int		open_red_loop(t_context *ctx, t_minishell *ms, int i);
 //pipex
 int		gen_exec(int i, pid_t *pid, t_context *ctx, t_minishell *ms);
 //the one
