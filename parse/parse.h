@@ -37,7 +37,7 @@ typedef struct s_cmd {
 typedef struct s_context {
 	t_cmd	**cmds;
 	int		cmd_cnt;
-	int		next_in;
+	int		pipe_read;
 }	t_context;
 
 t_context	*init_ctx();
