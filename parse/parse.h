@@ -21,7 +21,7 @@
 # define HERE_DOC 1
 # define OUT 2
 # define OUT_APPEND 3
-# define QUOTES_ERR 'unclosed quotes error, try again'
+# define QUOTES_ERR "unclosed quotes error, try again"
 
 typedef struct s_red {
 	char	*name;

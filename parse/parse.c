@@ -24,8 +24,11 @@ t_context *parse(char *line)
 	// non fatal err: unclosed braces - try new line
 	if (validate_quotes(line) != 0)
 	{
-		
-		return (NULL);
+		ctx->err = malloc(ft_strlen(QUOTES_ERR));
+		if (ctx->err == NULL)
+			return (NULL);
+		ctx->err = QUOTES_ERR;
+		return (ctx);
 	}
 
 	line = rm_multi_spaces(line);
