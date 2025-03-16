@@ -23,7 +23,10 @@ t_context *parse(char *line)
 
 	// non fatal err: unclosed braces - try new line
 	if (validate_quotes(line) != 0)
+	{
+		
 		return (NULL);
+	}
 
 	line = rm_multi_spaces(line);
 	if (line == NULL)
@@ -165,7 +168,6 @@ t_context *init_ctx(t_context *ctx)
 	ctx->cmds[0] = NULL;
 	ctx->cmd_cnt = 0;
 	ctx->err = NULL;
-	ctx->is_fatal = 0;
 	//ctx->out_red = NULL;
 	//ctx->in_red = NULL;
 	//ctx->out_append_mode_flg = 0;
