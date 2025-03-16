@@ -39,6 +39,9 @@ t_context *parse(char *line)
 		return (NULL);
 	printf("[%s] <- line after rm spaces\n", line);
 
+	// TODO: rm spaces from left and right
+	// TODO: split, then again use trim to remove spaces
+	// TODO: do my own split which ignores | in quotes ' or "
 	commands = ft_split(line, '|');
 	if (commands == NULL)
 	{
