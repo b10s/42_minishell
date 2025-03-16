@@ -53,17 +53,19 @@ t_context *parse(char *line)
 	printf("[%s] <- line after rm spaces on sides\n", line);
 
 
-
 	// TODO: rm spaces from left and right
 	// TODO: split, then again use trim to remove spaces
 	// TODO: do my own split which ignores | in quotes ' or "
-	commands = ft_split(line, '|');
+	commands = split_pipes(line);
 	if (commands == NULL)
 	{
 		free_ctx(ctx);
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);
+
+	// trim after splitting once again since it might be 'echo "a" | wc'
+	// space before and after |
 	//int i = 0;
 
 	ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
@@ -85,6 +87,92 @@ t_context *parse(char *line)
 
 	//commands = ft_split(line, '|');
 	return ctx;
+}
+
+char **split_pipes(char *str)
+{
+	int	cmd_cnt;
+	char	**cmds;
+	char	**ptr;
+	int	cmd_len;
+
+	cmds = NULL;
+	if (str == NULL)
+		return (NULL);
+	cmd_cnt = count_pipes(str);
+	cmds = malloc(sizeof(char *) * (cmd_cnt+1));
+	if (cmds == NULL)
+		return (NULL);
+	ptr = cmds;
+	printf("pipes cnt is [%d]\n", cmd_cnt);
+
+
+	cmd_len = cmd_size_till_pipe(str);
+	while (cmd_len != 0)
+	{
+		printf("cmd len [%d]\n", cmd_len);
+		*cmds = ft_substr(str, 0, cmd_len);
+		if(*cmds == NULL)
+		{
+			//TODO: free all previous cmds
+			return (NULL);
+		}
+		printf("cmd is [%s]\n", *cmds);
+		//TODO trim it here once more
+		cmds++;
+		str = str + cmd_len + 1;
+		cmd_len = cmd_size_till_pipe(str);
+	}
+	*cmds = NULL;
+	return (ptr);
+}
+
+int cmd_size_till_pipe(char *cmd)
+{
+	int len;
+	short qq;
+	short qw;
+
+	qq = 0;
+	qw = 0;
+
+	len = 0;
+	while (*cmd != '\0')
+	{
+		if (*cmd == '\"' && qq == 0)
+			qw = qw ^ 1;
+		if (*cmd == '\'' && qw == 0)
+			qq = qq ^ 1;
+
+		if (*cmd == '|' && qw == 0 && qq == 0)
+			break;
+		len++;
+		cmd++;
+	}
+
+	return (len);
+}
+
+int count_pipes(char *str)
+{
+	short qq;
+	short qw;
+	int	cnt;
+
+	qq = 0;
+	qw = 0;
+	cnt = 0;
+	while (*str != '\0')
+	{
+		if (*str == '\"' && qq == 0)
+			qw = qw ^ 1;
+		if (*str == '\'' && qw == 0)
+			qq = qq ^ 1;
+		if (*str == '|' && qw == 0 && qq == 0)
+			cnt++;
+		str++;
+	}
+	return (cnt);
 }
 
 //int count_commands(char **cmds)

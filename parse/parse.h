@@ -53,6 +53,9 @@ int count_single_quotes(char *str);
 int count_double_quotes(char *str);
 int validate_quotes(char *str);
 size_t count_spaces_to_rm(char *str);
+int count_pipes(char *s);
+char **split_pipes(char *s);
+int cmd_size_till_pipe(char *cmd);
 
 //interpolation
 char		*ft_interpolate(char *line, t_envs *envs);
