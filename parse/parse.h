@@ -40,12 +40,18 @@ typedef struct s_context {
 	int		cmd_cnt;
 	int		pipe_read;
 	int		pipe_read_index;
+	char 	*err;
+	int		is_fatal;
 }	t_context;
 
 t_context	*init_ctx();
 void 		free_ctx(t_context *ctx);
 t_context	*parse(char *line);
 void		print_ctx(t_context *ctx);
+char *rm_multi_spaces(char *str);
+int count_single_quotes(char *str);
+int count_double_quotes(char *str);
+int validate_quotes(char *str);
 
 //interpolation
 char		*ft_interpolate(char *line, t_envs *envs);

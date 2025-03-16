@@ -20,6 +20,15 @@ t_context *parse(char *line)
 	ctx->cmd_cnt = count_commands(commands);ctx = init_ctx();
 	if (ctx == NULL)
 		return (NULL);
+
+	// non fatal err: unclosed braces - try new line
+	if (validate_quotes(line) != 0)
+		return (NULL);
+
+	line = rm_multi_spaces(line);
+	if (line == NULL)
+		return (NULL);
+
 	commands = ft_split(line, '|');
 	if (commands == NULL)
 	{
@@ -32,7 +41,7 @@ t_context *parse(char *line)
 	ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
 
 	// TODO: rm meaningless multi-spaces
-	// TODO: we do interpolation
+	// TODO: do interpolation
 	// TODO: parse for redirections
 	// TODO: split for spaces to be ready to pass to execve
 
@@ -79,7 +88,46 @@ int count_commands(char **cmds)
 	return (cnt);
 }
 
-char *ft_rm_multi_spaces(char *str) {
+// do not count quotes inside other quotes
+int count_single_quotes(char *str)
+{
+	int res;
+
+	res = 0;
+	while(*str != '\0')
+	{
+		if (*str == '\'')
+			res++;
+		str++;
+	}
+	return (res);
+}
+
+int count_double_quotes(char *str)
+{
+	int res;
+
+	res = 0;
+	while(*str != '\0')
+	{
+		if (*str == '\"')
+			res++;
+		str++;
+	}
+	return (res);
+}
+
+int validate_quotes(char *str)
+{
+	if (count_single_quotes(str) % 2 != 0)
+		return (1);
+	if (count_double_quotes(str) % 2 != 0)
+		return (1);
+	return (0);
+}
+
+// do not remove spaces in ' hey ' and in " hi "
+char *rm_multi_spaces(char *str) {
 	size_t	spaces_to_rm;
 	size_t	str_len;
 	char	*new_str;
@@ -116,6 +164,8 @@ t_context *init_ctx(t_context *ctx)
 	}
 	ctx->cmds[0] = NULL;
 	ctx->cmd_cnt = 0;
+	ctx->err = NULL;
+	ctx->is_fatal = 0;
 	//ctx->out_red = NULL;
 	//ctx->in_red = NULL;
 	//ctx->out_append_mode_flg = 0;
@@ -157,7 +207,5 @@ void print_ctx(t_context *ctx)
                //}
                i++;
        }
-
-      // printf("there are [%d] commands in line\n", ctx->cmd_cnt);
-       
+      // printf("there are [%d] commands in line\n", ctx->cmd_cnt);  
 }
