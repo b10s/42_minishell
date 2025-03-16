@@ -4,7 +4,7 @@
 # include <stdbool.h>
 # include "../libft/libft.h"
 # include "../environ_functions/environ_functions.h"
-//# include "../ms/minishell.h"
+# include "../ms/minishell.h"
 
 // typedef char **t_cmd;
 
@@ -46,5 +46,8 @@ t_context	*init_ctx();
 void 		free_ctx(t_context *ctx);
 t_context	*parse(char *line);
 void		print_ctx(t_context *ctx);
+
+//interpolation
+char		*ft_interpolate(char *line, t_envs *envs);
 
 # endif

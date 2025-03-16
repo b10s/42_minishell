@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 01:27:12 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 17:53:53 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/16 19:14:21 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include "../environ_functions/environ_functions.h"
 # include "../ms/minishell.h"
 # include "../piping/pipex.h"
-
-typedef struct s_pipex	t_pipex;
 
 # define CMD_CD 1
 # define CMD_ECHO 2
@@ -37,7 +35,7 @@ int	cmd_pwd(void);
 int	cmd_export(char **args, t_envs *envs);
 int	cmd_unset(char **args, t_envs *envs);
 int	cmd_env(t_envs *envs);
-int	cmd_exit(char **args, t_minishell *ms, t_pipex *spipex);
+int	cmd_exit(char **args, t_minishell *ms, t_context *ctx);
 
 //check variable argument for export
 int	valid_var_check(char *v_n, int which_cmd);
