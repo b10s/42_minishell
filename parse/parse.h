@@ -52,6 +52,7 @@ char *rm_multi_spaces(char *str);
 int count_single_quotes(char *str);
 int count_double_quotes(char *str);
 int validate_quotes(char *str);
+size_t count_spaces_to_rm(char *str);
 
 //interpolation
 char		*ft_interpolate(char *line, t_envs *envs);

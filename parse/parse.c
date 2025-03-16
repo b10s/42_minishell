@@ -33,9 +33,11 @@ t_context *parse(char *line)
 		return (ctx);
 	}
 
+	printf("[%s] <- line before rm spaces\n", line);
 	line = rm_multi_spaces(line);
 	if (line == NULL)
 		return (NULL);
+	printf("[%s] <- line after rm spaces\n", line);
 
 	commands = ft_split(line, '|');
 	if (commands == NULL)
@@ -154,13 +156,83 @@ char *rm_multi_spaces(char *str) {
 	size_t	spaces_to_rm;
 	size_t	str_len;
 	char	*new_str;
+	char *tmp;
+	short qw;
+	short qq;
+	short sp;
 
-	spaces_to_rm = 0;
+	qq = 0;
+	qw = 0;
+	sp = 0;
+	spaces_to_rm = count_spaces_to_rm(str);
 	str_len = ft_strlen(str);
+	printf("spaces to rm [%ld]\n", spaces_to_rm);
+	new_str = malloc(str_len - spaces_to_rm + 1);
+	if (new_str == NULL)
+		return (NULL);
 
-	new_str = malloc(str_len - spaces_to_rm);
+	tmp = new_str;
+	while(*str != '\0')
+	{
+		if (*str == '\'' && qq == 0)
+			qw = qw ^ 1; 
+		if (*str == '\"' && qw == 0)
+			qq = qq ^ 1; 
 
+		if (*str == ' ' && qq == 0 && qw == 0)
+		{
+			if (sp != 1)
+			{
+				*tmp = *str;
+				tmp++;
+				str++;
+			}
+			else
+				str++;
+			sp = 1;
+		} else
+		{
+			sp = 0;
+			*tmp = *str;
+			str++;
+			tmp++;
+		}
+	}
+	*tmp = '\0';
 	return (new_str);
+}
+
+// if it is very first and very last space(s) - rm as well
+
+// write trim and rtrim
+size_t count_spaces_to_rm(char *str)
+{
+	size_t cnt;
+	short qq;
+	short qw;
+	short sp;
+
+	cnt = 0;
+	qq = 0;
+	qw = 0;
+	sp = 0;
+	while (*str != '\0')
+	{
+		if (*str == '\'' && qq == 0)
+			qw = qw ^ 1; 
+		if (*str == '\"' && qw == 0)
+			qq = qq ^ 1; 
+		if (*str == ' ' && qq == 0 && qw == 0)
+		{
+			if (sp == 1)
+				cnt++;
+			sp = 1;
+		} else
+			sp = 0;
+		str++;
+	}
+
+	return (cnt);
 }
 
 // execve("/usr/bin/ls", ["ls", "-lah", NULL], 0x560e91e56530 /* 65 vars */) = 0
