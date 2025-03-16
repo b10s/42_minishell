@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 19:56:07 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/16 20:10:04 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	*ft_interpolate(char *line, t_envs *envs, t_context *ctx)
 		{
 			line = update_line(line, envs, &i, single_quotes_flag);
 			if (line == NULL)
-				return (NULL);
+				return (ctx->is_fatal = 1, NULL);
 		}
 		i++;
 	}
