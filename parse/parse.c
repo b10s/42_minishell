@@ -50,24 +50,24 @@ t_context *parse(char *line)
 	return ctx;
 }
 
-int count_commands(char **cmds)
-{
-	int i = 0;
+//int count_commands(char **cmds)
+//{
+//	int i = 0;
 
-	ctx->commands = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
-	while( i < ctx->cmd_cnt)
-	{
-		ctx->commands[i] = ft_split(commands[i], ' ');
-		i++;
-	}
+	//ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
+//	while( i < ctx->cmd_cnt)
+//	{
+//		ctx->cmds[i] = ft_split(commands[i], ' ');
+//		i++;
+//	}
 
 	//TODO split by spaces, 
 	// remove spaces from left and from right
 	// remove double spaces
 
 	//commands = ft_split(line, '|');
-	return ctx;
-}
+//	return ctx;
+//}
 
 int count_commands(char **cmds)
 {
@@ -139,4 +139,25 @@ void free_ctx(t_context *ctx)
 	//free(ctx->in_red);
 	//free(ctx->here_doc_delim);
 	free(ctx);
+}
+
+void print_ctx(t_context *ctx)
+{
+       int i;
+       i = 0;
+       printf("commands are\n");
+       while(ctx->cmds[i] != NULL)
+       {
+               //printf("cmd #%d: [%s]\n", i, ctx->cmds[i][0]);
+               //int j = 1;
+               //while(ctx->cmds[i][j] != NULL)
+               //{
+                       //printf("\targ #%d: [%s]\n", j, ctx->cmds[i][j]);
+                //       j++;
+               //}
+               i++;
+       }
+
+      // printf("there are [%d] commands in line\n", ctx->cmd_cnt);
+       
 }

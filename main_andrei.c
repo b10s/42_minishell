@@ -48,7 +48,7 @@ int main() {
 				printf("fatal ERR\n");
 				return (1);
 			}
-			print_ctx(ctx);
+			//print_ctx(ctx);
 
 			// TODO check that parsed ok
 			// TODO do operations on parsed line
