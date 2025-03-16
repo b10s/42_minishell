@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 23:31:48 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 19:37:21 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/16 20:11:25 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 
 	envs = init_envs();
 	line = ft_strdup("123$THIS456$this_should_not_be_here$123123");
-	line = ft_interpolate(line, envs);
+	line = ft_interpolate(line, envs, NULL);
 	ft_printf("%s\n", line);
 	free(envs);
 	free(line);
