@@ -21,6 +21,8 @@ t_context *parse(char *line)
 	if (ctx == NULL)
 		return (NULL);
 
+	printf("single quotes cnt [%d]\n", count_single_quotes(line));
+	printf("double quotes cnt [%d]\n", count_double_quotes(line));
 	// non fatal err: unclosed braces - try new line
 	if (validate_quotes(line) != 0)
 	{
@@ -94,15 +96,22 @@ int count_commands(char **cmds)
 	return (cnt);
 }
 
-// do not count quotes inside other quotes
 int count_single_quotes(char *str)
 {
-	int res;
+	int	res;
+	short	qw;
+	short	qq;
 
 	res = 0;
+	qw = 0;
+	qq = 0;
 	while(*str != '\0')
 	{
-		if (*str == '\'')
+		if (*str == '\"' && qq == 0)
+			qw = qw ^ 1; 
+		if (*str == '\'' && qw == 0)
+			qq = qq ^ 1; 
+		if (*str == '\'' && qw == 0)
 			res++;
 		str++;
 	}
@@ -111,12 +120,20 @@ int count_single_quotes(char *str)
 
 int count_double_quotes(char *str)
 {
-	int res;
+	int	res;
+	short	qw;
+	short	qq;
 
 	res = 0;
+	qw = 0;
+	qq = 0;
 	while(*str != '\0')
 	{
-		if (*str == '\"')
+		if (*str == '\'' && qq == 0)
+			qw = qw ^ 1; 
+		if (*str == '\"' && qw == 0)
+			qq = qq ^ 1; 
+		if (*str == '\"' && qw == 0)
 			res++;
 		str++;
 	}
