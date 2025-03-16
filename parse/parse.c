@@ -17,7 +17,35 @@ t_context *parse(char *line)
 		free_ctx(ctx);
 		return (NULL);
 	}
+	ctx->cmd_cnt = count_commands(commands);ctx = init_ctx();
+	if (ctx == NULL)
+		return (NULL);
+	commands = ft_split(line, '|');
+	if (commands == NULL)
+	{
+		free_ctx(ctx);
+		return (NULL);
+	}
 	ctx->cmd_cnt = count_commands(commands);
+	int i = 0;
+
+	ctx->commands = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
+	while( i < ctx->cmd_cnt)
+	{
+		ctx->commands[i] = ft_split(commands[i], ' ');
+		i++;
+	}
+
+	//TODO split by spaces, 
+	// remove spaces from left and from right
+	// remove double spaces
+
+	//commands = ft_split(line, '|');
+	return ctx;
+}
+
+int count_commands(char **cmds)
+{
 	int i = 0;
 
 	ctx->commands = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
@@ -94,24 +122,4 @@ void free_ctx(t_context *ctx)
 	free(ctx);
 }
 
-void print_ctx(t_context *ctx)
-{
-	int i;
 
-	i = 0;
-	printf("commands are\n");
-	while(ctx->commands[i] != NULL)
-	{
-		printf("cmd #%d: [%s]\n", i, ctx->commands[i][0]);
-		int j = 1;
-		while(ctx->commands[i][j] != NULL)
-		{
-			printf("\targ #%d: [%s]\n", j, ctx->commands[i][j]);
-			j++;
-		}
-		i++;
-	}
-
-	printf("there are [%d] commands in line\n", ctx->cmd_cnt);
-	
-}

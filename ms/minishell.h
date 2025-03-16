@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:44:19 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/14 21:57:22 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/16 17:56:21 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include "../piping/pipex.h"
 # include "../environ_functions/environ_functions.h"
 # include "dirent.h"
 # include <signal.h>

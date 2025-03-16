@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 16:55:13 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:50:25 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,20 @@ static char	*join_line_newline(char *lines, char *to_join)
 	return (newline);
 }
 
-static int	name_check(char *name)
+int	name_check(char *name)
 {
 	int	i;
 
 	i = 0;
 	if (ft_isalpha(name[i]) != 1 && name[i] != '_')
-		return (EXIT_FAILURE);
-	while (name[i] != '\0' && )
+		return (-1);
+	while (1)
 	{
 		if (ft_isalnum(name[i]) != 1 && name[i] != '_')
-			return (EXIT_FAILURE);
+			break ;
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (i);
 }
 
 char	*sandwich(char *bread, int start, int end, char *ham)
@@ -54,17 +54,44 @@ char	*sandwich(char *bread, int start, int end, char *ham)
 	return (join_line_newline(bread_ham, temp));
 }
 
-char	*ft_interpolate(char *line, t_minishell *ms)
+char	*ft_interpolate(char *line, t_envs *envs)
 {
-	int	single_quotes_flag;
-	int	i;
+	int		single_quotes_flag;
+	int		i;
+	int		namelen;
+	char	*value;
+	char	*name;
 
 	single_quotes_flag = -1;
 	i = 0;
-	while(line[i] != NULL)
+	while (line[i] != NULL)
 	{
 		if (line[i] == '\'')
 			single_quotes_flag *= -1;
-		
+		if (line[i] == '$' && single_quotes_flag == -1)
+		{
+			namelen = name_check(line[i + 1]);
+			if (namelen == -1)
+			{
+				i++;
+				continue ;
+			}
+			else
+			{
+				name = ft_substr(line, i + 1, namelen);
+				if (name == NULL)
+					return (free(line), NULL);
+				value = ft_getenv(name, envs);
+				if (value == NULL)
+					value = "";
+				value = ft_strdup(value);
+				if (value == NULL)
+					return (NULL);
+				line = sandwich(line, i, i + 1 + namelen, value);
+				if (line == NULL)
+					return (NULL);
+			}
+		}
+		i++;
 	}
 }
