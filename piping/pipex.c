@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 20:05:26 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:50:18 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,14 @@ int	status_check(int last_status)
 	return (EXIT_FAILURE);
 }
 
-int	close_pipe_exit_failure(int	*pipe_read, int *pipe_write)
-{
-	close_set_gen(pipe_read);
-	close_set_gen(pipe_write);
-	return (EXIT_FAILURE);
-}
-
 int	pipeloop(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
 {
 	int	ret;
 
 	if (open_red_loop(ctx, ms, i) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	if (g_signal == 2)
+		return (g_signal + 128);
 	if (apoc_in(i, ctx, ms) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (apoc_out(i, ctx, ms) == EXIT_FAILURE)
@@ -74,15 +69,15 @@ int	pipex(t_context *ctx, t_minishell *ms)
 	while (i < ctx->cmd_cnt)
 	{
 		last_status = pipeloop(i, &pid, ctx, ms);
-		if (last_status == CRITICAL_EXIT)
-			return (free_ctx(ctx), EXIT_FAILURE);
+		if (last_status == 130)
+			return (waitpid(pid, NULL, 0), free_ctx(ctx), 130);
 		i++;
 	}
 	if (ctx->cmd_cnt == 1 && \
 		which_builtin(ctx->cmds[0]->cmd_with_args[0]) != CMD_NOT_BUILTIN)
 		return (free_ctx(ctx), last_status);
 	free_ctx(ctx);
-	waitpid(pid, &last_status, NULL);
+	waitpid(pid, &last_status, 0);
 	restore_inout_close(ms);
 	return (status_check(last_status));
 }

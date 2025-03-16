@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 16:25:51 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:39:07 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	ctrlderrormsg(int numlines, char *limiter, char *lines)
 char	*join_line_newline(char *lines, char *to_join)
 {
 	char	*newline;
-	int		fail;
 
 	if (lines == NULL || to_join == NULL)
 		return (free(lines), free(to_join), NULL);
@@ -35,10 +34,10 @@ char	*join_line_newline(char *lines, char *to_join)
 	return (newline);
 }
 
-int	write_lines(t_pipex *cmd, t_minishell *ms, char *lines, char *nline)
+int	write_lines(t_cmd *cmd, t_minishell *ms, char *lines, char *nline)
 {
 	char	*histlines;
-	
+
 	histlines = ft_strdup(lines);
 	if (histlines == NULL)
 		return (free(lines), EXIT_FAILURE);
@@ -75,6 +74,8 @@ int	input_loop(t_pipex *cmd, t_minishell *ms, char *limiter, int numlines)
 	while (1)
 	{
 		nline = readline(">");
+		if (g_signal == 2)
+			return (free(lines), EXIT_FAILURE);
 		if (nline == NULL && errno == 0)
 			return (ctrlderrormsg(numlines, limiter, lines), EXIT_SUCCESS);
 		if (errno != 0)
