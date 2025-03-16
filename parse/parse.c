@@ -6,6 +6,7 @@ int count_commands(char **cmds);
 t_context *parse(char *line)
 {
 	char **commands;
+	char	*tmp;
 	t_context *ctx;
 
 	ctx = init_ctx();
@@ -34,10 +35,24 @@ t_context *parse(char *line)
 	}
 
 	printf("[%s] <- line before rm spaces\n", line);
-	line = rm_multi_spaces(line);
+
+	// remove spaces inside
+	tmp = rm_multi_spaces(line);
+	free(line);
+	line = tmp;
 	if (line == NULL)
 		return (NULL);
-	printf("[%s] <- line after rm spaces\n", line);
+	printf("[%s] <- line after rm spaces in mid\n", line);
+
+	// remove spaces before and after, trim
+	tmp = ft_strtrim(line, " ");
+	free(line);
+	line = tmp;
+	if (line == NULL)
+		return (NULL);
+	printf("[%s] <- line after rm spaces on sides\n", line);
+
+
 
 	// TODO: rm spaces from left and right
 	// TODO: split, then again use trim to remove spaces
