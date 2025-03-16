@@ -54,6 +54,6 @@ int count_double_quotes(char *str);
 int validate_quotes(char *str);
 
 //interpolation
-char		*ft_interpolate(char *line, t_envs *envs, t_context *ctx);
+char		*ft_interpolate(char *line, t_envs *envs);
 
 # endif
