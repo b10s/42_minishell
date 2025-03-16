@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 19:28:42 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/16 19:56:07 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,35 @@ char	*sandwich(char *bread, int start, int end, char *ham)
 	return (join_line_newline(bread_ham, temp));
 }
 
-char	*update_line(char *line, t_envs *envs, int i, int single_quotes_flag)
+char	*update_line(char *line, t_envs *envs, int *i, int single_quotes_flag)
 {
 	int		namelen;
 	char	*name;
 	char	*value;
+	int		emptycheck;
 
-	if (line[i] == '$' && single_quotes_flag == -1)
-	{
-		namelen = name_check(&(line[i + 1]));
-		if (namelen > 0)
-		{
-			name = ft_substr(line, i + 1, namelen);
-			if (name == NULL)
-				return (free(line), NULL);
-			value = ft_getenv(name, envs);
-			if (value == NULL)
-				value = "";
-			value = ft_strdup(value);
-			if (value == NULL)
-				return (NULL);
-			line = sandwich(line, i, i + 1 + namelen, value);
-			if (line == NULL)
-				return (NULL);
-		}
-	}
+	namelen = name_check(&(line[*i + 1]));
+	if (namelen == -1)
+		return (line);
+	name = ft_substr(line, *i + 1, namelen);
+	if (name == NULL)
+		return (free(line), NULL);
+	value = ft_getenv(name, envs);
+	if (value == NULL)
+		value = "";
+	value = ft_strdup(value);
+	if (value == NULL)
+		return (NULL);
+	emptycheck = 0;
+	if (value[0] == '\0')
+		emptycheck = 1;
+	line = sandwich(line, *i, *i + 1 + namelen, value);
+	if (emptycheck == 1)
+		(*i)--;
 	return (line);
 }
 
-char	*ft_interpolate(char *line, t_envs *envs)
+char	*ft_interpolate(char *line, t_envs *envs, t_context *ctx)
 {
 	int		single_quotes_flag;
 	int		i;
@@ -94,9 +94,12 @@ char	*ft_interpolate(char *line, t_envs *envs)
 	{
 		if (line[i] == '\'')
 			single_quotes_flag *= -1;
-		line = update_line(line, envs, i, single_quotes_flag);
-		if (line == NULL)
-			return (NULL);
+		if (line[i] == '$' && single_quotes_flag == -1)
+		{
+			line = update_line(line, envs, &i, single_quotes_flag);
+			if (line == NULL)
+				return (NULL);
+		}
 		i++;
 	}
 	return (line);
