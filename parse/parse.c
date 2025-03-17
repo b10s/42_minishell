@@ -37,6 +37,8 @@ t_context *parse(char *line)
 	printf("[%s] <- line before rm spaces\n", line);
 
 	// remove spaces inside
+	// TODO: check all old buffers are freed
+	// and if returned NULL then err is propogated
 	tmp = rm_multi_spaces(line);
 	free(line);
 	line = tmp;
@@ -111,6 +113,8 @@ char **split_pipes(char *str)
 	while (cmd_len != 0)
 	{
 		printf("cmd len [%d]\n", cmd_len);
+		// TODO: test what substr returns in case 0, 0
+		//		empty string or NULL? e.g. `a|b|` 
 		*cmds = ft_substr(str, 0, cmd_len);
 		if(*cmds == NULL)
 		{
@@ -120,7 +124,9 @@ char **split_pipes(char *str)
 		printf("cmd is [%s]\n", *cmds);
 		//TODO trim it here once more
 		cmds++;
-		str = str + cmd_len + 1;
+		str = str + cmd_len;
+		if (*str == '|')
+			str++;
 		cmd_len = cmd_size_till_pipe(str);
 	}
 	*cmds = NULL;
