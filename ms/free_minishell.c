@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 19:00:23 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/28 21:37:21 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:47:54 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_minishell(t_minishell *ms)
 	if (ms == NULL)
 		return ;
 	close_set_gen(&(ms->stdin_fd));
-	close_set_get(&(ms->stdout_fd));
+	close_set_gen(&(ms->stdout_fd));
 	free_envs(ms->envs);
 	free(ms->line);
 	// free(ms->hostname);

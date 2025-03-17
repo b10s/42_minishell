@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/17 21:38:56 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:55:31 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	name_check(char *name)
 	int	i;
 
 	i = 0;
+	if (name[i] == '?')
+		return (1);
 	if (ft_isalpha(name[i]) != 1 && name[i] != '_')
 		return (-1);
 	while (1)
@@ -70,7 +72,10 @@ char	*update_line(char *line, t_minishell *ms, int *i, int single_quotes_flag)
 	value = ft_getenv(name, ms->envs);
 	if (value == NULL)
 		value = "";
-	value = ft_strdup(value);
+	if (name[0] == '?')
+		value = ft_itoa(ms->exit_status);
+	else
+		value = ft_strdup(value);
 	if (value == NULL)
 		return (NULL);
 	value_len = ft_strlen(value);
