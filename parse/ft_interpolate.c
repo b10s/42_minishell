@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 20:16:36 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:31:01 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	*sandwich(char *bread, int start, int end, char *ham)
 	char	*temp;
 	char	*bread_ham;
 
+	ham = join_line_newline(ft_strdup("\'"), ham);
+	ham = join_line_newline(ham, ft_strdup("\'"));
 	len_bread = ft_strlen(bread) - (end - start);
 	temp = ft_substr(bread, 0, start);
 	bread_ham = join_line_newline(temp, ham);
@@ -54,12 +56,12 @@ char	*sandwich(char *bread, int start, int end, char *ham)
 	return (join_line_newline(bread_ham, temp));
 }
 
-char	*update_line(char *line, t_envs *envs, int *i, int single_quotes_flag)
+char	*update_line(char *line, t_minishell *ms, int *i, int single_quotes_flag)
 {
 	int		namelen;
 	char	*name;
 	char	*value;
-	int		emptycheck;
+	int		value_len_quotes;
 
 	namelen = name_check(&(line[*i + 1]));
 	if (namelen == -1)
@@ -67,22 +69,19 @@ char	*update_line(char *line, t_envs *envs, int *i, int single_quotes_flag)
 	name = ft_substr(line, *i + 1, namelen);
 	if (name == NULL)
 		return (free(line), NULL);
-	value = ft_getenv(name, envs);
+	value = ft_getenv(name, ms->envs);
 	if (value == NULL)
 		value = "";
 	value = ft_strdup(value);
 	if (value == NULL)
 		return (NULL);
-	emptycheck = 0;
-	if (value[0] == '\0')
-		emptycheck = 1;
+	value_len_quotes = ft_strlen(value) + 2;
 	line = sandwich(line, *i, *i + 1 + namelen, value);
-	if (emptycheck == 1)
-		(*i)--;
+	(*i) += (value_len_quotes - 1);
 	return (line);
 }
 
-char	*ft_interpolate(char *line, t_envs *envs)
+char	*ft_interpolate(char *line, t_minishell *ms)
 {
 	int		single_quotes_flag;
 	int		i;
@@ -96,7 +95,7 @@ char	*ft_interpolate(char *line, t_envs *envs)
 			single_quotes_flag *= -1;
 		if (line[i] == '$' && single_quotes_flag == -1)
 		{
-			line = update_line(line, envs, &i, single_quotes_flag);
+			line = update_line(line, ms, &i, single_quotes_flag);
 			if (line == NULL)
 				return (NULL);
 		}
