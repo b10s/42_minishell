@@ -65,6 +65,7 @@ t_context *parse(char *line)
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);
+	printf("command counts is [%d]\n", ctx->cmd_cnt);
 
 	// trim after splitting once again since it might be 'echo "a" | wc'
 	// space before and after |
@@ -72,9 +73,45 @@ t_context *parse(char *line)
 
 	ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
 
-	// TODO: rm meaningless multi-spaces
-	// TODO: do interpolation
+	int i = 0;
+	t_cmd **cmds;
+	cmds = malloc(sizeof(t_cmd *) * (ctx->cmd_cnt + 1));
+	// TODO: free all, probably on caller side
+	if (cmds == NULL)
+		return (NULL);
+	i = -1;
+	while (++i < ctx->cmd_cnt + 1)
+		cmds[i] = NULL;
+	
+	// TODO: do interpolation before parsing for redirections
+
+	i = 0;
+	while (i < ctx->cmd_cnt)
+	{
+		cmds[i] = malloc(sizeof(t_cmd));
+		if (cmds[i] == NULL)
+			return (NULL);
+		cmds[i]->out_fd = -1;
+		cmds[i]->in_fd = -1;
+		cmds[i]->here_doc_filename = NULL;
+
+		// TODO: count redirects
+		// TODO put them all here
+		// TODO remove them from commands
+		cmds[i]->reds = NULL;
+
+		// TODO count cmd with args, split into spaces
+		// TODO put them all here
+		cmds[i]->cmd_with_args = NULL;
+		i++;
+	}
+	ctx->cmds = cmds;
+	//ctx->cmds = commands;
+
 	// TODO: parse for redirections
+
+	// TODO: remove quotes
+
 	// TODO: split for spaces to be ready to pass to execve
 
 	//while( i < ctx->cmd_cnt)
