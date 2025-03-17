@@ -6,11 +6,11 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/17 19:31:01 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:15:14 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "p_a.h"
 
 static char	*join_line_newline(char *lines, char *to_join)
 {
@@ -46,8 +46,6 @@ char	*sandwich(char *bread, int start, int end, char *ham)
 	char	*temp;
 	char	*bread_ham;
 
-	ham = join_line_newline(ft_strdup("\'"), ham);
-	ham = join_line_newline(ham, ft_strdup("\'"));
 	len_bread = ft_strlen(bread) - (end - start);
 	temp = ft_substr(bread, 0, start);
 	bread_ham = join_line_newline(temp, ham);
@@ -61,7 +59,7 @@ char	*update_line(char *line, t_minishell *ms, int *i, int single_quotes_flag)
 	int		namelen;
 	char	*name;
 	char	*value;
-	int		value_len_quotes;
+	int		value_len;
 
 	namelen = name_check(&(line[*i + 1]));
 	if (namelen == -1)
@@ -75,9 +73,9 @@ char	*update_line(char *line, t_minishell *ms, int *i, int single_quotes_flag)
 	value = ft_strdup(value);
 	if (value == NULL)
 		return (NULL);
-	value_len_quotes = ft_strlen(value) + 2;
+	value_len = ft_strlen(value);
 	line = sandwich(line, *i, *i + 1 + namelen, value);
-	(*i) += (value_len_quotes - 1);
+	(*i) += (value_len - 1);
 	return (line);
 }
 
