@@ -58,6 +58,6 @@ char **split_pipes(char *s);
 int cmd_size_till_pipe(char *cmd);
 
 //interpolation
-char		*ft_interpolate(char *line, t_minishell *ms);
+char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
 
 # endif

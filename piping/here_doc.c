@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 17:20:56 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 00:22:13 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	write_lines(t_cmd *cmd, t_minishell *ms, char *lines, char *nline)
 	histlines = ft_strdup(lines);
 	if (histlines == NULL)
 		return (free(lines), EXIT_FAILURE);
-	lines = ft_interpolate(lines);
+	lines = ft_interpolate(lines, ms, 0);
 	if (lines == NULL)
 		return (EXIT_FAILURE);
 	if (write(cmd->in_fd, lines, ft_strlen(lines)) == -1)
