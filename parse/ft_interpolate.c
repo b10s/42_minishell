@@ -6,11 +6,11 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/17 21:15:14 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:38:56 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "p_a.h"
+#include "parse.h"
 
 static char	*join_line_newline(char *lines, char *to_join)
 {
