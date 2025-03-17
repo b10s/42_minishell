@@ -96,6 +96,7 @@ char **split_pipes(char *str)
 	int	cmd_cnt;
 	char	**cmds;
 	char	**ptr;
+	char	*tmp;
 	int	cmd_len;
 
 	cmds = NULL;
@@ -116,6 +117,15 @@ char **split_pipes(char *str)
 		// TODO: test what substr returns in case 0, 0
 		//		empty string or NULL? e.g. `a|b|` 
 		*cmds = ft_substr(str, 0, cmd_len);
+
+		// remove spaces before and after, trim
+		tmp = ft_strtrim(*cmds, " ");
+		free(*cmds);
+		*cmds = tmp;
+		// TODO: make sure to free all cmds malloced before
+		if (tmp == NULL)
+			return (NULL);
+
 		if(*cmds == NULL)
 		{
 			//TODO: free all previous cmds
