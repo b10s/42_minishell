@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_adr.c                                         :+:      :+:    :+:   */
+/*   remove_a_layer_of_quotes.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 23:31:48 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/17 23:09:25 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/03/17 22:00:09 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/03/17 23:03:13 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms/minishell.h"
-#include "libft/libft.h"
-#include "readline/readline.h"
-#include "environ_functions/environ_functions.h"
-#include "ms/minishell.h"
-#include "builtins/builtins.h"
-#include "parse/parse.h"
+#include "parse.h"
 
 char	*remove_a_layer_of_quotes(char *str)
 {
@@ -42,15 +36,4 @@ char	*remove_a_layer_of_quotes(char *str)
 	}
 	str[j] = '\0';
 	return(str);
-}
-
-int	main(void)
-{
-	char		*line;
-
-	line = ft_strdup("e\"\'cho\" \"hel\"\"lo_\"w\'\"orld\"\'");
-	ft_printf("%s\n", line);
-	line = remove_a_layer_of_quotes(line);
-	ft_printf("%s\n", line);
-	free(line);
 }
