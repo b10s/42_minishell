@@ -24,7 +24,7 @@
 # define QUOTES_ERR "unclosed quotes error, try again"
 
 typedef struct s_red {
-	char	*name;
+	char	*fname_or_delim;
 	int		type;
 }	t_red;
 

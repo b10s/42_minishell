@@ -95,6 +95,11 @@ t_context *parse(char *line)
 		cmds[i]->in_fd = -1;
 		cmds[i]->here_doc_filename = NULL;
 
+		//TODO if $foo expands to more than one word in `ls >$foo`
+		// e.g. foo="a b"; ls >$foo
+		// bash throws err but we don't need to care I think
+		// however if we quote "$foo" bash will create file with space in it :)
+
 		// TODO: count redirects
 		// TODO put them all here
 		// TODO remove them from commands
