@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:06:25 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/15 13:41:30 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/16 19:15:28 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ int	get_uchar(char *str)
 	return ((int)num);
 }
 
-void	free_stuff(t_minishell *ms, t_pipex *spipex)
+void	free_stuff(t_minishell *ms, t_context *ctx)
 {
 	free_minishell(ms);
-	free_spipex(spipex);
+	free_ctx(ctx);
 }
 
 //quits the shell, it exits with last signal by defualt otherwise
@@ -86,7 +86,7 @@ void	free_stuff(t_minishell *ms, t_pipex *spipex)
 //it exits with 2 meaning error
 //if the first number is a valid but there is more than one
 //argument then it does not exit and produces an error
-int	cmd_exit(char **args, t_minishell *ms, t_pipex *spipex)
+int	cmd_exit(char **args, t_minishell *ms, t_context *ctx)
 {
 	int	exit_status;
 
@@ -94,12 +94,12 @@ int	cmd_exit(char **args, t_minishell *ms, t_pipex *spipex)
 	printf("exit\n");
 	if (args[0] == NULL)
 	{
-		free_stuff(ms, spipex);
+		free_stuff(ms, ctx);
 		exit(exit_status);
 	}
 	if (is_numeric(args[0]) == 0)
 	{
-		free_stuff(ms, spipex);
+		free_stuff(ms, ctx);
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[0], 2);
 		ft_putendl_fd(": numeric argument required", 2);
@@ -107,6 +107,6 @@ int	cmd_exit(char **args, t_minishell *ms, t_pipex *spipex)
 	}
 	else if (args[1] != NULL)
 		return (ft_putendl_fd("exit: too many arguments", 2), EXIT_FAILURE);
-	free_stuff(ms, spipex);
+	free_stuff(ms, ctx);
 	exit(get_uchar(args[0]));
 }

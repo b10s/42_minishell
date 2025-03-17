@@ -48,7 +48,16 @@ int main() {
 				printf("fatal ERR\n");
 				return (1);
 			}
-			print_ctx(ctx);
+			else if (ctx->err != NULL)
+			{
+				printf("non fatal ERR\n");
+				printf("err: [%s]\n", ctx->err);
+			}
+			else
+			{
+				printf("all is ok - process line\n");
+			}
+			//print_ctx(ctx);
 
 			// TODO check that parsed ok
 			// TODO do operations on parsed line

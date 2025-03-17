@@ -21,6 +21,7 @@
 # define HERE_DOC 1
 # define OUT 2
 # define OUT_APPEND 3
+# define QUOTES_ERR "unclosed quotes error, try again"
 
 typedef struct s_red {
 	char	*name;
@@ -40,11 +41,23 @@ typedef struct s_context {
 	int		cmd_cnt;
 	int		pipe_read;
 	int		pipe_read_index;
+	char 	*err;
 }	t_context;
 
 t_context	*init_ctx();
 void 		free_ctx(t_context *ctx);
 t_context	*parse(char *line);
 void		print_ctx(t_context *ctx);
+char *rm_multi_spaces(char *str);
+int count_single_quotes(char *str);
+int count_double_quotes(char *str);
+int validate_quotes(char *str);
+size_t count_spaces_to_rm(char *str);
+int count_pipes(char *s);
+char **split_pipes(char *s);
+int cmd_size_till_pipe(char *cmd);
+
+//interpolation
+char		*ft_interpolate(char *line, t_envs *envs);
 
 # endif
