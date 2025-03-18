@@ -2,6 +2,7 @@
 # define PARSE_H
 # include <stdio.h>
 # include <stdbool.h>
+# include <errno.h>
 # include "../libft/libft.h"
 # include "../environ_functions/environ_functions.h"
 # include "../ms/minishell.h"

@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/18 23:19:58 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:49:37 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,20 @@ int	pipex(t_context *ctx, t_minishell *ms)
 	pid_t	*pid;
 
 	if (save_in_out(ms) == EXIT_FAILURE)
-		return (free_ctx(ctx), EXIT_FAILURE);
+		return (free_ctx(ctx, ms), EXIT_FAILURE);
 	prep_ctx(ctx);
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
 		last_status = pipeloop(i, &pid, ctx, ms);
 		if (last_status == 130)
-			return (waitpid(pid, NULL, 0), free_ctx(ctx), 130);
+			return (waitpid(pid, NULL, 0), free_ctx(ctx, ms), 130);
 		i++;
 	}
 	if (ctx->cmd_cnt == 1 && \
 		which_builtin(ctx->cmds[0]->cmd_with_args[0]) != CMD_NOT_BUILTIN)
-		return (free_ctx(ctx), last_status);
-	free_ctx(ctx);
+		return (free_ctx(ctx, ms), last_status);
+	free_ctx(ctx, ms);
 	waitpid(pid, &last_status, 0);
 	restore_inout_close(ms);
 	return (status_check(last_status));
