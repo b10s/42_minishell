@@ -56,8 +56,8 @@ int main() {
 			else
 			{
 				printf("all is ok - process line\n");
+				print_ctx(ctx);
 			}
-			//print_ctx(ctx);
 
 			// TODO check that parsed ok
 			// TODO do operations on parsed line
@@ -87,5 +87,29 @@ int main() {
 	//}
 	// here work with context: exec commands
 	return (0);
+}
+
+void print_ctx(t_context *ctx) {
+	printf("\t=== print context ===\n");
+
+	int i = 0;
+	while (ctx->cmds[i] != NULL) {
+		printf("cmd #%d: ", i);
+		int j = 0;
+		while (ctx->cmds[i]->cmd_with_args[j] != NULL) {
+			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j]);
+			j++;
+		}
+		printf("\n redirects:");
+		j = 0;
+		while (ctx->cmds[i]->reds[j] != NULL) {
+			printf(" [%s] of type [%d]",
+				ctx->cmds[i]->reds[j]->fname_or_delim, 
+				ctx->cmds[i]->reds[j]->type);
+			j++;
+		}
+		printf("\n\n");
+		i++;
+	}
 }
 

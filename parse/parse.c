@@ -104,7 +104,7 @@ t_context *parse(char *line)
 
 		// here I search for redirects:
 		// >, >>, <, <<
-		// if I got one, get_next_token() which will return me t_token
+		// if I got one, gt_next_token() which will return me t_token
 
 		printf("command is [%s]\n", commands[i]);
 		
@@ -112,15 +112,163 @@ t_context *parse(char *line)
 		char *pos_in_cmd;
 		pos_in_cmd = commands[i];
 		t_token *tok;
-		tok = get_next_token(pos_in_cmd);
-		while(tok != NULL && tok->len != 0) {
+
+		// the logic
+		// get tokens one by one until we got <, <<, >, >> things
+		// if get one of them the next token is not part of cmd but 
+		// part of redir or here_doc
+		t_red *red = NULL;
+		// count redirects?
+		// or lazy realloc
+		int red_cnt = 0;
+		int red_max = 5;
+
+		int wrd_cnt = 0;
+		int wrd_max = 5;
+
+		char **wrds = ft_calloc((wrd_max + 1), sizeof(char *));
+		t_red **reds = ft_calloc((red_max + 1), sizeof(t_red *));
+
+		while(42 == 42) {
+			printf("parsing .. [%s]\n", pos_in_cmd);
+		//while(tok != NULL && tok->len != 0) {
 			
-			printf("token is [%s]\n", tok->tok);
+			//TODO free it properly with freeing string on it
+			free(red);
+			red = NULL;
+
+			// the redir/here doc might be first
+			if (*pos_in_cmd == '>') {
+
+				// append out reidr
+				if (pos_in_cmd[1] == '>') {
+					pos_in_cmd = pos_in_cmd + 2;
+					tok = get_next_token(pos_in_cmd);
+					//TODO if there token or not - fatal or just user typo err
+					if (tok == NULL)
+						return (NULL);
+					if (tok->len == 0)
+					{
+						//TODO make ctx with err return ctx
+						printf("wrong redirection\n");
+						break;
+					}
+					pos_in_cmd = pos_in_cmd + tok->len;
+					red = malloc(sizeof(t_red *));
+					//TODO err handling
+					if (red == NULL)
+						return (NULL);
+					red->type = OUT_APPEND;
+					red->fname_or_delim = tok->tok;
+				// out redir
+				} else {
+					//TODO put this into func?
+					pos_in_cmd = pos_in_cmd + 1;
+					tok = get_next_token(pos_in_cmd);
+					//TODO if there token or not - fatal or just user typo err
+					if (tok == NULL)
+						return (NULL);
+					if (tok->len == 0)
+					{
+						//TODO make ctx with err return ctx
+						printf("wrong redirection\n");
+						break;
+					}
+					pos_in_cmd = pos_in_cmd + tok->len;
+					red = malloc(sizeof(t_red *));
+					//TODO err handling
+					if (red == NULL)
+						return (NULL);
+					red->type = OUT;
+					red->fname_or_delim = tok->tok;
+				}
+
+			}
+
+			if (*pos_in_cmd == '<') {
+
+				// here doc
+				if (pos_in_cmd[1] == '<') {
+					pos_in_cmd = pos_in_cmd + 2;
+					tok = get_next_token(pos_in_cmd);
+					//TODO if there token or not - fatal or just user typo err
+					if (tok == NULL)
+						return (NULL);
+					if (tok->len == 0)
+					{
+						//TODO make ctx with err return ctx
+						printf("wrong redirection\n");
+						break;
+					}
+					pos_in_cmd = pos_in_cmd + tok->len;
+					red = malloc(sizeof(t_red *));
+					//TODO err handling
+					if (red == NULL)
+						return (NULL);
+					red->type = HERE_DOC;
+					red->fname_or_delim = tok->tok;
+				// input redir
+				} else {
+					pos_in_cmd = pos_in_cmd + 1;
+					tok = get_next_token(pos_in_cmd);
+					//TODO if there token or not - fatal or just user typo err
+					if (tok == NULL)
+						return (NULL);
+					if (tok->len == 0)
+					{
+						//TODO make ctx with err return ctx
+						printf("wrong redirection\n");
+						break;
+					}
+					pos_in_cmd = pos_in_cmd + tok->len;
+					red = malloc(sizeof(t_red *));
+					//TODO err handling
+					if (red == NULL)
+						return (NULL);
+					red->type = IN;
+					red->fname_or_delim = tok->tok;
+				}
+
+			}
+			if (red != NULL) {
+				printf("adding redirect..\n");
+				add_reds(&reds, red, &red_cnt, &red_max);
+			}
+
+			//TODO check for empty line here or above before pipe split
+			// even after pipe split might be there empty lines?
+			tok = get_next_token(pos_in_cmd);
+			if (tok == NULL) {
+				// err happened?
+				return (NULL);
+			}
+			if (tok->len == 0) {
+				// we are out of tokens: line ended or some unexpected thing is here
+				// check if line ended
+				// other wise return error - unknown token
+
+				// legit, end of line
+				if (*pos_in_cmd == '\0')
+					break;
+				else {
+					printf("unknown token [%c]\n", *pos_in_cmd);
+					//TODO return non fatal err in ctx field
+					// not NULL
+					return (NULL);
+				}
+			}
+			printf("wrd token is [%s]\n", tok->tok);
+
+			add_word(&wrds, tok->tok, &wrd_cnt, &wrd_max);
+
 			pos_in_cmd = pos_in_cmd + tok->len;
 			// here can be only ' ' after removal of pipes and redirections
 			if (*pos_in_cmd == ' ')
 				pos_in_cmd++;
-			tok = get_next_token(pos_in_cmd);
+
+			//TODO: detect bad chars which can't be part of token here
+			// err handling
+			//tok = get_next_token(pos_in_cmd);
 		}
 		// in a loop until not NULL
 		//t_red red = find_redir_or_here_doc();
@@ -142,11 +290,11 @@ t_context *parse(char *line)
 		// TODO: count redirects
 		// TODO put them all here
 		// TODO remove them from commands
-		cmds[i]->reds = NULL;
+		cmds[i]->reds = reds;
 
 		// TODO count cmd with args, split into spaces
 		// TODO put them all here
-		cmds[i]->cmd_with_args = NULL;
+		cmds[i]->cmd_with_args = wrds;
 		i++;
 	}
 	ctx->cmds = cmds;
@@ -170,6 +318,85 @@ t_context *parse(char *line)
 
 	//commands = ft_split(line, '|');
 	return ctx;
+}
+
+void add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max) {
+	//printf("adding red 1\n");
+	t_red **new_reds;
+	t_red **reds_ptr;
+
+	reds_ptr = *reds;
+	//printf("reds_ptrs is [%p]\n", reds_ptr[0]);
+
+	if (*red_cnt == *red_max) {
+		printf("need to realloc\n");
+		//realloc
+		*red_max += 5;
+		new_reds = ft_calloc((*red_max + 1), sizeof(t_red *));
+		//TODO for NULL
+
+		// copy
+		int i = 0;
+		while(reds_ptr[i] != NULL) {
+			new_reds[i] = reds_ptr[i];
+			i++;
+		}
+		free(*reds);
+		*reds = new_reds;
+		reds_ptr = new_reds;
+	}
+
+	//rewind
+	int i = 0;
+	while(reds_ptr[i] != NULL) {
+		i++;
+	}
+	//printf("reds_ptrs is [%p]\n", reds_ptr[i]);
+	//printf("adding red 2\n");
+
+	reds_ptr[i] = ft_calloc(1, sizeof(t_red *));
+	reds_ptr[i]->type = r->type;
+	//printf("adding red 3\n");
+	reds_ptr[i]->fname_or_delim = ft_strdup(r->fname_or_delim);
+	//printf("adding red 4\n");
+	//TODO check if mem non NULL
+	*red_cnt = *red_cnt + 1;
+	//printf("adding red 5\n");
+}
+
+void add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max) {
+	char **new_words;
+	char **words_ptr;
+
+	words_ptr = *words;
+
+	if (*wrd_cnt == *wrd_max) {
+		printf("need to realloc\n");
+		//realloc
+		*wrd_max += 5;
+		new_words = ft_calloc((*wrd_max + 1), sizeof(char *));
+		//TODO for NULL
+
+		// copy
+		int i = 0;
+		while(words_ptr[i] != NULL) {
+			new_words[i] = words_ptr[i];
+			i++;
+		}
+		free(*words);
+		*words = new_words;
+		words_ptr = new_words;
+	}
+
+	//rewind
+	int i = 0;
+	while(words_ptr[i] != NULL) {
+		i++;
+	}
+
+	words_ptr[i] = ft_strdup(w);
+	//TODO check if mem non NULL
+	*wrd_cnt = *wrd_cnt + 1;
 }
 
 
@@ -229,18 +456,19 @@ t_token *get_next_token(char *str) {
 	if (tok == NULL)
 		return (NULL);
 	
-	tok->beg = 0;
-	tok->end = 0;
+	tok->beg = str;
 	tok->len = get_token_len(str);
 	tok->tok = NULL;
 	if (tok->len == 0)
 		return (tok);
 
-	tok->tok = malloc(sizeof(char) * tok->len);
+	tok->tok = malloc(sizeof(char) * (tok->len + 1));
 	if (tok->tok == NULL) {
 		//TODO free tok
 		return (NULL);
 	}
+	tok->tok = ft_memcpy(tok->tok, str, tok->len);
+	tok->tok[tok->len] = '\0';
 
 	printf("token len is [%d]\n", tok->len);
 
@@ -643,6 +871,7 @@ void free_ctx(t_context *ctx)
 }
 */
 
+/*
 void print_ctx(t_context *ctx)
 {
        int i;
@@ -661,3 +890,4 @@ void print_ctx(t_context *ctx)
        }
       // printf("there are [%d] commands in line\n", ctx->cmd_cnt);  
 }
+*/
