@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:44:19 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 17:56:21 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 22:42:01 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,13 @@ void		signal_handler(int sigint);
 //init minishell
 t_minishell	*init_minishell(void);
 
+//close
+int			close_set_gen(int *fd);
+
+//in_out_redirection
+int			save_in_out(t_minishell *ms);
+int			redirect_in(int in_fd, t_minishell *ms);
+int			redirect_out(int out_fd, t_minishell *ms);
+int			restore_in_out(t_minishell *ms);
+int			restore_inout_close(t_minishell *ms);
 #endif

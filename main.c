@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 22:07:14 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:11:57 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,14 @@ int	main(void)
 		if (g_signal == 2)
 		{
 			ms->exit_status = 130;
+			g_signal = 0;
+			errno = 0;
 			continue ;
+		}
+		if (ms->line == NULL && errno == 0)
+		{
+			free_minishell(ms);
+			exit(ms->exit_status);
 		}
 		ctx = parse(ms->line, ms);
 		if (ctx == NULL)

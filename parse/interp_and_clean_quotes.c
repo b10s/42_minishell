@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:13:44 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/18 17:56:28 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:00:14 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	cleanup_reds_inner_loop(t_red **reds, t_minishell *ms)
 int	interp_remquotelayer(t_context *ctx, t_minishell *ms)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (i < ctx->cmd_cnt)

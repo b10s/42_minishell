@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/18 17:16:23 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:41:01 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ char	*sandwich(char *bread, int start, int end, char *ham)
 	return (join_line_newline(bread_ham, temp));
 }
 
-char	*update_line(char *line, t_minishell *ms, int *i, int single_quotes_flag)
+char	*update_line(char *line, t_minishell *ms, \
+				int *i, int single_quotes_flag)
 {
 	int		namelen;
 	char	*name;
