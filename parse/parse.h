@@ -23,12 +23,14 @@
 # define OUT_APPEND 3
 # define QUOTES_ERR "unclosed quotes error, try again"
 
-typedef struct s_red {
+typedef struct s_red
+{
 	char	*fname_or_delim;
 	int		type;
 }	t_red;
 
-typedef struct s_cmd {
+typedef struct s_cmd
+{
 	char	**cmd_with_args;
 	t_red	**reds;
 	int		out_fd;
@@ -36,12 +38,13 @@ typedef struct s_cmd {
 	char	*here_doc_filename;
 }	t_cmd;
 
-typedef struct s_context {
+typedef struct s_context
+{
 	t_cmd	**cmds;
 	int		cmd_cnt;
 	int		pipe_read;
 	int		pipe_read_index;
-	char 	*err;
+	char	*err;
 }	t_context;
 
 t_context	*init_ctx();
@@ -59,5 +62,8 @@ int cmd_size_till_pipe(char *cmd);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
-
-# endif
+//remove a layer of quotes
+char		*remove_a_layer_of_quotes(char *str);
+//function that interpolates and removes a quote layer from cmds, args, and reds
+int			interp_remquotelayer(t_context *ctx, t_minishell *ms);
+#endif
