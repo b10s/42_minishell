@@ -61,7 +61,7 @@ int main() {
 
 			// TODO check that parsed ok
 			// TODO do operations on parsed line
-			free_ctx(ctx);
+			//free_ctx(ctx);
 		}
 	}
 

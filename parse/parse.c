@@ -15,7 +15,7 @@ t_context *parse(char *line)
 	commands = ft_split(line, '|');
 	if (commands == NULL)
 	{
-		free_ctx(ctx);
+		//free_ctx(ctx);
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);ctx = init_ctx();
@@ -66,7 +66,7 @@ t_context *parse(char *line)
 	commands = split_pipes(line);
 	if (commands == NULL)
 	{
-		free_ctx(ctx);
+		//free_ctx(ctx);
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);
@@ -179,16 +179,12 @@ size_t count_spaces_to_rm_near_redir(char *str)
 char *rm_spaces_near_redir(char *str)
 {
 	char *new_str;
-	size_t	spaces_to_rm;
 	short qq;
 	short qw;
 	char pre = '\0';
 	size_t new_len;
 	char *tmp;
 
-
-	spaces_to_rm = count_spaces_to_rm_near_redir(str);
-	//printf("rm spaces near redir [%ld]\n", spaces_to_rm);
 
 	new_len = ft_strlen(str) - count_spaces_to_rm_near_redir(str) + 1;
 	//printf("new len [%ld]\n", new_len);
@@ -513,7 +509,7 @@ t_context *init_ctx(t_context *ctx)
 	ctx->cmds = malloc(sizeof(t_cmd *));
 	if (ctx->cmds == NULL)
 	{
-		free_ctx(ctx);
+		//free_ctx(ctx);
 		return (NULL);
 	}
 	ctx->cmds[0] = NULL;
@@ -526,6 +522,7 @@ t_context *init_ctx(t_context *ctx)
 	return ctx;
 }
 
+/*
 void free_ctx(t_context *ctx)
 {
 	printf("free ctx()\n");
@@ -543,6 +540,7 @@ void free_ctx(t_context *ctx)
 	//free(ctx->here_doc_delim);
 	free(ctx);
 }
+*/
 
 void print_ctx(t_context *ctx)
 {
