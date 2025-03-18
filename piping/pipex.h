@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/18 00:21:52 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 22:14:04 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 # define CRITICAL_EXIT 2
 
 //close
-int		close_set_gen(int *fd);
 void	close_pipe(int p[]);
 
 //here_doc

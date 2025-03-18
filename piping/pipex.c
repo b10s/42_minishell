@@ -6,29 +6,29 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 20:50:18 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:19:58 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	prep_ctx_prep_ms(t_context *ctx, t_minishell *ms)
+void	prep_ctx(t_context *ctx)
 {
 	int	i;
 
-	if (save_in_out(ms) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
 	ctx->pipe_read = -2;
-	ctx->pipe_read_index = -1;
+	ctx->pipe_read_index = -2;
+	if (ctx->cmds == NULL)
+		return ;
 	i = 0;
-	while (i < ctx->cmd_cnt)
+	while (ctx->cmds[i] != NULL)
 	{
 		ctx->cmds[i]->in_fd = -2;
 		ctx->cmds[i]->out_fd = -2;
 		ctx->cmds[i]->here_doc_filename = NULL;
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return ;
 }
 
 int	status_check(int last_status)
@@ -63,8 +63,9 @@ int	pipex(t_context *ctx, t_minishell *ms)
 	int		last_status;
 	pid_t	*pid;
 
-	if (prep_ctx_prep_ms(ctx, ms) == EXIT_FAILURE)
+	if (save_in_out(ms) == EXIT_FAILURE)
 		return (free_ctx(ctx), EXIT_FAILURE);
+	prep_ctx(ctx);
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{

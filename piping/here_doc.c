@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/18 00:22:13 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:12:27 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	write_lines(t_cmd *cmd, t_minishell *ms, char *lines, char *nline)
 	return (EXIT_SUCCESS);
 }
 
-int	input_loop(t_pipex *cmd, t_minishell *ms, char *limiter, int numlines)
+int	input_loop(t_cmd *cmd, t_minishell *ms, char *limiter, int numlines)
 {
 	char	*nline;
 	char	*lines;

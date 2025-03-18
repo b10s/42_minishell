@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:06:25 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 19:15:28 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:37:25 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	get_uchar(char *str)
 
 void	free_stuff(t_minishell *ms, t_context *ctx)
 {
-	free_minishell(ms);
 	free_ctx(ctx);
+	free_minishell(ms);
 }
 
 //quits the shell, it exits with last signal by defualt otherwise

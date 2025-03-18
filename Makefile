@@ -6,7 +6,7 @@
 #    By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/01 16:32:54 by adrgutie          #+#    #+#              #
-#    Updated: 2025/03/01 18:07:17 by adrgutie         ###   ########.fr        #
+#    Updated: 2025/03/18 22:43:05 by adrgutie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS		= main.c \
 			  ms/free_minishell.c \
 			  ms/init_minishell.c \
 			  ms/signal_handling.c \
+			  ms/redirect_in_out.c \
 			  parse/parse.c \
 			  piping/execute_builtin.c \
 			  piping/find_cmd_path.c \
@@ -42,8 +43,8 @@ SRCS		= main.c \
 			  piping/here_doc_fine_name.c \
 			  piping/here_doc.c \
 			  piping/init_spipex.c \
-			  piping/pipex.c \
-			  piping/redirect_in_out.c
+			  piping/pipex.c 
+			  
 
 OBJS		= $(SRCS:.c=.o)
 
