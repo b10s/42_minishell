@@ -42,6 +42,11 @@ t_context *parse(char *line)
 	tmp = rm_multi_spaces(line);
 	free(line);
 	line = tmp;
+
+	tmp = rm_spaces_near_redir(line);
+	free(line);
+	line = tmp;
+
 	if (line == NULL)
 		return (NULL);
 	printf("[%s] <- line after rm spaces in mid\n", line);
@@ -85,6 +90,7 @@ t_context *parse(char *line)
 	
 	// TODO: do interpolation before parsing for redirections
 
+	// parse each CMD (part withing a pipe if there is a pipe)
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
@@ -94,6 +100,13 @@ t_context *parse(char *line)
 		cmds[i]->out_fd = -1;
 		cmds[i]->in_fd = -1;
 		cmds[i]->here_doc_filename = NULL;
+
+		// here I search for redirects:
+		// >, >>, <, <<
+		// if I got one, get_next_token() which will return me t_token
+
+
+
 
 		//TODO if $foo expands to more than one word in `ls >$foo`
 		// e.g. foo="a b"; ls >$foo
@@ -131,6 +144,88 @@ t_context *parse(char *line)
 
 	//commands = ft_split(line, '|');
 	return ctx;
+}
+
+size_t count_spaces_to_rm_near_redir(char *str)
+{
+	size_t cnt;
+	short qq;
+	short qw;
+	char pre = '\0';
+
+	cnt = 0;
+	qq = 0;
+	qw = 0;
+	while (*str != '\0')
+	{
+		if (*str == '\'' && qq == 0)
+			qw = qw ^ 1;
+		if (*str == '\"' && qw == 0)
+			qq = qq ^ 1;
+
+		if ((*str == '<' || *str == '>') && qq == 0 && qw == 0)
+			if (pre == ' ')
+				cnt++;
+		if (*str == ' ' && qq == 0 && qw == 0)
+			if (pre == '<' || pre == '>')
+				cnt++;
+		pre = *str;
+		str++;
+	}
+
+	return (cnt);
+}
+
+char *rm_spaces_near_redir(char *str)
+{
+	char *new_str;
+	size_t	spaces_to_rm;
+	short qq;
+	short qw;
+	char pre = '\0';
+	size_t new_len;
+	char *tmp;
+
+
+	spaces_to_rm = count_spaces_to_rm_near_redir(str);
+	//printf("rm spaces near redir [%ld]\n", spaces_to_rm);
+
+	new_len = ft_strlen(str) - count_spaces_to_rm_near_redir(str) + 1;
+	//printf("new len [%ld]\n", new_len);
+	new_str = malloc(sizeof(char) * new_len);
+	if (new_str == NULL)
+		return (NULL);
+	tmp = new_str;
+	qq = 0;
+	qw = 0;
+	while (*str != '\0')
+	{
+		if (*str == '\'' && qq == 0)
+			qw = qw ^ 1;
+		if (*str == '\"' && qw == 0)
+			qq = qq ^ 1;
+
+		*new_str = *str;
+
+		if ((*str == '<' || *str == '>') && qq == 0 && qw == 0)
+			if (pre == ' ')
+			{
+				new_str--;
+				*new_str = *str;
+			}
+
+		if (*str == ' ' && qq == 0 && qw == 0)
+			if (pre == '<' || pre == '>')
+				new_str--;
+
+		pre = *str;
+		str++;
+		new_str++;
+	}
+	*new_str = '\0';
+
+	//printf("returning new string [%s]\n", new_str);
+	return (tmp);
 }
 
 char **split_pipes(char *str)

@@ -59,6 +59,8 @@ size_t count_spaces_to_rm(char *str);
 int count_pipes(char *s);
 char **split_pipes(char *s);
 int cmd_size_till_pipe(char *cmd);
+char *rm_spaces_near_redir(char *str);
+size_t count_spaces_to_rm_near_redir(char *str);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
