@@ -100,10 +100,11 @@ void print_ctx(t_context *ctx) {
 			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j]);
 			j++;
 		}
-		printf("\n redirects:");
+		printf("\nred:\n");
+
 		j = 0;
 		while (ctx->cmds[i]->reds[j] != NULL) {
-			printf(" [%s] of type [%d]",
+			printf("  [%s] of type [%d]\n",
 				ctx->cmds[i]->reds[j]->fname_or_delim, 
 				ctx->cmds[i]->reds[j]->type);
 			j++;

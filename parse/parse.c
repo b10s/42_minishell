@@ -22,8 +22,8 @@ t_context *parse(char *line)
 	if (ctx == NULL)
 		return (NULL);
 
-	printf("single quotes cnt [%d]\n", count_single_quotes(line));
-	printf("double quotes cnt [%d]\n", count_double_quotes(line));
+	//printf("single quotes cnt [%d]\n", count_single_quotes(line));
+	//printf("double quotes cnt [%d]\n", count_double_quotes(line));
 	// non fatal err: unclosed braces - try new line
 	if (validate_quotes(line) != 0)
 	{
@@ -34,7 +34,7 @@ t_context *parse(char *line)
 		return (ctx);
 	}
 
-	printf("[%s] <- line before rm spaces\n", line);
+	//printf("[%s] <- line before rm spaces\n", line);
 
 	// remove spaces inside
 	// TODO: check all old buffers are freed
@@ -49,7 +49,7 @@ t_context *parse(char *line)
 
 	if (line == NULL)
 		return (NULL);
-	printf("[%s] <- line after rm spaces in mid\n", line);
+	//printf("[%s] <- line after rm spaces in mid\n", line);
 
 	// remove spaces before and after, trim
 	tmp = ft_strtrim(line, " ");
@@ -57,7 +57,7 @@ t_context *parse(char *line)
 	line = tmp;
 	if (line == NULL)
 		return (NULL);
-	printf("[%s] <- line after rm spaces on sides\n", line);
+	//printf("[%s] <- line after rm spaces on sides\n", line);
 
 
 	// TODO: rm spaces from left and right
@@ -70,7 +70,7 @@ t_context *parse(char *line)
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);
-	printf("command counts is [%d]\n", ctx->cmd_cnt);
+	//printf("command counts is [%d]\n", ctx->cmd_cnt);
 
 	// trim after splitting once again since it might be 'echo "a" | wc'
 	// space before and after |
@@ -230,9 +230,12 @@ t_context *parse(char *line)
 				}
 
 			}
+			printf("state is [%s]\n", pos_in_cmd);
 			if (red != NULL) {
 				printf("adding redirect..\n");
 				add_reds(&reds, red, &red_cnt, &red_max);
+				// since there might be another redirect next to it
+				continue;
 			}
 
 			//TODO check for empty line here or above before pipe split
@@ -451,7 +454,7 @@ int	get_token_len(char *str) {
 t_token *get_next_token(char *str) {
 	t_token *tok;
 
-	printf("get tok parsin [%s]\n", str);
+	//printf("get tok parsin [%s]\n", str);
 	tok = malloc(sizeof(t_token));
 	if (tok == NULL)
 		return (NULL);
@@ -470,7 +473,7 @@ t_token *get_next_token(char *str) {
 	tok->tok = ft_memcpy(tok->tok, str, tok->len);
 	tok->tok[tok->len] = '\0';
 
-	printf("token len is [%d]\n", tok->len);
+	//printf("token len is [%d]\n", tok->len);
 
 	return (tok);
 }
@@ -569,13 +572,13 @@ char **split_pipes(char *str)
 	if (cmds == NULL)
 		return (NULL);
 	ptr = cmds;
-	printf("pipes cnt is [%d]\n", cmd_cnt);
+	//printf("pipes cnt is [%d]\n", cmd_cnt);
 
 
 	cmd_len = cmd_size_till_pipe(str);
 	while (cmd_len != 0)
 	{
-		printf("cmd len [%d]\n", cmd_len);
+		//printf("cmd len [%d]\n", cmd_len);
 		// TODO: test what substr returns in case 0, 0
 		//		empty string or NULL? e.g. `a|b|` 
 		*cmds = ft_substr(str, 0, cmd_len);
@@ -593,7 +596,7 @@ char **split_pipes(char *str)
 			//TODO: free all previous cmds
 			return (NULL);
 		}
-		printf("cmd is [%s]\n", *cmds);
+		//printf("cmd is [%s]\n", *cmds);
 		//TODO trim it here once more
 		cmds++;
 		str = str + cmd_len;
@@ -750,7 +753,7 @@ char *rm_multi_spaces(char *str) {
 	sp = 0;
 	spaces_to_rm = count_spaces_to_rm(str);
 	str_len = ft_strlen(str);
-	printf("spaces to rm [%ld]\n", spaces_to_rm);
+	//printf("spaces to rm [%ld]\n", spaces_to_rm);
 	new_str = malloc(str_len - spaces_to_rm + 1);
 	if (new_str == NULL)
 		return (NULL);
