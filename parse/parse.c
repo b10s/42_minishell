@@ -106,7 +106,7 @@ t_context *parse(char *line)
 		// >, >>, <, <<
 		// if I got one, gt_next_token() which will return me t_token
 
-		printf("command is [%s]\n", commands[i]);
+		//printf("command is [%s]\n", commands[i]);
 		
 
 		char *pos_in_cmd;
@@ -131,6 +131,10 @@ t_context *parse(char *line)
 
 		while(42 == 42) {
 			printf("parsing .. [%s]\n", pos_in_cmd);
+			if (*pos_in_cmd == ' ') {
+				pos_in_cmd++;
+				continue;
+			}
 		//while(tok != NULL && tok->len != 0) {
 			
 			//TODO free it properly with freeing string on it
@@ -186,9 +190,9 @@ t_context *parse(char *line)
 
 			}
 
-			printf("state is [%s]\n", pos_in_cmd);
+			//printf("state is [%s]\n", pos_in_cmd);
 			if (red != NULL) {
-				printf("adding redirect..\n");
+				//printf("adding redirect..\n");
 				add_reds(&reds, red, &red_cnt, &red_max);
 				// since there might be another redirect next to it
 				continue;
@@ -240,9 +244,9 @@ t_context *parse(char *line)
 
 			}
 
-			printf("state is [%s]\n", pos_in_cmd);
+			//printf("state is [%s]\n", pos_in_cmd);
 			if (red != NULL) {
-				printf("adding redirect..\n");
+				//printf("adding redirect..\n");
 				add_reds(&reds, red, &red_cnt, &red_max);
 				// since there might be another redirect next to it
 				continue;
@@ -271,7 +275,7 @@ t_context *parse(char *line)
 					return (NULL);
 				}
 			}
-			printf("wrd token is [%s]\n", tok->tok);
+			//printf("wrd token is [%s]\n", tok->tok);
 
 			add_word(&wrds, tok->tok, &wrd_cnt, &wrd_max);
 

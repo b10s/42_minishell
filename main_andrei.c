@@ -37,7 +37,7 @@ int main() {
 		//TODO: check what readline can return: NULL, empty string, Crl-D, Crl-C, etc
 		line = readline("c001 she11> ");
 		//line = interpolate(line,);
-		printf("line from readline [%s]\n", line);
+		//printf("line from readline [%s]\n", line);
 		if (line == NULL) 
 			break;
 		else
@@ -55,7 +55,7 @@ int main() {
 			}
 			else
 			{
-				printf("all is ok - process line\n");
+				//printf("all is ok - process line\n");
 				print_ctx(ctx);
 			}
 
