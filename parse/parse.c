@@ -175,6 +175,7 @@ t_context *parse(char *line)
 						break;
 					}
 					pos_in_cmd = pos_in_cmd + tok->len;
+					//printf("after got red tok [%s]\n", pos_in_cmd);
 					red = malloc(sizeof(t_red *));
 					//TODO err handling
 					if (red == NULL)
@@ -183,6 +184,14 @@ t_context *parse(char *line)
 					red->fname_or_delim = tok->tok;
 				}
 
+			}
+
+			printf("state is [%s]\n", pos_in_cmd);
+			if (red != NULL) {
+				printf("adding redirect..\n");
+				add_reds(&reds, red, &red_cnt, &red_max);
+				// since there might be another redirect next to it
+				continue;
 			}
 
 			if (*pos_in_cmd == '<') {
@@ -230,6 +239,7 @@ t_context *parse(char *line)
 				}
 
 			}
+
 			printf("state is [%s]\n", pos_in_cmd);
 			if (red != NULL) {
 				printf("adding redirect..\n");
@@ -237,6 +247,7 @@ t_context *parse(char *line)
 				// since there might be another redirect next to it
 				continue;
 			}
+
 
 			//TODO check for empty line here or above before pipe split
 			// even after pipe split might be there empty lines?
