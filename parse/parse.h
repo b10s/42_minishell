@@ -48,7 +48,6 @@ typedef struct s_context
 }	t_context;
 
 t_context	*init_ctx();
-void 		free_ctx(t_context *ctx);
 t_context	*parse(char *line);
 void		print_ctx(t_context *ctx);
 char *rm_multi_spaces(char *str);
@@ -66,4 +65,6 @@ char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
 char		*remove_a_layer_of_quotes(char *str);
 //function that interpolates and removes a quote layer from cmds, args, and reds
 int			interp_remquotelayer(t_context *ctx, t_minishell *ms);
+//free_ctx
+void		free_ctx(t_context *ctx, t_minishell *ms);
 #endif
