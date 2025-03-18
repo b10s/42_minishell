@@ -24,6 +24,14 @@
 # define OUT_APPEND 3
 # define QUOTES_ERR "unclosed quotes error, try again"
 
+typedef struct s_token
+{
+	int	beg;
+	int	end;
+	int len;
+	char *tok;
+} t_token;
+
 typedef struct s_red
 {
 	char	*fname_or_delim;
@@ -61,6 +69,8 @@ char **split_pipes(char *s);
 int cmd_size_till_pipe(char *cmd);
 char *rm_spaces_near_redir(char *str);
 size_t count_spaces_to_rm_near_redir(char *str);
+t_token *get_next_token(char *str);
+int filename_allowed_chars(char c);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);

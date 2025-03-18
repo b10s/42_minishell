@@ -12,13 +12,13 @@ t_context *parse(char *line)
 	ctx = init_ctx();
 	if (ctx == NULL)
 		return (NULL);
-	commands = ft_split(line, '|');
-	if (commands == NULL)
-	{
+	//commands = ft_split(line, '|');
+	//if (commands == NULL)
+	//{
 		//free_ctx(ctx);
-		return (NULL);
-	}
-	ctx->cmd_cnt = count_commands(commands);ctx = init_ctx();
+		//return (NULL);
+	//}
+	//ctx->cmd_cnt = count_commands(commands);ctx = init_ctx();
 	if (ctx == NULL)
 		return (NULL);
 
@@ -76,6 +76,7 @@ t_context *parse(char *line)
 	// space before and after |
 	//int i = 0;
 
+	// FIXME: do +1 and use calloc to have NULL at the end
 	ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
 
 	int i = 0;
@@ -105,8 +106,33 @@ t_context *parse(char *line)
 		// >, >>, <, <<
 		// if I got one, get_next_token() which will return me t_token
 
+		printf("command is [%s]\n", commands[i]);
+		
 
+		char *pos_in_cmd;
+		pos_in_cmd = commands[i];
+		t_token *tok;
+		tok = get_next_token(pos_in_cmd);
+		while(tok != NULL && tok->len != 0) {
+			
+			printf("token is [%s]\n", tok->tok);
+			pos_in_cmd = pos_in_cmd + tok->len;
+			// here can be only ' ' after removal of pipes and redirections
+			if (*pos_in_cmd == ' ')
+				pos_in_cmd++;
+			tok = get_next_token(pos_in_cmd);
+		}
+		// in a loop until not NULL
+		//t_red red = find_redir_or_here_doc();
+			//gt_next_token(); inside
+		// remove this redir from command
 
+		// in a loop unti not NULL
+		// get next token
+		// remove token
+
+		//TODO err handling for >< >>> etc
+		// e.g. $ ls >>>a -> bash: syntax error near unexpected token `>'
 
 		//TODO if $foo expands to more than one word in `ls >$foo`
 		// e.g. foo="a b"; ls >$foo
@@ -144,6 +170,81 @@ t_context *parse(char *line)
 
 	//commands = ft_split(line, '|');
 	return ctx;
+}
+
+
+int filename_allowed_chars(char c) {
+	int res;
+
+	res = 0;
+	if (ft_isalnum(c) == 1)
+		res = 1;
+	if (c == '_' || c == '.' || c == '-')
+		res = 1;
+
+	return (res);
+}
+
+
+// token is contiguos sequence of characters which are
+// A-Za-z0-9_ dot . dash - without quotes ' or "
+// or all printable ascii inside quotes ' or "
+int	get_token_len(char *str) {
+	int len;
+	short qq;
+	short qw;
+
+	len = 0;
+	qq = 0;
+	qw = 0;
+	while (*str != '\0')
+	{
+		if (*str == '\'' && qq == 0)
+			qw = qw ^ 1;
+		if (*str == '\"' && qw == 0)
+			qq = qq ^ 1;
+
+		if (qw == 1 || qq == 1) {
+			//printf("in quotes\n");
+			if (ft_isprint(*str) != 1)
+				break;
+		} else 
+		{
+			if (filename_allowed_chars(*str) != 1)
+				break;
+		}
+		str++;
+		len++;
+	}
+
+	return (len);
+}
+
+
+t_token *get_next_token(char *str) {
+	t_token *tok;
+
+	printf("get tok parsin [%s]\n", str);
+	tok = malloc(sizeof(t_token));
+	if (tok == NULL)
+		return (NULL);
+	
+	tok->beg = 0;
+	tok->end = 0;
+	tok->len = get_token_len(str);
+	tok->tok = NULL;
+	if (tok->len == 0)
+		return (tok);
+
+	tok->tok = malloc(sizeof(char) * tok->len);
+	if (tok->tok == NULL) {
+		//TODO free tok
+		return (NULL);
+	}
+
+	printf("token len is [%d]\n", tok->len);
+
+	return (tok);
 }
 
 size_t count_spaces_to_rm_near_redir(char *str)
