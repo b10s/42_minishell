@@ -6,14 +6,14 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 19:00:23 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/17 21:47:54 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:54:47 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //will close an fd, and set it equal to -1 signifying that it is closed
-int	close_set_gen(int *fd)
+void	close_set_gen(int *fd)
 {
 	if (*fd > -1)
 		close(*fd);

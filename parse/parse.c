@@ -3,7 +3,7 @@
 // Q: how do we signal err in parse()? (return NULL or change ctx->some_field)
 // A: return NULL
 int count_commands(char **cmds);
-t_context *parse(char *line)
+t_context *parse(char *line, t_minishell *ms)
 {
 	char **commands;
 	char	*tmp;
@@ -12,6 +12,8 @@ t_context *parse(char *line)
 	ctx = init_ctx();
 	if (ctx == NULL)
 		return (NULL);
+	ctx->pipe_read = -1;
+	ctx->pipe_read_index = -1;
 	//commands = ft_split(line, '|');
 	//if (commands == NULL)
 	//{
@@ -89,7 +91,6 @@ t_context *parse(char *line)
 	while (++i < ctx->cmd_cnt + 1)
 		cmds[i] = NULL;
 	
-	// TODO: do interpolation before parsing for redirections
 
 	// parse each CMD (part withing a pipe if there is a pipe)
 	i = 0;
@@ -335,7 +336,9 @@ t_context *parse(char *line)
 	// remove double spaces
 
 	//commands = ft_split(line, '|');
-	return ctx;
+	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
+		return (free_ctx(ctx, ms), NULL);
+	return (ctx);
 }
 
 void add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max) {

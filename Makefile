@@ -6,7 +6,7 @@
 #    By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/01 16:32:54 by adrgutie          #+#    #+#              #
-#    Updated: 2025/03/18 22:43:05 by adrgutie         ###   ########.fr        #
+#    Updated: 2025/03/19 14:18:58 by adrgutie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,14 +36,19 @@ SRCS		= main.c \
 			  ms/signal_handling.c \
 			  ms/redirect_in_out.c \
 			  parse/parse.c \
+			  parse/free_ctx.c \
+			  parse/interp_and_clean_quotes.c \
+			  parse/remove_a_layer_of_quotes.c \
+			  parse/ft_interpolate.c \
 			  piping/execute_builtin.c \
 			  piping/find_cmd_path.c \
-			  piping/free_stuff.c \
 			  piping/gen_exec.c \
-			  piping/here_doc_fine_name.c \
+			  piping/here_doc_find_name.c \
 			  piping/here_doc.c \
-			  piping/init_spipex.c \
-			  piping/pipex.c 
+			  piping/open_red_loop.c \
+			  piping/open.c \
+			  piping/pipex.c \
+			  piping/red_apocalypse.c
 			  
 
 OBJS		= $(SRCS:.c=.o)
@@ -55,7 +60,7 @@ INCLUDES = -I. -Ienviron_functions -Iminishell -Iparse -Ipiping -Ilibft
 
 $(NAME): $(OBJS)
 	make -C libft
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDLIBS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDLIBS) -Llibft -lft
 
 all: $(NAME)
 

@@ -6,16 +6,16 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:28:07 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 18:59:44 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:56:30 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 int	save_in_out(t_minishell *ms)
 {
 	close_set_gen(&(ms->stdin_fd));
-	close_set_get(&(ms->stdout_fd));
+	close_set_gen(&(ms->stdout_fd));
 	ms->stdin_fd = dup(STDIN_FILENO);
 	if (ms->stdin_fd == -1)
 		return (EXIT_FAILURE);
@@ -49,6 +49,7 @@ int	restore_inout_close(t_minishell *ms)
 		return (EXIT_FAILURE);
 	close_set_gen(&(ms->stdin_fd));
 	close_set_gen(&(ms->stdout_fd));
+	return (EXIT_SUCCESS);
 }
 
 int	redirect_in(int in_fd, t_minishell *ms)

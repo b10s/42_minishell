@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:11:01 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 15:52:17 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:09:08 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	open_type(t_cmd *cmd, t_red *red, t_minishell *ms)
 {
 	if (red->type == IN)
-		return (open_in(red->name, cmd));
+		return (open_in(red->fname_or_delim, cmd));
 	if (red->type == OUT)
-		return (open_out(red->name, cmd));
+		return (open_out(red->fname_or_delim, cmd));
 	if (red->type == OUT_APPEND)
-		return (open_out_append(red->name, cmd));
+		return (open_out_append(red->fname_or_delim, cmd));
 	if (red->type == HERE_DOC)
-		return (open_here_doc(red->name, cmd, ms));
+		return (open_here_doc(red->fname_or_delim, cmd, ms));
 	return (EXIT_FAILURE);
 }
 

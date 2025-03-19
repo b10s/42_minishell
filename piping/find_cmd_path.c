@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:56:22 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 15:52:21 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:03:08 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*join_path_cmd(char *path, char *cmd)
 	return (joined);
 }
 
-char	*r_cmd_path(char *paths, char *cmd)
+char	*r_cmd_path(char **paths, char *cmd)
 {
 	int		i;
 	char	*joined_path;
@@ -86,7 +86,7 @@ char	*find_cmd_path(char *cmd, t_envs *envs)
 	char	**paths;
 	char	*cmd_path;
 
-	cmd_path == NULL;
+	cmd_path = NULL;
 	paths = get_paths(envs->env_cpy);
 	if (paths == NULL)
 		exit(1);

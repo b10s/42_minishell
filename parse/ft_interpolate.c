@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/18 23:41:01 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:26:27 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*join_line_newline(char *lines, char *to_join)
 	return (newline);
 }
 
-int	name_check(char *name)
+static int	name_check(char *name)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ char	*sandwich(char *bread, int start, int end, char *ham)
 }
 
 char	*update_line(char *line, t_minishell *ms, \
-				int *i, int single_quotes_flag)
+				int *i)
 {
 	int		namelen;
 	char	*name;
@@ -89,7 +89,6 @@ char	*ft_interpolate(char *line, t_minishell *ms, int quote_check)
 {
 	int		single_quotes_flag;
 	int		i;
-	int		namelen;
 
 	single_quotes_flag = 0;
 	i = 0;
@@ -99,7 +98,7 @@ char	*ft_interpolate(char *line, t_minishell *ms, int quote_check)
 			single_quotes_flag = single_quotes_flag ^ 1;
 		if (line[i] == '$' && (single_quotes_flag && quote_check == 0))
 		{
-			line = update_line(line, ms, &i, single_quotes_flag);
+			line = update_line(line, ms, &i);
 			if (line == NULL)
 				return (NULL);
 		}

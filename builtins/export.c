@@ -6,13 +6,13 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:29:06 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/15 13:42:12 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:24:58 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	put_var(char *var)
+int	put_var(char *var)
 {
 	char	*name;
 	char	*value;
@@ -25,6 +25,7 @@ void	put_var(char *var)
 	ft_printf("%s=\"%s\"\n", name, value);
 	free(name);
 	free(value);
+	return (EXIT_SUCCESS);
 }
 
 int	print_exported(t_envs *envs)
@@ -40,7 +41,7 @@ int	print_exported(t_envs *envs)
 	return (EXIT_SUCCESS);
 }
 
-int	add_var(char *arg, t_envs *envs)
+static int	add_var(char *arg, t_envs *envs)
 {
 	char	*name;
 	char	*value;

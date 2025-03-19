@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:11:35 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 16:37:23 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:00:49 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 int	which_builtin(char *cmd)
 {
-	if (ft_strcmp(cmd, "cd", 3) == 0)
+	if (ft_strncmp(cmd, "cd", 3) == 0)
 		return (CMD_CD);
-	if (ft_strcmp(cmd, "echo", 5) == 0)
+	if (ft_strncmp(cmd, "echo", 5) == 0)
 		return (CMD_ECHO);
-	if (ft_strcmp(cmd, "env", 4) == 0)
+	if (ft_strncmp(cmd, "env", 4) == 0)
 		return (CMD_ENV);
-	if (ft_strcmp(cmd, "exit", 5) == 0)
+	if (ft_strncmp(cmd, "exit", 5) == 0)
 		return (CMD_EXIT);
-	if (ft_strcmp(cmd, "export", 7) == 0)
+	if (ft_strncmp(cmd, "export", 7) == 0)
 		return (CMD_EXPORT);
-	if (ft_strcmp(cmd, "pwd", 4) == 0)
+	if (ft_strncmp(cmd, "pwd", 4) == 0)
 		return (CMD_PWD);
-	if (ft_strcmp(cmd, "unset", 6) == 0)
+	if (ft_strncmp(cmd, "unset", 6) == 0)
 		return (CMD_UNSET);
 	return (CMD_NOT_BUILTIN);
 }

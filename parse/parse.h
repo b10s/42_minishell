@@ -56,7 +56,7 @@ typedef struct s_context
 }	t_context;
 
 t_context	*init_ctx();
-t_context	*parse(char *line);
+t_context	*parse(char *line, t_minishell *ms);
 void		print_ctx(t_context *ctx);
 char *rm_multi_spaces(char *str);
 int count_single_quotes(char *str);
