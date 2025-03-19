@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:44:19 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 14:22:44 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 20:04:33 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include "../environ_functions/environ_functions.h"
 # include "dirent.h"
 # include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/ioctl.h>
 
 //global variable for signal
 extern volatile sig_atomic_t	g_signal;

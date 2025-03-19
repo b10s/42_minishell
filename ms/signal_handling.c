@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:29:13 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/15 20:55:11 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 20:04:30 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,11 @@ void	signal_handler(int sigint)
 {
 	(void)sigint;
 	g_signal = 2;
+
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	ft_printf("\n");
+	//rl_redisplay();
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_done = 1;
 }
