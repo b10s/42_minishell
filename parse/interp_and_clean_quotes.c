@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:13:44 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 13:58:29 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:02:29 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	cleanup_reds_inner_loop(t_red **reds, t_minishell *ms)
 	int	k;
 
 	k = 0;
-	while (reds[k]->fname_or_delim != NULL)
+	while (reds[k] != NULL)
 	{
 		reds[k]->fname_or_delim = \
 		ft_interpolate(reds[k]->fname_or_delim, ms, 1);
@@ -49,6 +49,7 @@ int	cleanup_reds_inner_loop(t_red **reds, t_minishell *ms)
 		}
 		reds[k]->fname_or_delim = \
 		remove_a_layer_of_quotes(reds[k]->fname_or_delim);
+		k++;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -58,6 +59,7 @@ int	interp_remquotelayer(t_context *ctx, t_minishell *ms)
 	int	i;
 
 	i = 0;
+
 	while (i < ctx->cmd_cnt)
 	{
 		if (cleanup_commands_inner_loop(ctx->cmds[i], ms) == EXIT_FAILURE)

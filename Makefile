@@ -6,13 +6,13 @@
 #    By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/01 16:32:54 by adrgutie          #+#    #+#              #
-#    Updated: 2025/03/19 14:18:58 by adrgutie         ###   ########.fr        #
+#    Updated: 2025/03/19 15:11:32 by adrgutie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 LDLIBS		= -lreadline -lhistory
 RM			= rm -fr
 
