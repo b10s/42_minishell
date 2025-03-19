@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:28:07 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 13:56:30 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:08:09 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,16 @@ int	save_in_out(t_minishell *ms)
 
 int	restore_in_out(t_minishell *ms)
 {
-	if (dup2(ms->stdin_fd, STDIN_FILENO) == -1)
+	if (ms->stdin_fd < 0)
+		;
+	else if (dup2(ms->stdin_fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
 		return (EXIT_FAILURE);
 	}
-	if (dup2(ms->stdout_fd, STDOUT_FILENO) == -1)
+	if (ms->stdout_fd < 0)
+		;
+	else if (dup2(ms->stdout_fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		return (EXIT_FAILURE);
