@@ -42,7 +42,7 @@ int main() {
 			break;
 		else
 		{
-			ctx = parse(line);
+			ctx = parse(line, NULL);
 			if ( ctx == NULL) {
 				// TODO unify error message and exit
 				printf("fatal ERR\n");
@@ -87,30 +87,5 @@ int main() {
 	//}
 	// here work with context: exec commands
 	return (0);
-}
-
-void print_ctx(t_context *ctx) {
-	printf("\t=== print context ===\n");
-
-	int i = 0;
-	while (ctx->cmds[i] != NULL) {
-		printf("cmd #%d: ", i);
-		int j = 0;
-		while (ctx->cmds[i]->cmd_with_args[j] != NULL) {
-			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j]);
-			j++;
-		}
-		printf("\nred:\n");
-
-		j = 0;
-		while (ctx->cmds[i]->reds[j] != NULL) {
-			printf("  [%s] of type [%d]\n",
-				ctx->cmds[i]->reds[j]->fname_or_delim, 
-				ctx->cmds[i]->reds[j]->type);
-			j++;
-		}
-		printf("\n\n");
-		i++;
-	}
 }
 

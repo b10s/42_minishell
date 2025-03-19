@@ -225,6 +225,7 @@ t_context *parse(char *line, t_minishell *ms)
 				} else {
 					pos_in_cmd = pos_in_cmd + 1;
 					tok = get_next_token(pos_in_cmd);
+					//printf("< tok [%s]\n", tok->tok);
 					//TODO if there token or not - fatal or just user typo err
 					if (tok == NULL)
 						return (NULL);
@@ -337,8 +338,9 @@ t_context *parse(char *line, t_minishell *ms)
 
 	//commands = ft_split(line, '|');
 	//interpolation and quote remover
-	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
-		return (free_ctx(ctx, ms), NULL);
+	free(ms);
+	//if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
+		//return (free_ctx(ctx, ms), NULL);
 	return (ctx);
 }
 
@@ -439,6 +441,7 @@ int filename_allowed_chars(char c) {
 // A-Za-z0-9_ dot . dash - without quotes ' or "
 // or all printable ascii inside quotes ' or "
 int	get_token_len(char *str) {
+	//printf("calc len for next tok in [%s]\n", str);
 	int len;
 	short qq;
 	short qw;
@@ -449,12 +452,22 @@ int	get_token_len(char *str) {
 	while (*str != '\0')
 	{
 		if (*str == '\'' && qq == 0)
+		{
 			qw = qw ^ 1;
+			len++;
+			str++;
+			continue;
+		}
 		if (*str == '\"' && qw == 0)
+		{
 			qq = qq ^ 1;
+			len++;
+			str++;
+			continue;
+		}
 
 		if (qw == 1 || qq == 1) {
-			//printf("in quotes\n");
+			//printf("in quotes [%s]\n", str);
 			if (ft_isprint(*str) != 1)
 				break;
 		} else 
@@ -480,6 +493,8 @@ t_token *get_next_token(char *str) {
 	
 	tok->beg = str;
 	tok->len = get_token_len(str);
+	//printf("token len [%d]\n", tok->len);
+
 	tok->tok = NULL;
 	if (tok->len == 0)
 		return (tok);
@@ -894,6 +909,7 @@ void free_ctx(t_context *ctx)
 */
 
 
+/*
 void print_ctx(t_context *ctx)
 {
        int i;
@@ -911,5 +927,31 @@ void print_ctx(t_context *ctx)
                i++;
        }
     	printf("there are [%d] commands in line\n", ctx->cmd_cnt);  
+}
+*/
+
+void print_ctx(t_context *ctx) {
+	printf("\t=== print context ===\n");
+
+	int i = 0;
+	while (ctx->cmds[i] != NULL) {
+		printf("cmd #%d: ", i);
+		int j = 0;
+		while (ctx->cmds[i]->cmd_with_args[j] != NULL) {
+			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j]);
+			j++;
+		}
+		printf("\nred:\n");
+
+		j = 0;
+		while (ctx->cmds[i]->reds[j] != NULL) {
+			printf("  [%s] of type [%d]\n",
+				ctx->cmds[i]->reds[j]->fname_or_delim, 
+				ctx->cmds[i]->reds[j]->type);
+			j++;
+		}
+		printf("\n\n");
+		i++;
+	}
 }
 
