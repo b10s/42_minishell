@@ -424,13 +424,18 @@ void add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max) {
 }
 
 
-int filename_allowed_chars(char c) {
+int token_allowed_chars(char c) {
 	int res;
 
 	res = 0;
+	if(c == ' ')
+		return (0);
+
 	if (ft_isalnum(c) == 1)
 		res = 1;
 	if (c == '_' || c == '.' || c == '-')
+		res = 1;
+	if (ft_isprint(c) == 1)
 		res = 1;
 
 	return (res);
@@ -441,7 +446,7 @@ int filename_allowed_chars(char c) {
 // A-Za-z0-9_ dot . dash - without quotes ' or "
 // or all printable ascii inside quotes ' or "
 int	get_token_len(char *str) {
-	//printf("calc len for next tok in [%s]\n", str);
+	printf("calc len for next tok in [%s]\n", str);
 	int len;
 	short qq;
 	short qw;
@@ -472,7 +477,7 @@ int	get_token_len(char *str) {
 				break;
 		} else 
 		{
-			if (filename_allowed_chars(*str) != 1)
+			if (token_allowed_chars(*str) != 1)
 				break;
 		}
 		str++;
@@ -493,7 +498,7 @@ t_token *get_next_token(char *str) {
 	
 	tok->beg = str;
 	tok->len = get_token_len(str);
-	//printf("token len [%d]\n", tok->len);
+	printf("token len [%d]\n", tok->len);
 
 	tok->tok = NULL;
 	if (tok->len == 0)

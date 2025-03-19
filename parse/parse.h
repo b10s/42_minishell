@@ -69,7 +69,7 @@ int cmd_size_till_pipe(char *cmd);
 char *rm_spaces_near_redir(char *str);
 size_t count_spaces_to_rm_near_redir(char *str);
 t_token *get_next_token(char *str);
-int filename_allowed_chars(char c);
+int token_allowed_chars(char c);
 void add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max);
 void print_ctx(t_context *ctx);
 void add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max);
