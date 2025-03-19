@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 14:29:42 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:17:12 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(void)
 		ctx = parse(ms->line, ms);
 		if (ctx == NULL)
 			continue ;
+		//print_ctx(ctx);
 		ms->exit_status = pipex(ctx, ms);
 	}
 	free_minishell(ms);

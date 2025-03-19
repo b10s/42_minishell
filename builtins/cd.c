@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 23:23:38 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/13 21:41:51 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:50:29 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	cmd_cd(char **args, t_envs *envs)
 		return (ft_putstr_fd("cd: too many arguments", 2), EXIT_FAILURE);
 	if (args[0] == NULL)
 	{
-		path = ft_getenv("HOME, envs", envs);
+		path = ft_getenv("HOME", envs);
 		if (path == NULL)
-			return (ft_putstr_fd("cd: HOME not set", 2), EXIT_FAILURE);
+			return (ft_putstr_fd("cd: HOME not set\n", 2), EXIT_FAILURE);
 	}
 	else
 		path = args[0];

@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:56:22 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 14:03:08 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:14:38 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	**get_paths(char **env_cpy)
 				return (NULL);
 			return (paths);
 		}
+		i++;
 	}
 	paths = (char **)ft_calloc(2, sizeof(char *));
 	if (paths == NULL)

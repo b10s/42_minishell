@@ -336,6 +336,7 @@ t_context *parse(char *line, t_minishell *ms)
 	// remove double spaces
 
 	//commands = ft_split(line, '|');
+	//interpolation and quote remover
 	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
 		return (free_ctx(ctx, ms), NULL);
 	return (ctx);
@@ -892,7 +893,7 @@ void free_ctx(t_context *ctx)
 }
 */
 
-/*
+
 void print_ctx(t_context *ctx)
 {
        int i;
@@ -900,15 +901,15 @@ void print_ctx(t_context *ctx)
        printf("commands are\n");
        while(ctx->cmds[i] != NULL)
        {
-               //printf("cmd #%d: [%s]\n", i, ctx->cmds[i][0]);
-               //int j = 1;
-               //while(ctx->cmds[i][j] != NULL)
-               //{
-                       //printf("\targ #%d: [%s]\n", j, ctx->cmds[i][j]);
-                //       j++;
-               //}
+               printf("cmd #%d: [%s]\n", i, ctx->cmds[i]->cmd_with_args[0]);
+               int j = 1;
+               while(ctx->cmds[i]->cmd_with_args[j] != NULL)
+               {
+                       printf("\targ #%d: [%s]\n", j, ctx->cmds[i]->cmd_with_args[j]);
+                      j++;
+               }
                i++;
        }
-      // printf("there are [%d] commands in line\n", ctx->cmd_cnt);  
+    	printf("there are [%d] commands in line\n", ctx->cmd_cnt);  
 }
-*/
+
