@@ -446,7 +446,7 @@ int token_allowed_chars(char c) {
 // A-Za-z0-9_ dot . dash - without quotes ' or "
 // or all printable ascii inside quotes ' or "
 int	get_token_len(char *str) {
-	printf("calc len for next tok in [%s]\n", str);
+	//printf("calc len for next tok in [%s]\n", str);
 	int len;
 	short qq;
 	short qw;
@@ -498,7 +498,7 @@ t_token *get_next_token(char *str) {
 	
 	tok->beg = str;
 	tok->len = get_token_len(str);
-	printf("token len [%d]\n", tok->len);
+	//printf("token len [%d]\n", tok->len);
 
 	tok->tok = NULL;
 	if (tok->len == 0)
