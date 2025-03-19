@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 18:34:21 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:22:31 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,14 @@ int	write_lines(t_cmd *cmd, t_minishell *ms, char *lines, char *nline)
 		perror("write");
 		return (EXIT_FAILURE);
 	}
+	free(lines);
 	histlines = join_line_newline(histlines, nline);
+	histlines = join_line_newline(ft_strdup("\n"), histlines);
+	histlines = join_line_newline(ft_strdup(ms->line), histlines);
 	if (histlines == NULL)
 		return (EXIT_FAILURE);
-	histlines = join_line_newline(ft_strdup(ms->line), histlines);
 	add_history(histlines);
+	printf("histlines: %s\n", histlines);
 	free(histlines);
 	return (EXIT_SUCCESS);
 }
@@ -70,7 +73,6 @@ int	input_loop(t_cmd *cmd, t_minishell *ms, char *limiter, int numlines)
 	lines = (char *)ft_calloc(1, sizeof(char));
 	if (lines == NULL)
 		return (EXIT_FAILURE);
-	errno = 0;
 	while (1)
 	{
 		nline = readline(">");
@@ -78,9 +80,10 @@ int	input_loop(t_cmd *cmd, t_minishell *ms, char *limiter, int numlines)
 			return (free(lines), EXIT_FAILURE);
 		if (nline == NULL && errno == 0)
 			return (ctrlderrormsg(numlines, limiter, lines), EXIT_SUCCESS);
+		nline = join_line_newline(nline, ft_strdup("\n"));
 		if (errno != 0)
 			return (free(lines), free(nline), EXIT_FAILURE);
-		if (ft_strncmp(nline, limiter, limlen) == 0 && nline[limlen] == '\0')
+		if (ft_strncmp(nline, limiter, limlen) == 0 && nline[limlen] == '\n')
 			return (write_lines(cmd, ms, lines, nline));
 		lines = join_line_newline(lines, nline);
 		if (lines == NULL)
@@ -93,7 +96,7 @@ int	put_input_in_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms)
 {
 	int		numlines;
 
-	
+	errno = 0;
 	numlines = 0;
 	if (input_loop(cmd, ms, limiter, numlines) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
