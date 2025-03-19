@@ -338,9 +338,9 @@ t_context *parse(char *line, t_minishell *ms)
 
 	//commands = ft_split(line, '|');
 	//interpolation and quote remover
-	free(ms);
-	//if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
-		//return (free_ctx(ctx, ms), NULL);
+	//free(ms);
+	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
+		return (free_ctx(ctx, ms), NULL);
 	return (ctx);
 }
 
