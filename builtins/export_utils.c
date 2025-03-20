@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 23:16:00 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/13 22:05:30 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:39:28 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	value_check(char *value)
 	if (value[0] == '\0')
 		return (EXIT_SUCCESS);
 	i = 0;
-	while (value[0] != '\0')
+	while (value[i] != '\0')
 	{
 		if (ft_isprint(value[i]) != 1)
 			return (EXIT_FAILURE);
@@ -66,7 +66,7 @@ int	valid_var_check(char *v_n, int which_cmd)
 	int		fail;
 
 	fail = 0;
-	if (ft_strchr(v_n, '=') == NULL)
+	if (ft_strchr(v_n, '=') == NULL && which_cmd == CMD_EXPORT)
 		return (printnotvalid(v_n, which_cmd), EXIT_FAILURE);
 	name = get_name(v_n);
 	value = get_value(v_n);

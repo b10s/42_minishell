@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 18:22:09 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:29:27 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*ft_interpolate(char *line, t_minishell *ms, int quote_check)
 	{
 		if (line[i] == '\'')
 			single_quotes_flag = single_quotes_flag ^ 1;
-		if (line[i] == '$' && (single_quotes_flag && quote_check == 0))
+		if (line[i] == '$' && ((single_quotes_flag && quote_check) == 0))
 		{
 			line = update_line(line, ms, &i);
 			if (line == NULL)

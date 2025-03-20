@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:46:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/13 22:11:59 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:40:54 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	cmd_unset(char **args, t_envs *envs)
 	{
 		if (valid_var_check(args[i], CMD_UNSET) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
+		printf("got past var check!\n");
 		if (remove_var(args[i], envs) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		i++;

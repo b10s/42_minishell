@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:56:03 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/13 20:06:08 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:43:44 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ char	*get_value(char *namevalue)
 
 	valuelen = 0;
 	while (*namevalue != '=')
+	{
+		if (*namevalue == '\0')
+			return (namevalue);
 		namevalue++;
+	}
 	namevalue++;
 	while (namevalue[valuelen] != '\0')
 		valuelen++;
