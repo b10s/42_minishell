@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:14:55 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/26 00:29:13 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:39:45 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	remake_env_cpy_bigger(t_envs *envs)
 	char	**newenv;
 
 	oldlen = count_variables(envs);
-	newenv = (char **)ft_calloc(oldlen + 1, sizeof(char *));
+	newenv = (char **)ft_calloc(oldlen + 2, sizeof(char *));
 	if (newenv == NULL)
 		return (EXIT_FAILURE);
 	if (copy_env_cpy(newenv, envs) == EXIT_FAILURE)
