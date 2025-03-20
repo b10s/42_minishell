@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 19:33:06 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:42:35 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(void)
 		ctx = parse(ft_strdup(ms->line), ms);
 		if (ctx == NULL)
 			continue ;
+		print_ctx(ctx);
 		ms->exit_status = pipex(ctx, ms);
 		free(ms->line);
 		ms->line = NULL;

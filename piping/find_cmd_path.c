@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:56:22 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 16:14:38 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/20 19:52:13 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,20 @@
 void	free_exit_paths(char **paths, char **cmd_path, int exit_value, int prrr)
 {
 	if (prrr == 1)
-		perror(*cmd_path);
+	{
+		if (ft_strchr(*cmd_path, '/') == NULL)
+			exit_value = 127;
+		if (exit_value == 127)
+		{
+			ft_putstr_fd(": command not found: ", 2);
+			ft_putendl_fd(*cmd_path, 2);
+		}	
+		if (exit_value == 126)
+		{
+			ft_putstr_fd(": permission denied: ", 2);
+			ft_putendl_fd(*cmd_path, 2);
+		}
+	}
 	free_split(paths);
 	if (*cmd_path != NULL)
 		free(*cmd_path);
