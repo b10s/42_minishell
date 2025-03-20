@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:13:44 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 15:02:29 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:03:23 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	cleanup_commands_inner_loop(t_cmd *cmd, t_minishell *ms)
 	j = 0;
 	while (cmd->cmd_with_args[j] != NULL)
 	{
+		ft_printf("%s, before\n", cmd->cmd_with_args[j]);
 		cmd->cmd_with_args[j] = ft_interpolate(cmd->cmd_with_args[j], ms, 1);
+		ft_printf("%s, after\n", cmd->cmd_with_args[j]);
 		if (cmd->cmd_with_args[j] == NULL)
 			return (free_split((cmd->cmd_with_args) + j + 1), EXIT_FAILURE);
 		cmd->cmd_with_args[j] = remove_a_layer_of_quotes(cmd->cmd_with_args[j]);
