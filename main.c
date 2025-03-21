@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/20 18:42:35 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/21 22:11:24 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(void)
 		if (ms->line == NULL && errno == 0)
 		{
 			free_minishell(ms);
+			printf("\n");
 			exit(ms->exit_status);
 		}
 		ctx = parse(ft_strdup(ms->line), ms);
