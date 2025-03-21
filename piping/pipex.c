@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 14:11:30 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/21 22:52:49 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ int	pipeloop(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
 	if (open_red_loop(ctx, ms, i) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (g_signal == 2)
-		return (g_signal + 128);
+		return (restore_inout_close(ms), g_signal + 128);
 	if (apoc_in(i, ctx, ms) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (apoc_out(i, ctx, ms) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	ret = gen_exec(i, pid, ctx, ms);
+	if (ctx->cmds[0]->cmd_with_args[0] != NULL)
+		ret = gen_exec(i, pid, ctx, ms);
 	restore_in_out(ms);
 	return (ret);
 }
@@ -74,7 +75,9 @@ int	pipex(t_context *ctx, t_minishell *ms)
 			return (waitpid(pid, NULL, 0), free_ctx(ctx, ms), 130);
 		i++;
 	}
-	if (ctx->cmd_cnt == 1 && \
+	if (ctx->cmds[0]->cmd_with_args[0] == NULL)
+		return (free_ctx(ctx, ms), restore_inout_close(ms), 0);
+	else if (ctx->cmd_cnt == 1 && \
 		which_builtin(ctx->cmds[0]->cmd_with_args[0]) != CMD_NOT_BUILTIN)
 		return (free_ctx(ctx, ms), last_status);
 	free_ctx(ctx, ms);

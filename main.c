@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/21 22:11:24 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/21 22:57:18 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(void)
 	signal(SIGINT, signal_handler);
 	while (1)
 	{
+		free(ms->line);
+		ms->line = NULL;
 		g_signal = 0;
 		ms->line = readline("minishell: ");
 		if (g_signal == 2)
@@ -39,13 +41,13 @@ int	main(void)
 			printf("\n");
 			exit(ms->exit_status);
 		}
+		if (ms->line[0] == '\0')
+			continue ;
 		ctx = parse(ft_strdup(ms->line), ms);
 		if (ctx == NULL)
 			continue ;
 		print_ctx(ctx);
 		ms->exit_status = pipex(ctx, ms);
-		free(ms->line);
-		ms->line = NULL;
 	}
 	free_minishell(ms);
 }

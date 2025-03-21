@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 19:22:31 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:03:08 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	write_lines(t_cmd *cmd, t_minishell *ms, char *lines, char *nline)
 	if (histlines == NULL)
 		return (EXIT_FAILURE);
 	add_history(histlines);
-	printf("histlines: %s\n", histlines);
 	free(histlines);
 	return (EXIT_SUCCESS);
 }
