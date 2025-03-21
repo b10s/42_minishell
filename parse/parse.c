@@ -430,6 +430,8 @@ int token_allowed_chars(char c) {
 	res = 0;
 	if(c == ' ')
 		return (0);
+	if (c == '<' || c == '>')
+		return (0);
 
 	if (ft_isalnum(c) == 1)
 		res = 1;
