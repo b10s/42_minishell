@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:44:19 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/20 15:47:29 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/22 04:35:02 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,7 @@ int			redirect_in(int in_fd, t_minishell *ms);
 int			redirect_out(int out_fd, t_minishell *ms);
 int			restore_in_out(t_minishell *ms);
 int			restore_inout_close(t_minishell *ms);
+
+//here_doc_check
+int			is_here_doc(char *line);
 #endif

@@ -6,7 +6,7 @@
 #    By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/01 16:32:54 by adrgutie          #+#    #+#              #
-#    Updated: 2025/03/19 15:11:32 by adrgutie         ###   ########.fr        #
+#    Updated: 2025/03/22 04:37:04 by adrgutie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS		= main.c \
 			  ms/init_minishell.c \
 			  ms/signal_handling.c \
 			  ms/redirect_in_out.c \
+			  ms/here_doc_check.c \
 			  parse/parse.c \
 			  parse/free_ctx.c \
 			  parse/interp_and_clean_quotes.c \
