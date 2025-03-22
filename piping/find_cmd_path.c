@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:56:22 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/20 19:54:29 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 03:58:28 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	free_exit_paths(char **paths, char **cmd_path, int exit_value, int prrr)
 			exit_value = 127;
 		if (exit_value == 127)
 		{
-			ft_putstr_fd(": command not found: ", 2);
+			ft_putstr_fd(": command not found: \n", 2);
 			ft_putendl_fd(*cmd_path, 2);
 		}	
 		if (exit_value == 126)
 		{
-			ft_putstr_fd(": permission denied: ", 2);
+			ft_putstr_fd(": permission denied: \n", 2);
 			ft_putendl_fd(*cmd_path, 2);
 		}
 	}
@@ -47,17 +47,17 @@ char	**get_paths(char **env_cpy)
 		{
 			paths = ft_split(env_cpy[i] + 5, ':');
 			if (paths == NULL)
-				return (NULL);
+				exit(1);
 			return (paths);
 		}
 		i++;
 	}
 	paths = (char **)ft_calloc(2, sizeof(char *));
 	if (paths == NULL)
-		return (NULL);
+		exit(1);
 	paths[0] = (char *)ft_calloc(1, sizeof(char *));
 	if (paths[0] == NULL)
-		return (free(paths), NULL);
+		exit(1);
 	return (paths);
 }
 
@@ -68,7 +68,7 @@ char	*join_path_cmd(char *path, char *cmd)
 
 	path_fslash = ft_strjoin(path, "/");
 	if (path_fslash == NULL)
-		return (NULL);
+		exit(1);
 	joined = ft_strjoin(path_fslash, cmd);
 	free(path_fslash);
 	return (joined);
@@ -86,7 +86,7 @@ char	*r_cmd_path(char **paths, char *cmd)
 	{
 		joined_path = join_path_cmd(paths[i], cmd);
 		if (joined_path == NULL)
-			return (NULL);
+			exit(1);
 		if (access(joined_path, F_OK) == 0)
 			return (joined_path);
 		free(joined_path);
@@ -100,13 +100,18 @@ char	*find_cmd_path(char *cmd, t_envs *envs)
 	char	**paths;
 	char	*cmd_path;
 
+	if (cmd[0] == '\0')
+	{
+		ft_putstr_fd(": command not found: \'\'\n", 2);
+		exit(127);
+	}
 	cmd_path = NULL;
 	paths = get_paths(envs->env_cpy);
 	if (paths == NULL)
 		exit(1);
 	cmd_path = r_cmd_path(paths, cmd);
 	if (cmd_path == NULL)
-		free_exit_paths(paths, NULL, EXIT_FAILURE, 0);
+		exit(1);
 	if (access(cmd_path, F_OK) != 0)
 		free_exit_paths(paths, &cmd_path, 127, 1);
 	if (access(cmd_path, X_OK) != 0)
