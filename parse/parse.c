@@ -219,66 +219,6 @@ t_context	*parse(char *line, t_minishell *ms)
 	return (ctx);
 }
 
-//TODO check null for calloc
-void	add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max)
-{
-	t_red	**new_reds;
-	t_red	**reds_ptr;
-	int		i;
-
-	i = 0;
-	reds_ptr = *reds;
-	if (*red_cnt == *red_max)
-	{
-		*red_max += 5;
-		new_reds = ft_calloc((*red_max + 1), sizeof(t_red *));
-		while (reds_ptr[i] != NULL)
-		{
-			new_reds[i] = reds_ptr[i];
-			i++;
-		}
-		free(*reds);
-		*reds = new_reds;
-		reds_ptr = new_reds;
-	}
-	i = 0;
-	while (reds_ptr[i] != NULL)
-		i++;
-	reds_ptr[i] = ft_calloc(1, sizeof(t_red *));
-	reds_ptr[i]->type = r->type;
-	reds_ptr[i]->fname_or_delim = ft_strdup(r->fname_or_delim);
-	*red_cnt = *red_cnt + 1;
-}
-
-//TODO err handle for NULL for calloc
-void	add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max)
-{
-	char	**new_words;
-	char	**words_ptr;
-	int		i;
-
-	i = 0;
-	words_ptr = *words;
-	if (*wrd_cnt == *wrd_max)
-	{
-		*wrd_max += 5;
-		new_words = ft_calloc((*wrd_max + 1), sizeof(char *));
-		while (words_ptr[i] != NULL)
-		{
-			new_words[i] = words_ptr[i];
-			i++;
-		}
-		free(*words);
-		*words = new_words;
-		words_ptr = new_words;
-	}
-	i = 0;
-	while (words_ptr[i] != NULL)
-		i++;
-	words_ptr[i] = ft_strdup(w);
-	*wrd_cnt = *wrd_cnt + 1;
-}
-
 int	token_allowed_chars(char c)
 {
 	int	res;

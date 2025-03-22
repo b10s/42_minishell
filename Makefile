@@ -41,6 +41,7 @@ SRCS		= main.c \
 			  parse/interp_and_clean_quotes.c \
 			  parse/remove_a_layer_of_quotes.c \
 			  parse/ft_interpolate.c \
+			  parse/add_word_redir.c \
 			  piping/execute_builtin.c \
 			  piping/find_cmd_path.c \
 			  piping/gen_exec.c \
