@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:56:47 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/18 23:47:53 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 02:22:59 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	free_ctx(t_context *ctx, t_minishell *ms)
 	else if (ctx->cmds != NULL)
 		free_cmds_loop(ctx);
 	close_set_gen(&(ctx->pipe_read));
+	free(ctx->pid);
 	free(ctx);
 	restore_inout_close(ms);
 	errno = 0;

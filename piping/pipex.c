@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/23 02:07:07 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 03:11:10 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ void	prep_ctx(t_context *ctx)
 	ctx->pipe_read = -2;
 	ctx->pipe_read_index = -2;
 	if (ctx->cmds == NULL)
-		return ;
+		exit(1);
+	ctx->pid = (pid_t *)ft_calloc(ctx->cmd_cnt, sizeof(pid_t));
+	if (ctx->pid == NULL)
+		exit(1);
 	i = 0;
 	while (ctx->cmds[i] != NULL)
 	{
 		ctx->cmds[i]->in_fd = -2;
 		ctx->cmds[i]->out_fd = -2;
 		ctx->cmds[i]->here_doc_filename = NULL;
+		ctx->pid[i] = -2;
 		i++;
 	}
 	return ;
@@ -40,7 +44,7 @@ int	status_check(int last_status)
 	return (EXIT_FAILURE);
 }
 
-int	pipeloop(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
+int	pipeloop(int i, t_context *ctx, t_minishell *ms)
 {
 	int	ret;
 
@@ -54,16 +58,33 @@ int	pipeloop(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
 	if (apoc_out(i, ctx, ms) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (ctx->cmds[i]->cmd_with_args[0] != NULL)
-		ret = gen_exec(i, pid, ctx, ms);
+		ret = gen_exec(i, ctx, ms);
 	restore_in_out(ms);
 	return (ret);
+}
+
+void	wait_loop(t_context *ctx, int *last_status)
+{
+	int	i;
+
+	i = 0;
+	while (i < ctx->cmd_cnt)
+	{
+		if (ctx->pid[i] > -1)
+		{
+			if (i == (ctx->cmd_cnt - 1))
+				waitpid(ctx->pid[i], last_status, 0);
+			else
+				waitpid(ctx->pid[i], NULL, 0);
+		}
+		i++;
+	}
 }
 
 int	pipex(t_context *ctx, t_minishell *ms)
 {
 	int		i;
 	int		last_status;
-	pid_t	pid;
 
 	if (save_in_out(ms) == EXIT_FAILURE)
 		return (free_ctx(ctx, ms), EXIT_FAILURE);
@@ -71,13 +92,12 @@ int	pipex(t_context *ctx, t_minishell *ms)
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
-		last_status = pipeloop(i, &pid, ctx, ms);
+		last_status = pipeloop(i, ctx, ms);
 		if (last_status == 130)
-			return (waitpid(pid, NULL, 0), free_ctx(ctx, ms), 130);
+			return (wait_loop(ctx, &last_status), free_ctx(ctx, ms), 130);
 		i++;
 	}
-	if (pid > -1)
-		waitpid(pid, &last_status, 0);
+	wait_loop(ctx, &last_status);
 	if (ctx->cmds[i - 1]->cmd_with_args[0] == NULL)
 		return (free_ctx(ctx, ms), restore_inout_close(ms), 0);
 	free_ctx(ctx, ms);

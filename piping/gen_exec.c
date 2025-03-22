@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:40:41 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 16:18:03 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 02:35:01 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,20 @@ int	execute_cmd(int i, t_context *ctx, t_minishell *ms)
 	return (EXIT_FAILURE);
 }
 
-int	gen_exec(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
+int	gen_exec(int i, t_context *ctx, t_minishell *ms)
 {
 	int		w_b;
 
-	*pid = 0;
 	w_b = which_builtin(ctx->cmds[i]->cmd_with_args[0]);
 	if (ctx->cmd_cnt == 1 && w_b != CMD_NOT_BUILTIN)
 		;
 	else
 	{
-		(*pid) = fork();
-		if ((*pid) == -1)
-			return (perror("fork"), CRITICAL_EXIT);
+		(ctx->pid[i]) = fork();
+		if ((ctx->pid[i]) == -1)
+			return (perror("fork"), exit(1), EXIT_FAILURE);
 	}
-	if (*pid == 0)
+	if (ctx->pid[i] == 0 || ctx->pid[i] == -2)
 	{
 		if (w_b != CMD_NOT_BUILTIN)
 			return (execute_builtin((ctx->cmds[i]->cmd_with_args) + 1, \

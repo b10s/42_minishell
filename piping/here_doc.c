@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/21 23:03:08 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 03:26:48 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*join_line_newline(char *lines, char *to_join)
 	if (lines == NULL || to_join == NULL)
 		return (free(lines), free(to_join), NULL);
 	newline = ft_strjoin(lines, to_join);
+	if (newline == NULL)
+		exit(1);
 	free(lines);
 	free(to_join);
 	return (newline);
@@ -79,9 +81,9 @@ int	input_loop(t_cmd *cmd, t_minishell *ms, char *limiter, int numlines)
 			return (free(lines), EXIT_FAILURE);
 		if (nline == NULL && errno == 0)
 			return (ctrlderrormsg(numlines, limiter, lines), EXIT_SUCCESS);
-		nline = join_line_newline(nline, ft_strdup("\n"));
 		if (errno != 0)
 			return (free(lines), free(nline), EXIT_FAILURE);
+		nline = join_line_newline(nline, ft_strdup("\n"));
 		if (ft_strncmp(nline, limiter, limlen) == 0 && nline[limlen] == '\n')
 			return (write_lines(cmd, ms, lines, nline));
 		lines = join_line_newline(lines, nline);
@@ -102,6 +104,6 @@ int	put_input_in_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms)
 	close(cmd->in_fd);
 	cmd->in_fd = open(cmd->here_doc_filename, O_RDONLY);
 	if (cmd->in_fd < 0)
-		return (perror("open"), EXIT_FAILURE);
+		exit(1);
 	return (EXIT_SUCCESS);
 }

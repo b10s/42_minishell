@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:28:31 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/22 22:47:19 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/23 02:29:57 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_context
 	int		cmd_cnt;
 	int		pipe_read;
 	int		pipe_read_index;
+	pid_t	*pid;
 	char	*err;
 }	t_context;
 

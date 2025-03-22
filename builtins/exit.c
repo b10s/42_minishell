@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:06:25 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 13:52:40 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 02:37:58 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,7 @@ int	cmd_exit(char **args, t_minishell *ms, t_context *ctx)
 	exit_status = ms->exit_status;
 	printf("exit\n");
 	if (args[0] == NULL)
-	{
-		free_stuff(ms, ctx);
 		exit(exit_status);
-	}
 	if (is_numeric(args[0]) == 0)
 	{
 		free_stuff(ms, ctx);

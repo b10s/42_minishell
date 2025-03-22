@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:14:55 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/20 17:39:45 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 02:45:37 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	copy_env_cpy(char **newenv, t_envs *envs)
 	{
 		newenv[i] = ft_strdup(envs->env_cpy[i]);
 		if (newenv[i] == NULL)
-			return (EXIT_FAILURE);
+			exit(1);
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -61,10 +61,10 @@ int	add_var(const char *name, const char *value, t_envs *envs)
 
 	name_eq = ft_strjoin(name, "=");
 	if (name_eq == NULL)
-		return (EXIT_FAILURE);
+		exit(1);
 	name_eq_value = ft_strjoin(name_eq, value);
 	if (name_eq_value == NULL)
-		return (free(name_eq), EXIT_FAILURE);
+		exit(1);
 	i = 0;
 	while (envs->env_cpy[i] != NULL)
 		i++;
@@ -81,7 +81,7 @@ int	ft_setenv(const char *name, const char *value, int overwrite, t_envs *envs)
 	if (var_pos == -1)
 	{
 		if (remake_env_cpy_bigger(envs) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+			exit(1);
 	}
 	else if (overwrite == 0)
 		return (EXIT_SUCCESS);
