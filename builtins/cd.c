@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 23:23:38 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 15:50:29 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 02:06:05 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	cmd_cd(char **args, t_envs *envs)
 	char	*path;
 
 	if (args[1] != NULL)
-		return (ft_putstr_fd("cd: too many arguments", 2), EXIT_FAILURE);
+		return (ft_putstr_fd("cd: too many arguments\n", 2), EXIT_FAILURE);
 	if (args[0] == NULL)
 	{
 		path = ft_getenv("HOME", envs);
