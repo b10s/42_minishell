@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/22 22:28:31 by aenshin           #+#    #+#             */
+/*   Updated: 2025/03/22 22:31:43 by aenshin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSE_H
 # define PARSE_H
 # include <stdio.h>
@@ -27,9 +39,9 @@
 typedef struct s_token
 {
 	char	*beg;
-	int len;
-	char *tok;
-} t_token;
+	int		len;
+	char	*tok;
+}	t_token;
 
 typedef struct s_red
 {
@@ -55,24 +67,24 @@ typedef struct s_context
 	char	*err;
 }	t_context;
 
-t_context	*init_ctx();
+t_context	*init_ctx(void);
 t_context	*parse(char *line, t_minishell *ms);
 void		print_ctx(t_context *ctx);
-char *rm_multi_spaces(char *str);
-int count_single_quotes(char *str);
-int count_double_quotes(char *str);
-int validate_quotes(char *str);
-size_t count_spaces_to_rm(char *str);
-int count_pipes(char *s);
-char **split_pipes(char *s);
-int cmd_size_till_pipe(char *cmd);
-char *rm_spaces_near_redir(char *str);
-size_t count_spaces_to_rm_near_redir(char *str);
-t_token *get_next_token(char *str);
-int token_allowed_chars(char c);
-void add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max);
-void print_ctx(t_context *ctx);
-void add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max);
+char		*rm_multi_spaces(char *str);
+int			count_single_quotes(char *str);
+int			count_double_quotes(char *str);
+int			validate_quotes(char *str);
+size_t		count_spaces_to_rm(char *str);
+int			count_pipes(char *s);
+char		**split_pipes(char *s);
+int			cmd_size_till_pipe(char *cmd);
+char		*rm_spaces_near_redir(char *str);
+size_t		count_spaces_to_rm_near_redir(char *str);
+t_token		*get_next_token(char *str);
+int			token_allowed_chars(char c);
+void		add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max);
+void		print_ctx(t_context *ctx);
+void		add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
