@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:28:31 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/22 22:31:43 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/22 22:47:19 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int			token_allowed_chars(char c);
 void		add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max);
 void		print_ctx(t_context *ctx);
 void		add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max);
+int			count_commands(char **cmds);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
