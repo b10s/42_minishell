@@ -35,5 +35,5 @@ char	*remove_a_layer_of_quotes(char *str)
 		i++;
 	}
 	str[j] = '\0';
-	return(str);
+	return (str);
 }

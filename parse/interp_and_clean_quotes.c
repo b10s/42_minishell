@@ -59,7 +59,6 @@ int	interp_remquotelayer(t_context *ctx, t_minishell *ms)
 	int	i;
 
 	i = 0;
-
 	while (i < ctx->cmd_cnt)
 	{
 		if (cleanup_commands_inner_loop(ctx->cmds[i], ms) == EXIT_FAILURE)
