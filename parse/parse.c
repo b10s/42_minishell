@@ -1,32 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
+/*   Updated: 2025/03/22 23:40:22 by aenshin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./parse.h"
 
-// Q: how do we signal err in parse()? (return NULL or change ctx->some_field)
-// A: return NULL
-int count_commands(char **cmds);
-t_context *parse(char *line, t_minishell *ms)
-{
-	char **commands;
-	char	*tmp;
-	t_context *ctx;
+//TODO:
+// - return NULL on all critical errors or set ctx->err on non critical
+// - check that all allocation are: a) done with calloc b) checked for NULL
+// - check there is no printf or prohibited functions with nm
 
+// TODO: check all old buffers are freed
+//TODO decide where to to free_ctx(ctx);
+	// FIXME: do +1 and use calloc to have NULL at the end at line 64
+	// ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *)); off by one?
+
+//TODO if there token or not - fatal or just user typo err
+	// when we receive token and it is NULL or bad -
+	// prob we don't need to exit but set err
+
+//TODO make ctx with err return ctx
+	// at wrong redirection line 120 or so
+
+					//TODO return non fatal err in ctx field
+						//printf("unknown token [%c]\n", *pos_in_cmd);
+						// not NULL
+						// line 198 approx
+t_context	*parse(char *line, t_minishell *ms)
+{
+	t_context	*ctx;
+	t_token		*tok;
+	t_cmd		**cmds;
+	t_red		**reds;
+	t_red		*red;
+	char		*pos_in_cmd;
+	char		**commands;
+	char		**wrds;
+	char		*tmp;
+	int			i;
+	int			red_cnt;
+	int			red_max;
+	int			wrd_cnt;
+	int			wrd_max;
+
+	red = NULL;
+	i = 0;
+	red_cnt = 0;
+	red_max = 5;
+	wrd_cnt = 0;
+	wrd_max = 5;
 	ctx = init_ctx();
 	if (ctx == NULL)
 		return (NULL);
 	ctx->pipe_read = -1;
 	ctx->pipe_read_index = -1;
-	//commands = ft_split(line, '|');
-	//if (commands == NULL)
-	//{
-		//free_ctx(ctx);
-		//return (NULL);
-	//}
-	//ctx->cmd_cnt = count_commands(commands);ctx = init_ctx();
 	if (ctx == NULL)
 		return (NULL);
-
-	//printf("single quotes cnt [%d]\n", count_single_quotes(line));
-	//printf("double quotes cnt [%d]\n", count_double_quotes(line));
-	// non fatal err: unclosed braces - try new line
 	if (validate_quotes(line) != 0)
 	{
 		ctx->err = malloc(ft_strlen(QUOTES_ERR));
@@ -35,64 +71,32 @@ t_context *parse(char *line, t_minishell *ms)
 		ctx->err = QUOTES_ERR;
 		return (ctx);
 	}
-
-	//printf("[%s] <- line before rm spaces\n", line);
-
-	// remove spaces inside
-	// TODO: check all old buffers are freed
-	// and if returned NULL then err is propogated
 	tmp = rm_multi_spaces(line);
 	free(line);
 	line = tmp;
-
 	tmp = rm_spaces_near_redir(line);
 	free(line);
 	line = tmp;
-
 	if (line == NULL)
 		return (NULL);
-	//printf("[%s] <- line after rm spaces in mid\n", line);
-
-	// remove spaces before and after, trim
 	tmp = ft_strtrim(line, " ");
 	free(line);
 	line = tmp;
 	if (line == NULL)
 		return (NULL);
-	//printf("[%s] <- line after rm spaces on sides\n", line);
-
-
-	// TODO: rm spaces from left and right
-	// TODO: split, then again use trim to remove spaces
-	// TODO: do my own split which ignores | in quotes ' or "
 	commands = split_pipes(line);
 	if (commands == NULL)
 	{
-		//free_ctx(ctx);
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);
-	//printf("command counts is [%d]\n", ctx->cmd_cnt);
-
-	// trim after splitting once again since it might be 'echo "a" | wc'
-	// space before and after |
-	//int i = 0;
-
-	// FIXME: do +1 and use calloc to have NULL at the end
 	ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
-
-	int i = 0;
-	t_cmd **cmds;
 	cmds = malloc(sizeof(t_cmd *) * (ctx->cmd_cnt + 1));
-	// TODO: free all, probably on caller side
 	if (cmds == NULL)
 		return (NULL);
 	i = -1;
 	while (++i < ctx->cmd_cnt + 1)
 		cmds[i] = NULL;
-	
-
-	// parse each CMD (part withing a pipe if there is a pipe)
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
@@ -102,266 +106,134 @@ t_context *parse(char *line, t_minishell *ms)
 		cmds[i]->out_fd = -1;
 		cmds[i]->in_fd = -1;
 		cmds[i]->here_doc_filename = NULL;
-
-		// here I search for redirects:
-		// >, >>, <, <<
-		// if I got one, gt_next_token() which will return me t_token
-
-		//printf("command is [%s]\n", commands[i]);
-		
-
-		char *pos_in_cmd;
 		pos_in_cmd = commands[i];
-		t_token *tok;
-
-		// the logic
-		// get tokens one by one until we got <, <<, >, >> things
-		// if get one of them the next token is not part of cmd but 
-		// part of redir or here_doc
-		t_red *red = NULL;
-		// count redirects?
-		// or lazy realloc
-		int red_cnt = 0;
-		int red_max = 5;
-
-		int wrd_cnt = 0;
-		int wrd_max = 5;
-
-		char **wrds = ft_calloc((wrd_max + 1), sizeof(char *));
-		t_red **reds = ft_calloc((red_max + 1), sizeof(t_red *));
-
-		while(42 == 42) {
-			printf("parsing .. [%s]\n", pos_in_cmd);
-			if (*pos_in_cmd == ' ') {
+		wrds = ft_calloc((wrd_max + 1), sizeof(char *));
+		reds = ft_calloc((red_max + 1), sizeof(t_red *));
+		while (42 == 42)
+		{
+			if (*pos_in_cmd == ' ')
+			{
 				pos_in_cmd++;
-				continue;
+				continue ;
 			}
-		//while(tok != NULL && tok->len != 0) {
-			
-			//TODO free it properly with freeing string on it
 			free(red);
 			red = NULL;
-
-			// the redir/here doc might be first
-			if (*pos_in_cmd == '>') {
-
-				// append out reidr
-				if (pos_in_cmd[1] == '>') {
+			if (*pos_in_cmd == '>')
+			{
+				if (pos_in_cmd[1] == '>')
+				{
 					pos_in_cmd = pos_in_cmd + 2;
 					tok = get_next_token(pos_in_cmd);
-					//TODO if there token or not - fatal or just user typo err
 					if (tok == NULL)
 						return (NULL);
 					if (tok->len == 0)
-					{
-						//TODO make ctx with err return ctx
-						printf("wrong redirection\n");
-						break;
-					}
+						break ;
 					pos_in_cmd = pos_in_cmd + tok->len;
 					red = malloc(sizeof(t_red *));
-					//TODO err handling
 					if (red == NULL)
 						return (NULL);
 					red->type = OUT_APPEND;
 					red->fname_or_delim = tok->tok;
-				// out redir
-				} else {
-					//TODO put this into func?
+				}
+				else
+				{
 					pos_in_cmd = pos_in_cmd + 1;
 					tok = get_next_token(pos_in_cmd);
-					//TODO if there token or not - fatal or just user typo err
 					if (tok == NULL)
 						return (NULL);
 					if (tok->len == 0)
-					{
-						//TODO make ctx with err return ctx
-						printf("wrong redirection\n");
-						break;
-					}
+						break ;
 					pos_in_cmd = pos_in_cmd + tok->len;
-					//printf("after got red tok [%s]\n", pos_in_cmd);
 					red = malloc(sizeof(t_red *));
-					//TODO err handling
 					if (red == NULL)
 						return (NULL);
 					red->type = OUT;
 					red->fname_or_delim = tok->tok;
 				}
-
 			}
-
-			//printf("state is [%s]\n", pos_in_cmd);
-			if (red != NULL) {
-				//printf("adding redirect..\n");
+			if (red != NULL)
+			{
 				add_reds(&reds, red, &red_cnt, &red_max);
-				// since there might be another redirect next to it
-				continue;
+				continue ;
 			}
-
-			if (*pos_in_cmd == '<') {
-
-				// here doc
-				if (pos_in_cmd[1] == '<') {
+			if (*pos_in_cmd == '<')
+			{
+				if (pos_in_cmd[1] == '<')
+				{
 					pos_in_cmd = pos_in_cmd + 2;
 					tok = get_next_token(pos_in_cmd);
-					//TODO if there token or not - fatal or just user typo err
 					if (tok == NULL)
 						return (NULL);
 					if (tok->len == 0)
-					{
-						//TODO make ctx with err return ctx
-						printf("wrong redirection\n");
-						break;
-					}
+						break ;
 					pos_in_cmd = pos_in_cmd + tok->len;
 					red = malloc(sizeof(t_red *));
-					//TODO err handling
 					if (red == NULL)
 						return (NULL);
 					red->type = HERE_DOC;
 					red->fname_or_delim = tok->tok;
-				// input redir
-				} else {
+				}
+				else
+				{
 					pos_in_cmd = pos_in_cmd + 1;
 					tok = get_next_token(pos_in_cmd);
-					//printf("< tok [%s]\n", tok->tok);
-					//TODO if there token or not - fatal or just user typo err
 					if (tok == NULL)
 						return (NULL);
 					if (tok->len == 0)
-					{
-						//TODO make ctx with err return ctx
-						printf("wrong redirection\n");
-						break;
-					}
+						break ;
 					pos_in_cmd = pos_in_cmd + tok->len;
 					red = malloc(sizeof(t_red *));
-					//TODO err handling
 					if (red == NULL)
 						return (NULL);
 					red->type = IN;
 					red->fname_or_delim = tok->tok;
 				}
-
 			}
-
-			//printf("state is [%s]\n", pos_in_cmd);
-			if (red != NULL) {
-				//printf("adding redirect..\n");
+			if (red != NULL)
+			{
 				add_reds(&reds, red, &red_cnt, &red_max);
-				// since there might be another redirect next to it
-				continue;
+				continue ;
 			}
-
-
-			//TODO check for empty line here or above before pipe split
-			// even after pipe split might be there empty lines?
 			tok = get_next_token(pos_in_cmd);
-			if (tok == NULL) {
-				// err happened?
+			if (tok == NULL)
 				return (NULL);
-			}
-			if (tok->len == 0) {
-				// we are out of tokens: line ended or some unexpected thing is here
-				// check if line ended
-				// other wise return error - unknown token
-
-				// legit, end of line
+			if (tok->len == 0)
+			{
 				if (*pos_in_cmd == '\0')
-					break;
-				else {
-					printf("unknown token [%c]\n", *pos_in_cmd);
-					//TODO return non fatal err in ctx field
-					// not NULL
+					break ;
+				else
 					return (NULL);
-				}
 			}
-			//printf("wrd token is [%s]\n", tok->tok);
-
 			add_word(&wrds, tok->tok, &wrd_cnt, &wrd_max);
-
 			pos_in_cmd = pos_in_cmd + tok->len;
-			// here can be only ' ' after removal of pipes and redirections
 			if (*pos_in_cmd == ' ')
 				pos_in_cmd++;
-
-			//TODO: detect bad chars which can't be part of token here
-			// err handling
-			//tok = get_next_token(pos_in_cmd);
 		}
-		// in a loop until not NULL
-		//t_red red = find_redir_or_here_doc();
-			//gt_next_token(); inside
-		// remove this redir from command
-
-		// in a loop unti not NULL
-		// get next token
-		// remove token
-
-		//TODO err handling for >< >>> etc
-		// e.g. $ ls >>>a -> bash: syntax error near unexpected token `>'
-
-		//TODO if $foo expands to more than one word in `ls >$foo`
-		// e.g. foo="a b"; ls >$foo
-		// bash throws err but we don't need to care I think
-		// however if we quote "$foo" bash will create file with space in it :)
-
-		// TODO: count redirects
-		// TODO put them all here
-		// TODO remove them from commands
 		cmds[i]->reds = reds;
-
-		// TODO count cmd with args, split into spaces
-		// TODO put them all here
 		cmds[i]->cmd_with_args = wrds;
 		i++;
 	}
 	ctx->cmds = cmds;
-	//ctx->cmds = commands;
-
-	// TODO: parse for redirections
-
-	// TODO: remove quotes
-
-	// TODO: split for spaces to be ready to pass to execve
-
-	//while( i < ctx->cmd_cnt)
-	//{
-	//	ctx->cmds[i] = ft_split(commands[i], ' ');
-	//	i++;
-	//}
-
-	//TODO split by spaces, 
-	// remove spaces from left and from right
-	// remove double spaces
-
-	//commands = ft_split(line, '|');
-	//interpolation and quote remover
-	//free(ms);
 	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
 		return (free_ctx(ctx, ms), NULL);
 	return (ctx);
 }
 
-void add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max) {
-	//printf("adding red 1\n");
-	t_red **new_reds;
-	t_red **reds_ptr;
+//TODO check null for calloc
+void	add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max)
+{
+	t_red	**new_reds;
+	t_red	**reds_ptr;
+	int		i;
 
+	i = 0;
 	reds_ptr = *reds;
-	//printf("reds_ptrs is [%p]\n", reds_ptr[0]);
-
-	if (*red_cnt == *red_max) {
-		printf("need to realloc\n");
-		//realloc
+	if (*red_cnt == *red_max)
+	{
 		*red_max += 5;
 		new_reds = ft_calloc((*red_max + 1), sizeof(t_red *));
-		//TODO for NULL
-
-		// copy
-		int i = 0;
-		while(reds_ptr[i] != NULL) {
+		while (reds_ptr[i] != NULL)
+		{
 			new_reds[i] = reds_ptr[i];
 			i++;
 		}
@@ -369,41 +241,30 @@ void add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max) {
 		*reds = new_reds;
 		reds_ptr = new_reds;
 	}
-
-	//rewind
-	int i = 0;
-	while(reds_ptr[i] != NULL) {
+	i = 0;
+	while (reds_ptr[i] != NULL)
 		i++;
-	}
-	//printf("reds_ptrs is [%p]\n", reds_ptr[i]);
-	//printf("adding red 2\n");
-
 	reds_ptr[i] = ft_calloc(1, sizeof(t_red *));
 	reds_ptr[i]->type = r->type;
-	//printf("adding red 3\n");
 	reds_ptr[i]->fname_or_delim = ft_strdup(r->fname_or_delim);
-	//printf("adding red 4\n");
-	//TODO check if mem non NULL
 	*red_cnt = *red_cnt + 1;
-	//printf("adding red 5\n");
 }
 
-void add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max) {
-	char **new_words;
-	char **words_ptr;
+//TODO err handle for NULL for calloc
+void	add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max)
+{
+	char	**new_words;
+	char	**words_ptr;
+	int		i;
 
+	i = 0;
 	words_ptr = *words;
-
-	if (*wrd_cnt == *wrd_max) {
-		printf("need to realloc\n");
-		//realloc
+	if (*wrd_cnt == *wrd_max)
+	{
 		*wrd_max += 5;
 		new_words = ft_calloc((*wrd_max + 1), sizeof(char *));
-		//TODO for NULL
-
-		// copy
-		int i = 0;
-		while(words_ptr[i] != NULL) {
+		while (words_ptr[i] != NULL)
+		{
 			new_words[i] = words_ptr[i];
 			i++;
 		}
@@ -411,47 +272,39 @@ void add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max) {
 		*words = new_words;
 		words_ptr = new_words;
 	}
-
-	//rewind
-	int i = 0;
-	while(words_ptr[i] != NULL) {
+	i = 0;
+	while (words_ptr[i] != NULL)
 		i++;
-	}
-
 	words_ptr[i] = ft_strdup(w);
-	//TODO check if mem non NULL
 	*wrd_cnt = *wrd_cnt + 1;
 }
 
-
-int token_allowed_chars(char c) {
-	int res;
+int	token_allowed_chars(char c)
+{
+	int	res;
 
 	res = 0;
-	if(c == ' ')
+	if (c == ' ')
 		return (0);
 	if (c == '<' || c == '>')
 		return (0);
-
 	if (ft_isalnum(c) == 1)
 		res = 1;
 	if (c == '_' || c == '.' || c == '-')
 		res = 1;
 	if (ft_isprint(c) == 1)
 		res = 1;
-
 	return (res);
 }
-
 
 // token is contiguos sequence of characters which are
 // A-Za-z0-9_ dot . dash - without quotes ' or "
 // or all printable ascii inside quotes ' or "
-int	get_token_len(char *str) {
-	//printf("calc len for next tok in [%s]\n", str);
-	int len;
-	short qq;
-	short qw;
+int	get_token_len(char *str)
+{
+	int		len;
+	short	qq;
+	short	qw;
 
 	len = 0;
 	qq = 0;
@@ -463,29 +316,28 @@ int	get_token_len(char *str) {
 			qw = qw ^ 1;
 			len++;
 			str++;
-			continue;
+			continue ;
 		}
 		if (*str == '\"' && qw == 0)
 		{
 			qq = qq ^ 1;
 			len++;
 			str++;
-			continue;
+			continue ;
 		}
-
-		if (qw == 1 || qq == 1) {
-			//printf("in quotes [%s]\n", str);
+		if (qw == 1 || qq == 1)
+		{
 			if (ft_isprint(*str) != 1)
-				break;
-		} else 
+				break ;
+		}
+		else
 		{
 			if (token_allowed_chars(*str) != 1)
-				break;
+				break ;
 		}
 		str++;
 		len++;
 	}
-
 	return (len);
 }
 
@@ -872,8 +724,10 @@ size_t count_spaces_to_rm(char *str)
 // A It will fail if there is something there should not be, specifically, special characters
 // like a '|' followed by a '<' instead of a non-special character.
 
-t_context *init_ctx(t_context *ctx)
+t_context *init_ctx(void)
 {
+	t_context	*ctx;
+
 	ctx = malloc(sizeof(t_context));
 	if (ctx == NULL) {
 		return NULL;
