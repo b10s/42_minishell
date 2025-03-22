@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/21 22:52:49 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/22 22:45:56 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	pipeloop(int i, pid_t *pid, t_context *ctx, t_minishell *ms)
 {
 	int	ret;
 
+	ret = 0;
 	if (open_red_loop(ctx, ms, i) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (g_signal == 2)
