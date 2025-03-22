@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/22 23:40:22 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/22 23:58:13 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,43 +341,34 @@ int	get_token_len(char *str)
 	return (len);
 }
 
+t_token	*get_next_token(char *str)
+{
+	t_token	*tok;
 
-t_token *get_next_token(char *str) {
-	t_token *tok;
-
-	//printf("get tok parsin [%s]\n", str);
 	tok = malloc(sizeof(t_token));
 	if (tok == NULL)
 		return (NULL);
-	
 	tok->beg = str;
 	tok->len = get_token_len(str);
-	//printf("token len [%d]\n", tok->len);
-
 	tok->tok = NULL;
 	if (tok->len == 0)
 		return (tok);
-
 	tok->tok = malloc(sizeof(char) * (tok->len + 1));
-	if (tok->tok == NULL) {
-		//TODO free tok
+	if (tok->tok == NULL)
 		return (NULL);
-	}
 	tok->tok = ft_memcpy(tok->tok, str, tok->len);
 	tok->tok[tok->len] = '\0';
-
-	//printf("token len is [%d]\n", tok->len);
-
 	return (tok);
 }
 
-size_t count_spaces_to_rm_near_redir(char *str)
+size_t	count_spaces_to_rm_near_redir(char *str)
 {
-	size_t cnt;
-	short qq;
-	short qw;
-	char pre = '\0';
+	size_t	cnt;
+	short	qq;
+	short	qw;
+	char	pre;
 
+	pre = '\0';
 	cnt = 0;
 	qq = 0;
 	qw = 0;
@@ -387,7 +378,6 @@ size_t count_spaces_to_rm_near_redir(char *str)
 			qw = qw ^ 1;
 		if (*str == '\"' && qw == 0)
 			qq = qq ^ 1;
-
 		if ((*str == '<' || *str == '>') && qq == 0 && qw == 0)
 			if (pre == ' ')
 				cnt++;
@@ -397,22 +387,20 @@ size_t count_spaces_to_rm_near_redir(char *str)
 		pre = *str;
 		str++;
 	}
-
 	return (cnt);
 }
 
-char *rm_spaces_near_redir(char *str)
+char	*rm_spaces_near_redir(char *str)
 {
-	char *new_str;
-	short qq;
-	short qw;
-	char pre = '\0';
-	size_t new_len;
-	char *tmp;
+	size_t	new_len;
+	short	qq;
+	short	qw;
+	char	*new_str;
+	char	pre;
+	char	*tmp;
 
-
+	pre = '\0';
 	new_len = ft_strlen(str) - count_spaces_to_rm_near_redir(str) + 1;
-	//printf("new len [%ld]\n", new_len);
 	new_str = malloc(sizeof(char) * new_len);
 	if (new_str == NULL)
 		return (NULL);
@@ -425,72 +413,55 @@ char *rm_spaces_near_redir(char *str)
 			qw = qw ^ 1;
 		if (*str == '\"' && qw == 0)
 			qq = qq ^ 1;
-
 		*new_str = *str;
-
 		if ((*str == '<' || *str == '>') && qq == 0 && qw == 0)
+		{
 			if (pre == ' ')
 			{
 				new_str--;
 				*new_str = *str;
 			}
-
+		}
 		if (*str == ' ' && qq == 0 && qw == 0)
 			if (pre == '<' || pre == '>')
 				new_str--;
-
 		pre = *str;
 		str++;
 		new_str++;
 	}
 	*new_str = '\0';
-
-	//printf("returning new string [%s]\n", new_str);
 	return (tmp);
 }
 
-char **split_pipes(char *str)
+// TODO: test what substr returns in case 0, 0
+		//		empty string or NULL? e.g. `a|b|` 
+char	**split_pipes(char *str)
 {
-	int	cmd_cnt;
 	char	**cmds;
 	char	**ptr;
 	char	*tmp;
-	int	cmd_len;
+	int		cmd_len;
+	int		cmd_cnt;
 
 	cmds = NULL;
 	if (str == NULL)
 		return (NULL);
 	cmd_cnt = count_pipes(str);
-	cmds = malloc(sizeof(char *) * (cmd_cnt+1));
+	cmds = malloc(sizeof(char *) * (cmd_cnt + 1));
 	if (cmds == NULL)
 		return (NULL);
 	ptr = cmds;
-	//printf("pipes cnt is [%d]\n", cmd_cnt);
-
-
 	cmd_len = cmd_size_till_pipe(str);
 	while (cmd_len != 0)
 	{
-		//printf("cmd len [%d]\n", cmd_len);
-		// TODO: test what substr returns in case 0, 0
-		//		empty string or NULL? e.g. `a|b|` 
 		*cmds = ft_substr(str, 0, cmd_len);
-
-		// remove spaces before and after, trim
 		tmp = ft_strtrim(*cmds, " ");
 		free(*cmds);
 		*cmds = tmp;
-		// TODO: make sure to free all cmds malloced before
 		if (tmp == NULL)
 			return (NULL);
-
-		if(*cmds == NULL)
-		{
-			//TODO: free all previous cmds
+		if (*cmds == NULL)
 			return (NULL);
-		}
-		//printf("cmd is [%s]\n", *cmds);
-		//TODO trim it here once more
 		cmds++;
 		str = str + cmd_len;
 		if (*str == '|')
@@ -501,15 +472,14 @@ char **split_pipes(char *str)
 	return (ptr);
 }
 
-int cmd_size_till_pipe(char *cmd)
+int	cmd_size_till_pipe(char *cmd)
 {
-	int len;
-	short qq;
-	short qw;
+	short	qq;
+	short	qw;
+	int		len;
 
 	qq = 0;
 	qw = 0;
-
 	len = 0;
 	while (*cmd != '\0')
 	{
@@ -517,21 +487,19 @@ int cmd_size_till_pipe(char *cmd)
 			qw = qw ^ 1;
 		if (*cmd == '\'' && qw == 0)
 			qq = qq ^ 1;
-
 		if (*cmd == '|' && qw == 0 && qq == 0)
-			break;
+			break ;
 		len++;
 		cmd++;
 	}
-
 	return (len);
 }
 
-int count_pipes(char *str)
+int	count_pipes(char *str)
 {
-	short qq;
-	short qw;
-	int	cnt;
+	short	qq;
+	short	qw;
+	int		cnt;
 
 	qq = 0;
 	qw = 0;
@@ -549,50 +517,31 @@ int count_pipes(char *str)
 	return (cnt);
 }
 
-//int count_commands(char **cmds)
-//{
-//	int i = 0;
-
-	//ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
-//	while( i < ctx->cmd_cnt)
-//	{
-//		ctx->cmds[i] = ft_split(commands[i], ' ');
-//		i++;
-//	}
-
-	//TODO split by spaces, 
-	// remove spaces from left and from right
-	// remove double spaces
-
-	//commands = ft_split(line, '|');
-//	return ctx;
-//}
-
-int count_commands(char **cmds)
+int	count_commands(char **cmds)
 {
-	int cnt;
+	int	cnt;
 
 	cnt = 0;
-	while(cmds[cnt] != NULL)
+	while (cmds[cnt] != NULL)
 		cnt++;
 	return (cnt);
 }
 
-int count_single_quotes(char *str)
+int	count_single_quotes(char *str)
 {
-	int	res;
 	short	qw;
 	short	qq;
+	int		res;
 
 	res = 0;
 	qw = 0;
 	qq = 0;
-	while(*str != '\0')
+	while (*str != '\0')
 	{
 		if (*str == '\"' && qq == 0)
-			qw = qw ^ 1; 
+			qw = qw ^ 1;
 		if (*str == '\'' && qw == 0)
-			qq = qq ^ 1; 
+			qq = qq ^ 1;
 		if (*str == '\'' && qw == 0)
 			res++;
 		str++;
@@ -600,21 +549,21 @@ int count_single_quotes(char *str)
 	return (res);
 }
 
-int count_double_quotes(char *str)
+int	count_double_quotes(char *str)
 {
-	int	res;
 	short	qw;
 	short	qq;
+	int		res;
 
 	res = 0;
 	qw = 0;
 	qq = 0;
-	while(*str != '\0')
+	while (*str != '\0')
 	{
 		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1; 
+			qw = qw ^ 1;
 		if (*str == '\"' && qw == 0)
-			qq = qq ^ 1; 
+			qq = qq ^ 1;
 		if (*str == '\"' && qw == 0)
 			res++;
 		str++;
@@ -622,7 +571,7 @@ int count_double_quotes(char *str)
 	return (res);
 }
 
-int validate_quotes(char *str)
+int	validate_quotes(char *str)
 {
 	if (count_single_quotes(str) % 2 != 0)
 		return (1);
@@ -632,33 +581,31 @@ int validate_quotes(char *str)
 }
 
 // do not remove spaces in ' hey ' and in " hi "
-char *rm_multi_spaces(char *str) {
+char	*rm_multi_spaces(char *str)
+{
 	size_t	spaces_to_rm;
 	size_t	str_len;
 	char	*new_str;
-	char *tmp;
-	short qw;
-	short qq;
-	short sp;
+	char	*tmp;
+	short	qw;
+	short	qq;
+	short	sp;
 
 	qq = 0;
 	qw = 0;
 	sp = 0;
 	spaces_to_rm = count_spaces_to_rm(str);
 	str_len = ft_strlen(str);
-	//printf("spaces to rm [%ld]\n", spaces_to_rm);
 	new_str = malloc(str_len - spaces_to_rm + 1);
 	if (new_str == NULL)
 		return (NULL);
-
 	tmp = new_str;
-	while(*str != '\0')
+	while (*str != '\0')
 	{
 		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1; 
+			qw = qw ^ 1;
 		if (*str == '\"' && qw == 0)
-			qq = qq ^ 1; 
-
+			qq = qq ^ 1;
 		if (*str == ' ' && qq == 0 && qw == 0)
 		{
 			if (sp != 1)
@@ -670,7 +617,8 @@ char *rm_multi_spaces(char *str) {
 			else
 				str++;
 			sp = 1;
-		} else
+		}
+		else
 		{
 			sp = 0;
 			*tmp = *str;
@@ -683,14 +631,13 @@ char *rm_multi_spaces(char *str) {
 }
 
 // if it is very first and very last space(s) - rm as well
-
 // write trim and rtrim
-size_t count_spaces_to_rm(char *str)
+size_t	count_spaces_to_rm(char *str)
 {
-	size_t cnt;
-	short qq;
-	short qw;
-	short sp;
+	size_t	cnt;
+	short	qq;
+	short	qw;
+	short	sp;
 
 	cnt = 0;
 	qq = 0;
@@ -699,19 +646,19 @@ size_t count_spaces_to_rm(char *str)
 	while (*str != '\0')
 	{
 		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1; 
+			qw = qw ^ 1;
 		if (*str == '\"' && qw == 0)
-			qq = qq ^ 1; 
+			qq = qq ^ 1;
 		if (*str == ' ' && qq == 0 && qw == 0)
 		{
 			if (sp == 1)
 				cnt++;
 			sp = 1;
-		} else
+		}
+		else
 			sp = 0;
 		str++;
 	}
-
 	return (cnt);
 }
 
@@ -721,93 +668,48 @@ size_t count_spaces_to_rm(char *str)
 
 // Q fail on wrong syntax here or later?
 
-// A It will fail if there is something there should not be, specifically, special characters
+// A It will fail if there is something there should not be,
+	//specifically, special characters
 // like a '|' followed by a '<' instead of a non-special character.
 
-t_context *init_ctx(void)
+// TODO free if NULL
+t_context	*init_ctx(void)
 {
 	t_context	*ctx;
 
 	ctx = malloc(sizeof(t_context));
-	if (ctx == NULL) {
-		return NULL;
-	}
-
+	if (ctx == NULL)
+		return (NULL);
 	ctx->cmds = malloc(sizeof(t_cmd *));
 	if (ctx->cmds == NULL)
-	{
-		//free_ctx(ctx);
 		return (NULL);
-	}
 	ctx->cmds[0] = NULL;
 	ctx->cmd_cnt = 0;
 	ctx->err = NULL;
-	//ctx->out_red = NULL;
-	//ctx->in_red = NULL;
-	//ctx->out_append_mode_flg = 0;
-	//ctx->here_doc_delim = NULL;
-	return ctx;
+	return (ctx);
 }
 
-/*
-void free_ctx(t_context *ctx)
+void	print_ctx(t_context *ctx)
 {
-	printf("free ctx()\n");
-	int i;
+	int	i;
+	int	j;
 
-	i = 0;
-	while(ctx->cmds[i] != NULL)
-	{
-		//free_split(ctx->cmds[i]);
-		i++;
-	}
-	free(ctx->cmds);
-	//free(ctx->out_red);
-	//free(ctx->in_red);
-	//free(ctx->here_doc_delim);
-	free(ctx);
-}
-*/
-
-
-/*
-void print_ctx(t_context *ctx)
-{
-       int i;
-       i = 0;
-       printf("commands are\n");
-       while(ctx->cmds[i] != NULL)
-       {
-               printf("cmd #%d: [%s]\n", i, ctx->cmds[i]->cmd_with_args[0]);
-               int j = 1;
-               while(ctx->cmds[i]->cmd_with_args[j] != NULL)
-               {
-                       printf("\targ #%d: [%s]\n", j, ctx->cmds[i]->cmd_with_args[j]);
-                      j++;
-               }
-               i++;
-       }
-    	printf("there are [%d] commands in line\n", ctx->cmd_cnt);  
-}
-*/
-
-void print_ctx(t_context *ctx) {
 	printf("\t=== print context ===\n");
-
-	int i = 0;
-	while (ctx->cmds[i] != NULL) {
-		printf("cmd #%d: ", i);
-		int j = 0;
-		while (ctx->cmds[i]->cmd_with_args[j] != NULL) {
+	i = 0;
+	while (ctx->cmds[i] != NULL)
+	{
+		j = 0;
+		while (ctx->cmds[i]->cmd_with_args[j] != NULL)
+		{
 			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j]);
 			j++;
 		}
 		printf("\nred:\n");
-
 		j = 0;
-		while (ctx->cmds[i]->reds[j] != NULL) {
+		while (ctx->cmds[i]->reds[j] != NULL)
+		{
 			printf("  [%s] of type [%d]\n",
-				ctx->cmds[i]->reds[j]->fname_or_delim, 
+				ctx->cmds[i]->reds[j]->fname_or_delim,
 				ctx->cmds[i]->reds[j]->type);
 			j++;
 		}
@@ -815,4 +717,3 @@ void print_ctx(t_context *ctx) {
 		i++;
 	}
 }
-
