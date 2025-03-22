@@ -301,35 +301,6 @@ t_token	*get_next_token(char *str)
 	return (tok);
 }
 
-size_t	count_spaces_to_rm_near_redir(char *str)
-{
-	size_t	cnt;
-	short	qq;
-	short	qw;
-	char	pre;
-
-	pre = '\0';
-	cnt = 0;
-	qq = 0;
-	qw = 0;
-	while (*str != '\0')
-	{
-		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1;
-		if (*str == '\"' && qw == 0)
-			qq = qq ^ 1;
-		if ((*str == '<' || *str == '>') && qq == 0 && qw == 0)
-			if (pre == ' ')
-				cnt++;
-		if (*str == ' ' && qq == 0 && qw == 0)
-			if (pre == '<' || pre == '>')
-				cnt++;
-		pre = *str;
-		str++;
-	}
-	return (cnt);
-}
-
 char	*rm_spaces_near_redir(char *str)
 {
 	size_t	new_len;
@@ -412,61 +383,6 @@ char	**split_pipes(char *str)
 	return (ptr);
 }
 
-int	cmd_size_till_pipe(char *cmd)
-{
-	short	qq;
-	short	qw;
-	int		len;
-
-	qq = 0;
-	qw = 0;
-	len = 0;
-	while (*cmd != '\0')
-	{
-		if (*cmd == '\"' && qq == 0)
-			qw = qw ^ 1;
-		if (*cmd == '\'' && qw == 0)
-			qq = qq ^ 1;
-		if (*cmd == '|' && qw == 0 && qq == 0)
-			break ;
-		len++;
-		cmd++;
-	}
-	return (len);
-}
-
-int	count_pipes(char *str)
-{
-	short	qq;
-	short	qw;
-	int		cnt;
-
-	qq = 0;
-	qw = 0;
-	cnt = 0;
-	while (*str != '\0')
-	{
-		if (*str == '\"' && qq == 0)
-			qw = qw ^ 1;
-		if (*str == '\'' && qw == 0)
-			qq = qq ^ 1;
-		if (*str == '|' && qw == 0 && qq == 0)
-			cnt++;
-		str++;
-	}
-	return (cnt);
-}
-
-int	count_commands(char **cmds)
-{
-	int	cnt;
-
-	cnt = 0;
-	while (cmds[cnt] != NULL)
-		cnt++;
-	return (cnt);
-}
-
 // do not remove spaces in ' hey ' and in " hi "
 char	*rm_multi_spaces(char *str)
 {
@@ -515,36 +431,4 @@ char	*rm_multi_spaces(char *str)
 	}
 	*tmp = '\0';
 	return (new_str);
-}
-
-// if it is very first and very last space(s) - rm as well
-// write trim and rtrim
-size_t	count_spaces_to_rm(char *str)
-{
-	size_t	cnt;
-	short	qq;
-	short	qw;
-	short	sp;
-
-	cnt = 0;
-	qq = 0;
-	qw = 0;
-	sp = 0;
-	while (*str != '\0')
-	{
-		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1;
-		if (*str == '\"' && qw == 0)
-			qq = qq ^ 1;
-		if (*str == ' ' && qq == 0 && qw == 0)
-		{
-			if (sp == 1)
-				cnt++;
-			sp = 1;
-		}
-		else
-			sp = 0;
-		str++;
-	}
-	return (cnt);
 }

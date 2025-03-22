@@ -43,6 +43,7 @@ SRCS		= main.c \
 			  parse/ft_interpolate.c \
 			  parse/add_word_redir.c \
 			  parse/misc.c \
+			  parse/utils.c \
 			  piping/execute_builtin.c \
 			  piping/find_cmd_path.c \
 			  piping/gen_exec.c \
