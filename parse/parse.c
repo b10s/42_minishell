@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 23:39:00 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/23 23:48:58 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,14 @@ t_context	*parse(char *line, t_minishell *ms)
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);
+	//TODO: do we want to implement free_cmds?
 	free(ctx->cmds);
-	ctx->cmds = ft_calloc(ctx->cmd_cnt, sizeof(t_cmd *));
+	ctx->cmds = ft_calloc(ctx->cmd_cnt + 1, sizeof(t_cmd *));
 
-	cmds = malloc(sizeof(t_cmd *) * (ctx->cmd_cnt + 1));
+	cmds = ft_calloc((ctx->cmd_cnt + 1), sizeof(t_cmd *));
 	if (cmds == NULL)
-		return (NULL);
-	i = -1;
-	while (++i < ctx->cmd_cnt + 1)
-		cmds[i] = NULL;
+		exit (1);
+
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
