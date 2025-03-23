@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 20:53:06 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/23 23:39:00 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ t_context	*parse(char *line, t_minishell *ms)
 {
 	t_context	*ctx;
 	t_token		*tok;
+
+	// no need cmds, commands?
 	t_cmd		**cmds;
+	char		**commands;
+
 	t_red		**reds;
 	t_red		*red;
 	char		*pos_in_cmd;
-	char		**commands;
 	char		**wrds;
 	char		*tmp;
 	int			i;
@@ -62,12 +65,19 @@ t_context	*parse(char *line, t_minishell *ms)
 		ctx->err = (char *)&QUOTES_ERR;
 		return (ctx);
 	}
+
+	//TODO move line grooming in separate func
+
+	//TODO exit if malloc err, free inside
 	tmp = rm_multi_spaces(line);
 	free(line);
 	line = tmp;
+
+	//TODO exit if malloc err, free inside
 	tmp = rm_spaces_near_redir(line);
 	free(line);
 	line = tmp;
+
 	if (line == NULL)
 		return (NULL);
 	tmp = ft_strtrim(line, " ");
@@ -75,13 +85,17 @@ t_context	*parse(char *line, t_minishell *ms)
 	line = tmp;
 	if (line == NULL)
 		return (NULL);
+	// line grooming till here
+
 	commands = split_pipes(line);
 	if (commands == NULL)
 	{
 		return (NULL);
 	}
 	ctx->cmd_cnt = count_commands(commands);
-	ctx->cmds = malloc(ctx->cmd_cnt * sizeof(t_cmd *));
+	free(ctx->cmds);
+	ctx->cmds = ft_calloc(ctx->cmd_cnt, sizeof(t_cmd *));
+
 	cmds = malloc(sizeof(t_cmd *) * (ctx->cmd_cnt + 1));
 	if (cmds == NULL)
 		return (NULL);
@@ -310,7 +324,7 @@ char	*rm_multi_spaces(char *str)
 	str_len = ft_strlen(str);
 	new_str = malloc(str_len - spaces_to_rm + 1);
 	if (new_str == NULL)
-		return (NULL);
+		exit (1);
 	tmp = new_str;
 	while (*str != '\0')
 	{

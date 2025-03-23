@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 20:49:16 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/23 23:41:59 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	print_ctx(t_context *ctx)
 	while (ctx->cmds[i] != NULL)
 	{
 		j = 0;
+		printf("\ncmd: ");
 		while (ctx->cmds[i]->cmd_with_args[j] != NULL)
 		{
-			printf("print 1\n");
 			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j]);
 			j++;
 		}
