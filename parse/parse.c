@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 19:41:29 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/23 20:53:06 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ t_context	*parse(char *line, t_minishell *ms)
 	ctx = init_ctx();
 	if (validate_quotes(line) != 0)
 	{
-		ctx->err = ft_calloc(1, ft_strlen(QUOTES_ERR));
-		if (ctx->err == NULL)
-			return (NULL);
-		ctx->err = QUOTES_ERR;
+		ctx->err = (char *)&QUOTES_ERR;
 		return (ctx);
 	}
 	tmp = rm_multi_spaces(line);

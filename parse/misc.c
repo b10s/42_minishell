@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 20:41:15 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/23 20:49:16 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_context	*init_ctx(void)
 	return (ctx);
 }
 
-//TODO replace to ft_printf
+//TODO replace to ft_printf - double check if we can use printf
 void	print_ctx(t_context *ctx)
 {
 	int	i;
