@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/22 23:58:13 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/23 19:41:29 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,9 @@ t_context	*parse(char *line, t_minishell *ms)
 	wrd_cnt = 0;
 	wrd_max = 5;
 	ctx = init_ctx();
-	if (ctx == NULL)
-		return (NULL);
-	ctx->pipe_read = -1;
-	ctx->pipe_read_index = -1;
-	if (ctx == NULL)
-		return (NULL);
 	if (validate_quotes(line) != 0)
 	{
-		ctx->err = malloc(ft_strlen(QUOTES_ERR));
+		ctx->err = ft_calloc(1, ft_strlen(QUOTES_ERR));
 		if (ctx->err == NULL)
 			return (NULL);
 		ctx->err = QUOTES_ERR;

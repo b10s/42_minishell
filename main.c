@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/23 03:27:46 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/23 20:46:41 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,15 @@ int	main(void)
 		if (ctx == NULL)
 			continue ;
 		print_ctx(ctx);
-		ms->exit_status = pipex(ctx, ms);
+		if (ctx->err != NULL)
+		{
+			ft_putendl_fd(ctx->err, 2);
+			free_ctx(ctx, ms);
+			ms->exit_status = 2;
+			continue ;
+		}
+		else
+			ms->exit_status = pipex(ctx, ms);
 	}
 	free_minishell(ms);
 }

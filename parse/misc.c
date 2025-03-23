@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/22 23:58:13 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/03/23 20:41:15 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@ t_context	*init_ctx(void)
 {
 	t_context	*ctx;
 
-	ctx = malloc(sizeof(t_context));
+	ctx = ft_calloc(1, sizeof(t_context));
 	if (ctx == NULL)
-		return (NULL);
-	ctx->cmds = malloc(sizeof(t_cmd *));
+		exit (1);
+	ctx->cmds = ft_calloc(1, sizeof(t_cmd *));
 	if (ctx->cmds == NULL)
-		return (NULL);
-	ctx->cmds[0] = NULL;
-	ctx->cmd_cnt = 0;
+		exit (1);
 	ctx->err = NULL;
+	ctx->cmd_cnt = 0;
+	ctx->pipe_read = -1;
+	ctx->pipe_read_index = -1;
 	return (ctx);
 }
 
+//TODO replace to ft_printf
 void	print_ctx(t_context *ctx)
 {
 	int	i;
@@ -41,6 +43,7 @@ void	print_ctx(t_context *ctx)
 		j = 0;
 		while (ctx->cmds[i]->cmd_with_args[j] != NULL)
 		{
+			printf("print 1\n");
 			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j]);
 			j++;
 		}
