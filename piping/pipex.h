@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/23 03:10:32 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/29 00:19:29 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "../ms/minishell.h"
 # include "../parse/parse.h"
 # include "../builtins/builtins.h"
-# include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <errno.h>
