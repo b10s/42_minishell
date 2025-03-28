@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:28:31 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 02:29:57 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:31:57 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <sys/types.h>
 # include "../libft/libft.h"
 # include "../environ_functions/environ_functions.h"
 # include "../ms/minishell.h"
