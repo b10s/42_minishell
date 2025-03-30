@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/29 00:17:50 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:57:15 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@ int	main(void)
 	ms = init_minishell();
 	if (ms == NULL)
 		return (EXIT_FAILURE);
-	rl_catch_signals = 0;
+	rl_event_hook = signal_event_hook;
 	signal(SIGINT, signal_handler);
+	rl_catch_signals = 0;
 	while (1)
 	{
 		free(ms->line);
 		ms->line = NULL;
 		g_signal = 0;
-		ms->line = readline("minishell: ");
-		if (g_signal == 2)
+		ms->line = readline("minishell$ ");
+		if (g_signal == SIGINT)
 		{
 			ms->exit_status = 130;
 			g_signal = 0;
@@ -38,7 +39,7 @@ int	main(void)
 		if (ms->line == NULL && errno == 0)
 		{
 			free_minishell(ms);
-			printf("\n");
+			printf("exit\n");
 			exit(ms->exit_status);
 		}
 		if (ms->line[0] == '\0')

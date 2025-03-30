@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/23 03:38:26 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:56:45 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	prep_ctx(t_context *ctx)
 
 int	status_check(int last_status)
 {
+	printf("last_status %d\n", last_status);
 	if (WIFEXITED(last_status))
 		return (WEXITSTATUS(last_status));
 	else if (WIFSIGNALED(last_status))
@@ -50,9 +51,11 @@ int	pipeloop(int i, t_context *ctx, t_minishell *ms)
 
 	ret = 0;
 	if (open_red_loop(ctx, ms, i) == EXIT_FAILURE)
+	{
+		if (g_signal == 2)
+			return (restore_inout_close(ms), g_signal + 128);
 		return (EXIT_FAILURE);
-	if (g_signal == 2)
-		return (restore_inout_close(ms), g_signal + 128);
+	}
 	if (apoc_in(i, ctx, ms) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (apoc_out(i, ctx, ms) == EXIT_FAILURE)
@@ -66,6 +69,7 @@ int	pipeloop(int i, t_context *ctx, t_minishell *ms)
 void	wait_loop(t_context *ctx, int *last_status)
 {
 	int	i;
+	int	status;
 
 	i = 0;
 	while (i < ctx->cmd_cnt)
@@ -73,12 +77,14 @@ void	wait_loop(t_context *ctx, int *last_status)
 		if (ctx->pid[i] > -1)
 		{
 			if (i == (ctx->cmd_cnt - 1))
-				waitpid(ctx->pid[i], last_status, 0);
+				waitpid(ctx->pid[i], &status, 0);
 			else
 				waitpid(ctx->pid[i], NULL, 0);
 		}
 		i++;
 	}
+	if (ctx->pid[i - 1] > -1)
+		*last_status = status_check(status);
 }
 
 int	pipex(t_context *ctx, t_minishell *ms)
@@ -102,5 +108,5 @@ int	pipex(t_context *ctx, t_minishell *ms)
 		return (free_ctx(ctx, ms), restore_inout_close(ms), 0);
 	free_ctx(ctx, ms);
 	restore_inout_close(ms);
-	return (status_check(last_status));
+	return (last_status);
 }

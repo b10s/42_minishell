@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/28 21:49:09 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:57:21 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	input_loop(t_cmd *cmd, t_minishell *ms, char *limiter, int numlines)
 		return (EXIT_FAILURE);
 	while (1)
 	{
-		nline = readline(rl_display_prompt);
+		nline = readline("> ");
 		if (g_signal == 2)
 			return (free(lines), EXIT_FAILURE);
 		if (nline == NULL && errno == 0)
@@ -97,7 +97,6 @@ int	put_input_in_here_doc(char *limiter, t_cmd *cmd, t_minishell *ms)
 {
 	int		numlines;
 
-	rl_display_prompt = "> ";
 	errno = 0;
 	numlines = 0;
 	if (input_loop(cmd, ms, limiter, numlines) == EXIT_FAILURE)
