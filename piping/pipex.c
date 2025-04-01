@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/30 18:56:45 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:48:47 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	prep_ctx(t_context *ctx)
 
 int	status_check(int last_status)
 {
-	printf("last_status %d\n", last_status);
 	if (WIFEXITED(last_status))
 		return (WEXITSTATUS(last_status));
 	else if (WIFSIGNALED(last_status))

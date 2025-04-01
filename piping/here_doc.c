@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/30 18:57:21 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:02:32 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,13 @@ char	*join_line_newline(char *lines, char *to_join)
 
 int	write_lines(t_cmd *cmd, t_minishell *ms, char *lines, char *nline)
 {
-	char	*histlines;
-
-	histlines = ft_strdup(lines);
-	if (histlines == NULL)
-		return (free(lines), EXIT_FAILURE);
+	free(nline);
 	lines = ft_interpolate(lines, ms, 0);
 	if (lines == NULL)
-		return (EXIT_FAILURE);
+		exit(1);
 	if (write(cmd->in_fd, lines, ft_strlen(lines)) == -1)
-	{
-		free(nline);
-		free(lines);
-		perror("write");
-		return (EXIT_FAILURE);
-	}
+		exit(1);
 	free(lines);
-	histlines = join_line_newline(histlines, nline);
-	histlines = join_line_newline(ft_strdup("\n"), histlines);
-	histlines = join_line_newline(ft_strdup(ms->line), histlines);
-	if (histlines == NULL)
-		return (EXIT_FAILURE);
-	add_history(histlines);
-	free(histlines);
 	return (EXIT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/28 18:42:25 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:00:41 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*update_line(char *line, t_minishell *ms, \
 		return (line);
 	name = ft_substr(line, *i + 1, namelen);
 	if (name == NULL)
-		return (free(line), NULL);
+		exit(1);
 	value = ft_getenv(name, ms->envs);
 	if (value == NULL)
 		value = "";
@@ -78,7 +78,7 @@ char	*update_line(char *line, t_minishell *ms, \
 	else
 		value = ft_strdup(value);
 	if (value == NULL)
-		return (NULL);
+		exit(1);
 	value_len = ft_strlen(value);
 	line = sandwich(line, *i, *i + 1 + namelen, value);
 	(*i) += (value_len - 1);

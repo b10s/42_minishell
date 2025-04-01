@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/30 18:57:15 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:04:24 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ int	main(void)
 		}
 		if (ms->line[0] == '\0')
 			continue ;
-		if (is_here_doc(ms->line) == 0)
-			add_history(ms->line);
+		add_history(ms->line);
 		ctx = parse(ft_strdup(ms->line), ms);
 		if (ctx == NULL)
 			continue ;
