@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:13:10 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/16 19:30:38 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:15:18 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_envs	*init_envs(void)
 
 	envs = (t_envs *)ft_calloc(1, sizeof(t_envs));
 	if (envs == NULL)
-		return (NULL);
+		exit(1);
 	if (cpy_env(envs) == EXIT_FAILURE)
 		return (free_envs(envs), NULL);
 	return (envs);

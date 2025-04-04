@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 22:23:27 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 15:49:22 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:10:42 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ int	cmd_pwd(void)
 		return (EXIT_SUCCESS);
 	}
 	else
-		return (perror("pwd: "), EXIT_FAILURE);
+		return (perror("getcwd: "), EXIT_FAILURE);
 }
