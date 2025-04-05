@@ -20,9 +20,7 @@ t_context	*init_ctx(void)
 	ctx = ft_calloc(1, sizeof(t_context));
 	if (ctx == NULL)
 		exit (1);
-	ctx->cmds = ft_calloc(1, sizeof(t_cmd *));
-	if (ctx->cmds == NULL)
-		exit (1);
+	ctx->cmds = NULL;
 	ctx->err = NULL;
 	ctx->cmd_cnt = 0;
 	ctx->pipe_read = -1;
@@ -38,15 +36,14 @@ void	print_ctx(t_context *ctx)
 
 	printf("\t=== print context ===\n");
 	i = 0;
+	if (ctx->cmds == NULL)
+		return ;
 	while (ctx->cmds[i] != NULL)
 	{
 		j = 0;
 		printf("\ncmd: ");
 		while (ctx->cmds[i]->cmd_with_args[j] != NULL)
-		{
-			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j]);
-			j++;
-		}
+			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j++]);
 		printf("\nred:\n");
 		j = 0;
 		while (ctx->cmds[i]->reds[j] != NULL)
