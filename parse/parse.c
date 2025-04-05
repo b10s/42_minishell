@@ -39,14 +39,11 @@ t_context	*parse(char *line, t_minishell *ms)
 	t_token		*tok;
 
 	// no need cmds, commands?
-	t_cmd		**cmds;
 	char		**commands;
-
 	t_red		**reds;
 	t_red		*red;
 	char		*pos_in_cmd;
 	char		**wrds;
-	char		*tmp;
 	int			i;
 	int			red_cnt;
 	int			red_max;
@@ -65,51 +62,25 @@ t_context	*parse(char *line, t_minishell *ms)
 		ctx->err = (char *)&QUOTES_ERR;
 		return (ctx);
 	}
-
-	//TODO move line grooming in separate func
-
-	//TODO exit if malloc err, free inside
-	tmp = rm_multi_spaces(line);
-	free(line);
-	line = tmp;
-
-	//TODO exit if malloc err, free inside
-	tmp = rm_spaces_near_redir(line);
-	free(line);
-	line = tmp;
-
+	line = remove_spaces(line);
 	if (line == NULL)
 		return (NULL);
-	tmp = ft_strtrim(line, " ");
-	free(line);
-	line = tmp;
-	if (line == NULL)
-		return (NULL);
-	// line grooming till here
-
 	commands = split_pipes(line);
 	if (commands == NULL)
-	{
 		return (NULL);
-	}
 	ctx->cmd_cnt = count_commands(commands);
-	//TODO: do we want to implement free_cmds?
-	free(ctx->cmds);
-	ctx->cmds = ft_calloc(ctx->cmd_cnt + 1, sizeof(t_cmd *));
-
-	cmds = ft_calloc((ctx->cmd_cnt + 1), sizeof(t_cmd *));
-	if (cmds == NULL)
+	ctx->cmds = ft_calloc((ctx->cmd_cnt + 1), sizeof(t_cmd *));
+	if (ctx->cmds == NULL)
 		exit (1);
-
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
-		cmds[i] = malloc(sizeof(t_cmd));
-		if (cmds[i] == NULL)
+		ctx->cmds[i] = malloc(sizeof(t_cmd));
+		if (ctx->cmds[i] == NULL)
 			return (NULL);
-		cmds[i]->out_fd = -1;
-		cmds[i]->in_fd = -1;
-		cmds[i]->here_doc_filename = NULL;
+		ctx->cmds[i]->out_fd = -1;
+		ctx->cmds[i]->in_fd = -1;
+		ctx->cmds[i]->here_doc_filename = NULL;
 		pos_in_cmd = commands[i];
 		wrds = ft_calloc((wrd_max + 1), sizeof(char *));
 		reds = ft_calloc((red_max + 1), sizeof(t_red *));
@@ -213,14 +184,34 @@ t_context	*parse(char *line, t_minishell *ms)
 			if (*pos_in_cmd == ' ')
 				pos_in_cmd++;
 		}
-		cmds[i]->reds = reds;
-		cmds[i]->cmd_with_args = wrds;
+		ctx->cmds[i]->reds = reds;
+		ctx->cmds[i]->cmd_with_args = wrds;
 		i++;
 	}
-	ctx->cmds = cmds;
 	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
 		return (free_ctx(ctx, ms), NULL);
 	return (ctx);
+}
+
+//TODO exit if malloc err, free inside
+char	*remove_spaces(char *line)
+{
+	char		*tmp;
+
+	tmp = rm_multi_spaces(line);
+	free(line);
+	line = tmp;
+	tmp = rm_spaces_near_redir(line);
+	free(line);
+	line = tmp;
+	if (line == NULL)
+		return (NULL);
+	tmp = ft_strtrim(line, " ");
+	free(line);
+	line = tmp;
+	if (line == NULL)
+		return (NULL);
+	return (line);
 }
 
 char	*rm_spaces_near_redir(char *str)
