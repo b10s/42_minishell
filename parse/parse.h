@@ -89,6 +89,7 @@ void		print_ctx(t_context *ctx);
 void		add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max);
 int			count_commands(char **cmds);
 char	*remove_spaces(char *line);
+void	parse_commands(t_context *ctx, char **commands);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);

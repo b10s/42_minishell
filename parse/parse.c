@@ -36,26 +36,8 @@
 t_context	*parse(char *line, t_minishell *ms)
 {
 	t_context	*ctx;
-	t_token		*tok;
-
-	// no need cmds, commands?
 	char		**commands;
-	t_red		**reds;
-	t_red		*red;
-	char		*pos_in_cmd;
-	char		**wrds;
-	int			i;
-	int			red_cnt;
-	int			red_max;
-	int			wrd_cnt;
-	int			wrd_max;
 
-	red = NULL;
-	i = 0;
-	red_cnt = 0;
-	red_max = 5;
-	wrd_cnt = 0;
-	wrd_max = 5;
 	ctx = init_ctx();
 	if (validate_quotes(line) != 0)
 	{
@@ -72,16 +54,43 @@ t_context	*parse(char *line, t_minishell *ms)
 	ctx->cmds = ft_calloc((ctx->cmd_cnt + 1), sizeof(t_cmd *));
 	if (ctx->cmds == NULL)
 		exit (1);
+	parse_commands(ctx, commands);
+	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
+		return (free_ctx(ctx, ms), NULL);
+	return (ctx);
+}
+
+//TODO: all previosly retrun NULL replace with set err,
+// free uneeded and make sure ctx with err is returned
+void	parse_commands(t_context *ctx, char **commands)
+{
+	t_red		**reds;
+	t_red		*red;
+	t_token		*tok;
+	char		*pos_in_cmd;
+	char		**wrds;
+	int			i;
+	int			red_cnt;
+	int			red_max;
+	int			wrd_cnt;
+	int			wrd_max;
+
+	red = NULL;
 	i = 0;
+	red_cnt = 0;
+	red_max = 5;
+	wrd_cnt = 0;
+	wrd_max = 5;
 	while (i < ctx->cmd_cnt)
 	{
 		ctx->cmds[i] = malloc(sizeof(t_cmd));
 		if (ctx->cmds[i] == NULL)
-			return (NULL);
+			exit (1);
 		ctx->cmds[i]->out_fd = -1;
 		ctx->cmds[i]->in_fd = -1;
 		ctx->cmds[i]->here_doc_filename = NULL;
 		pos_in_cmd = commands[i];
+		//TODO: check for NULL
 		wrds = ft_calloc((wrd_max + 1), sizeof(char *));
 		reds = ft_calloc((red_max + 1), sizeof(t_red *));
 		while (42 == 42)
@@ -99,29 +108,43 @@ t_context	*parse(char *line, t_minishell *ms)
 				{
 					pos_in_cmd = pos_in_cmd + 2;
 					tok = get_next_token(pos_in_cmd);
+					//TODO: set err and return ctx
+					// $ >
+					// bash: syntax error near unexpected token `newline'
 					if (tok == NULL)
-						return (NULL);
+						return ;
+						//return (NULL);
 					if (tok->len == 0)
 						break ;
+
 					pos_in_cmd = pos_in_cmd + tok->len;
 					red = malloc(sizeof(t_red *));
 					if (red == NULL)
-						return (NULL);
+						return ;
+						//return (NULL);
 					red->type = OUT_APPEND;
 					red->fname_or_delim = tok->tok;
 				}
 				else
 				{
 					pos_in_cmd = pos_in_cmd + 1;
+					// can be a function
 					tok = get_next_token(pos_in_cmd);
+					//TODO: set err and return ctx
+					// $ >
+					// bash: syntax error near unexpected token `newline'
 					if (tok == NULL)
-						return (NULL);
+						return ;
+						//return (NULL);
 					if (tok->len == 0)
 						break ;
+
 					pos_in_cmd = pos_in_cmd + tok->len;
 					red = malloc(sizeof(t_red *));
 					if (red == NULL)
-						return (NULL);
+						return ;
+						//return (NULL);
+					//
 					red->type = OUT;
 					red->fname_or_delim = tok->tok;
 				}
@@ -138,13 +161,15 @@ t_context	*parse(char *line, t_minishell *ms)
 					pos_in_cmd = pos_in_cmd + 2;
 					tok = get_next_token(pos_in_cmd);
 					if (tok == NULL)
-						return (NULL);
+						return ;
+						//return (NULL);
 					if (tok->len == 0)
 						break ;
 					pos_in_cmd = pos_in_cmd + tok->len;
 					red = malloc(sizeof(t_red *));
 					if (red == NULL)
-						return (NULL);
+						return ;
+						//return (NULL);
 					red->type = HERE_DOC;
 					red->fname_or_delim = tok->tok;
 				}
@@ -153,13 +178,15 @@ t_context	*parse(char *line, t_minishell *ms)
 					pos_in_cmd = pos_in_cmd + 1;
 					tok = get_next_token(pos_in_cmd);
 					if (tok == NULL)
-						return (NULL);
+						return ;
+						//return (NULL);
 					if (tok->len == 0)
 						break ;
 					pos_in_cmd = pos_in_cmd + tok->len;
 					red = malloc(sizeof(t_red *));
 					if (red == NULL)
-						return (NULL);
+						return ;
+						//return (NULL);
 					red->type = IN;
 					red->fname_or_delim = tok->tok;
 				}
@@ -171,13 +198,15 @@ t_context	*parse(char *line, t_minishell *ms)
 			}
 			tok = get_next_token(pos_in_cmd);
 			if (tok == NULL)
-				return (NULL);
+				return ;
+				//return (NULL);
 			if (tok->len == 0)
 			{
 				if (*pos_in_cmd == '\0')
 					break ;
 				else
-					return (NULL);
+					return ;
+					//return (NULL);
 			}
 			add_word(&wrds, tok->tok, &wrd_cnt, &wrd_max);
 			pos_in_cmd = pos_in_cmd + tok->len;
@@ -188,9 +217,6 @@ t_context	*parse(char *line, t_minishell *ms)
 		ctx->cmds[i]->cmd_with_args = wrds;
 		i++;
 	}
-	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
-		return (free_ctx(ctx, ms), NULL);
-	return (ctx);
 }
 
 //TODO exit if malloc err, free inside
