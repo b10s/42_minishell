@@ -88,6 +88,7 @@ void		add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max);
 void		print_ctx(t_context *ctx);
 void		add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max);
 int			count_commands(char **cmds);
+char	*remove_spaces(char *line);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);

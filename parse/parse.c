@@ -46,7 +46,6 @@ t_context	*parse(char *line, t_minishell *ms)
 	t_red		*red;
 	char		*pos_in_cmd;
 	char		**wrds;
-	char		*tmp;
 	int			i;
 	int			red_cnt;
 	int			red_max;
@@ -65,33 +64,12 @@ t_context	*parse(char *line, t_minishell *ms)
 		ctx->err = (char *)&QUOTES_ERR;
 		return (ctx);
 	}
-
-	//TODO move line grooming in separate func
-
-	//TODO exit if malloc err, free inside
-	tmp = rm_multi_spaces(line);
-	free(line);
-	line = tmp;
-
-	//TODO exit if malloc err, free inside
-	tmp = rm_spaces_near_redir(line);
-	free(line);
-	line = tmp;
-
+	line = remove_spaces(line);
 	if (line == NULL)
 		return (NULL);
-	tmp = ft_strtrim(line, " ");
-	free(line);
-	line = tmp;
-	if (line == NULL)
-		return (NULL);
-	// line grooming till here
-
 	commands = split_pipes(line);
 	if (commands == NULL)
-	{
 		return (NULL);
-	}
 	ctx->cmd_cnt = count_commands(commands);
 	//TODO: do we want to implement free_cmds?
 	free(ctx->cmds);
@@ -221,6 +199,27 @@ t_context	*parse(char *line, t_minishell *ms)
 	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
 		return (free_ctx(ctx, ms), NULL);
 	return (ctx);
+}
+
+//TODO exit if malloc err, free inside
+char	*remove_spaces(char *line)
+{
+	char		*tmp;
+
+	tmp = rm_multi_spaces(line);
+	free(line);
+	line = tmp;
+	tmp = rm_spaces_near_redir(line);
+	free(line);
+	line = tmp;
+	if (line == NULL)
+		return (NULL);
+	tmp = ft_strtrim(line, " ");
+	free(line);
+	line = tmp;
+	if (line == NULL)
+		return (NULL);
+	return (line);
 }
 
 char	*rm_spaces_near_redir(char *str)
