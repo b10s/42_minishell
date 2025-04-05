@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:44:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/23 03:13:11 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/06 02:31:46 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ int	apoc_out(int i, t_context *ctx, t_minishell *ms)
 	int	out;
 	int	pipe_fd[2];
 
-	if (ctx->cmds[i]->out_fd > -1)
-		out = ctx->cmds[i]->out_fd;
-	else if (i < ctx->cmd_cnt - 1)
+	if (i < ctx->cmd_cnt - 1)
 	{
 		if (pipe(pipe_fd) == -1)
 			exit(1);
@@ -46,7 +44,12 @@ int	apoc_out(int i, t_context *ctx, t_minishell *ms)
 		ctx->pipe_read = pipe_fd[READ];
 		ctx->pipe_read_index = i + 1;
 	}
-	else
+	if (ctx->cmds[i]->out_fd > -1)
+	{
+		close_set_gen(&out);
+		out = ctx->cmds[i]->out_fd;
+	}
+	if (out < 0 || i == ctx->cmd_cnt - 1)
 	{
 		out = dup(ms->stdout_fd);
 		if (out == -1)
