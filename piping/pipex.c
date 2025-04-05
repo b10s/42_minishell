@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/01 13:48:47 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/06 02:29:23 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,19 @@ int	status_check(int last_status)
 int	pipeloop(int i, t_context *ctx, t_minishell *ms)
 {
 	int	ret;
+	int	open_fail;
 
+	open_fail = 0;
 	ret = 0;
 	if (open_red_loop(ctx, ms, i) == EXIT_FAILURE)
 	{
 		if (g_signal == 2)
 			return (restore_inout_close(ms), g_signal + 128);
-		return (EXIT_FAILURE);
+		open_fail = 1;
 	}
-	if (apoc_in(i, ctx, ms) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (apoc_out(i, ctx, ms) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (ctx->cmds[i]->cmd_with_args[0] != NULL)
+	apoc_in(i, ctx, ms);
+	apoc_out(i, ctx, ms);
+	if (ctx->cmds[i]->cmd_with_args[0] != NULL && open_fail == 0)
 		ret = gen_exec(i, ctx, ms);
 	restore_in_out(ms);
 	return (ret);
