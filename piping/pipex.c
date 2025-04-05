@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/06 02:29:23 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/06 02:48:46 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ int	pipex(t_context *ctx, t_minishell *ms)
 	int		i;
 	int		last_status;
 
-	if (save_in_out(ms) == EXIT_FAILURE)
-		return (free_ctx(ctx, ms), EXIT_FAILURE);
+	save_in_out(ms);
 	prep_ctx(ctx);
+	if (ctx->cmds[0] == NULL)
+		return (free_ctx(ctx, ms), 0);
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
