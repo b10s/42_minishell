@@ -6,17 +6,32 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:40:41 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/23 02:35:01 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:13:47 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	close_all_fds_except_used(int i, t_context *ctx)
+{
+	int	j;
+
+	j = 0;
+	while (j < ctx->cmd_cnt && j != i)
+	{
+		close_set_gen(&(ctx->cmds[j]->in_fd));
+		close_set_gen(&(ctx->cmds[j]->out_fd));
+		j++;
+	}
+	close_set_gen(&(ctx->pipe_read));
+}
 
 int	execute_cmd(int i, t_context *ctx, t_minishell *ms)
 {
 	char	*cmd_path;
 	char	**cmd_and_args;
 
+	close_all_fds_except_used(i, ctx);
 	cmd_and_args = ctx->cmds[i]->cmd_with_args;
 	cmd_path = find_cmd_path(cmd_and_args[0], ms->envs);
 	if (execve(cmd_path, cmd_and_args, ms->envs->env_cpy) == -1)
