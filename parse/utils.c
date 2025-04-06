@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/22 23:58:13 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/06 12:19:48 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./parse.h"
+#define QQ 0
+#define QW 1
+#define SP 2
 
 size_t	count_spaces_to_rm_near_redir(char *str)
 {
@@ -101,28 +104,24 @@ int	count_commands(char **cmds)
 size_t	count_spaces_to_rm(char *str)
 {
 	size_t	cnt;
-	short	qq;
-	short	qw;
-	short	sp;
+	short	flags[3];
 
+	ft_bzero(flags, sizeof(flags));
 	cnt = 0;
-	qq = 0;
-	qw = 0;
-	sp = 0;
 	while (*str != '\0')
 	{
-		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1;
-		if (*str == '\"' && qw == 0)
-			qq = qq ^ 1;
-		if (*str == ' ' && qq == 0 && qw == 0)
+		if (*str == '\'' && flags[QQ] == 0)
+			flags[QW] = flags[QW] ^ 1;
+		if (*str == '\"' && flags[QW] == 0)
+			flags[QQ] = flags[QQ] ^ 1;
+		if (*str == ' ' && flags[QQ] == 0 && flags[QW] == 0)
 		{
-			if (sp == 1)
+			if (flags[SP] == 1)
 				cnt++;
-			sp = 1;
+			flags[SP] = 1;
 		}
 		else
-			sp = 0;
+			flags[SP] = 0;
 		str++;
 	}
 	return (cnt);
