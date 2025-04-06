@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/04 19:18:48 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/06 20:53:40 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ int	main(void)
 		if (signal_rlerr_emptyl(ms) == 1)
 			continue ;
 		add_history(ms->line);
+		if (syntax_check(ms->line) == 2)
+		{
+			ms->exit_status = 2;
+			ft_putendl_fd("syntax error", 2);
+			continue ;
+		}
 		ctx = parse(ft_strdup(ms->line), ms);
 		if (ctx == NULL)
 			continue ;
