@@ -105,7 +105,6 @@ t_red	*get_redirection(char **pos_in_cmd, int skip, int type)
 	return (red);
 }
 
-
 void	free_red(t_red *red)
 {
 	if (red != NULL)
@@ -128,10 +127,10 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 	red_max = 5;
 	wrd_cnt = 0;
 	wrd_max = 5;
-	//TODO: check for NULL
 	wrds = ft_calloc((wrd_max + 1), sizeof(char *));
 	reds = ft_calloc((red_max + 1), sizeof(t_red *));
-
+	if (wrds == NULL || reds == NULL)
+		exit (1);
 	while (*pos_in_cmd != '\0')
 	{
 		if (*pos_in_cmd == ' ')
@@ -139,18 +138,21 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 			pos_in_cmd++;
 			continue ;
 		}
+		//NOTE: since there is syntax check before parse,
+		// no need to return err in ctx
+		//  $ >
 		if (parse_redirections(&reds, &pos_in_cmd, &red_cnt, &red_max) == 1)
 			continue ;
+		//TODO: set ctx with err msg: unknown char beginning of token
 		if (parse_words(&wrds, &pos_in_cmd, &wrd_cnt, &wrd_max) == 1)
-			return (1) ;
-
+			return (1);
 	}
 	ctx->cmds[cmd_idx]->reds = reds;
 	ctx->cmds[cmd_idx]->cmd_with_args = wrds;
 	return (0);
 }
 
-int parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
+int	parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 {
 	t_token		*tok;
 	// parse word
@@ -158,9 +160,9 @@ int parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 	// TODO: fatal err, err, ok
 	if (tok->len == 0)
 	{
-			// can't parse token but not end of line
-			// TODO: set ctx err
-			return (1);
+		// can't parse token but not end of line
+		// TODO: set ctx err
+		return (1);
 	}
 	// TODO: check result
 	add_word(wrds, tok->tok, wrd_cnt, wrd_max);
@@ -168,10 +170,10 @@ int parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 	return (0);
 }
 
-int parse_redirections(t_red ***reds, char **pos, int *red_cnt, int *red_max)
+int	parse_redirections(t_red ***reds, char **pos, int *red_cnt, int *red_max)
 {
 	char	*pos_in_cmd;
-	t_red		*red;
+	t_red	*red;
 
 	pos_in_cmd = *pos;
 	red = NULL;
@@ -190,7 +192,6 @@ int parse_redirections(t_red ***reds, char **pos, int *red_cnt, int *red_max)
 			return (1);
 		}
 	}
-
 	if (*pos_in_cmd == '<')
 	{
 		if (pos_in_cmd[1] == '<')
