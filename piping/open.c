@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:57:55 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/30 17:21:00 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/08 03:39:38 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	open_out(char *name, t_cmd *cmd)
 int	open_out_append(char *name, t_cmd *cmd)
 {
 	close_set_gen(&(cmd->out_fd));
-	cmd->out_fd = open(name, O_CREAT | O_WRONLY | O_APPEND);
+	cmd->out_fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (cmd->out_fd == -1)
 		return (open_error());
 	return (EXIT_SUCCESS);
