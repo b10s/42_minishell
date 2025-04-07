@@ -85,24 +85,22 @@ void	parse_commands(t_context *ctx, char **commands)
 
 t_red	*get_redirection(char **pos_in_cmd, int skip, int type)
 {
-	t_token		*tok;
 	t_red		*red;
+	t_token		*tok;
 
 	*pos_in_cmd = *pos_in_cmd + skip;
+	//TODO: free token?
 	tok = get_next_token(*pos_in_cmd);
 	//TODO: set err and return ctx
 	// $ >
 	// bash: syntax error near unexpected token `newline'
 	if (tok->len == 0)
 		return (NULL);
-		//break ;
 	*pos_in_cmd = *pos_in_cmd + tok->len;
 	red = malloc(sizeof(t_red *));
 	if (red == NULL)
-		return (NULL);
-		//return (NULL);
+		exit (1);
 	red->type = type;
-	//TODO: free token?
 	red->fname_or_delim = tok->tok;
 	return (red);
 }
@@ -141,25 +139,7 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 			if (pos_in_cmd[1] == '>')
 				red = get_redirection(&pos_in_cmd, 2, OUT_APPEND);
 			else
-			{
-				pos_in_cmd = pos_in_cmd + 1;
-				// can be a function
-				tok = get_next_token(pos_in_cmd);
-				//TODO: set err and return ctx
-				// $ >
-				// bash: syntax error near unexpected token `newline'
-				if (tok->len == 0)
-					return (1);
-
-				pos_in_cmd = pos_in_cmd + tok->len;
-				red = malloc(sizeof(t_red *));
-				if (red == NULL)
-					exit (1);
-					//return (NULL);
-				//
-				red->type = OUT;
-				red->fname_or_delim = tok->tok;
-			}
+				red = get_redirection(&pos_in_cmd, 1, OUT);
 		}
 		if (red != NULL)
 		{
@@ -170,31 +150,9 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 		if (*pos_in_cmd == '<')
 		{
 			if (pos_in_cmd[1] == '<')
-			{
-				pos_in_cmd = pos_in_cmd + 2;
-				tok = get_next_token(pos_in_cmd);
-				if (tok->len == 0)
-					break ;
-				pos_in_cmd = pos_in_cmd + tok->len;
-				red = malloc(sizeof(t_red *));
-				if (red == NULL)
-					exit (1);
-				red->type = HERE_DOC;
-				red->fname_or_delim = tok->tok;
-			}
+				red = get_redirection(&pos_in_cmd, 2, HERE_DOC);
 			else
-			{
-				pos_in_cmd = pos_in_cmd + 1;
-				tok = get_next_token(pos_in_cmd);
-				if (tok->len == 0)
-					break ;
-				pos_in_cmd = pos_in_cmd + tok->len;
-				red = malloc(sizeof(t_red *));
-				if (red == NULL)
-					exit (1);
-				red->type = IN;
-				red->fname_or_delim = tok->tok;
-			}
+				red = get_redirection(&pos_in_cmd, 1, IN);
 		}
 		if (red != NULL)
 		{
