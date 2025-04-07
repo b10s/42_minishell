@@ -119,7 +119,6 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 {
 	t_red		**reds;
 	char		**wrds;
-	t_token		*tok;
 	int			red_cnt;
 	int			red_max;
 	int			wrd_cnt;
@@ -133,7 +132,7 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 	wrds = ft_calloc((wrd_max + 1), sizeof(char *));
 	reds = ft_calloc((red_max + 1), sizeof(t_red *));
 
-	while (42 == 42)
+	while (*pos_in_cmd != '\0')
 	{
 		if (*pos_in_cmd == ' ')
 		{
@@ -142,25 +141,30 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 		}
 		if (parse_redirections(&reds, &pos_in_cmd, &red_cnt, &red_max) == 1)
 			continue ;
+		if (parse_words(&wrds, &pos_in_cmd, &wrd_cnt, &wrd_max) == 1)
+			return (1) ;
 
-		// parse word
-		tok = get_next_token(pos_in_cmd);
-		// TODO: fatal err, err, ok
-		if (tok->len == 0)
-		{
-			if (*pos_in_cmd == '\0')
-				break ;
-			else
-				// can't parse token but not end of line
-				// TODO: set ctx err
-				return (1);
-		}
-		// TODO: check result
-		add_word(&wrds, tok->tok, &wrd_cnt, &wrd_max);
-		pos_in_cmd = pos_in_cmd + tok->len;
 	}
 	ctx->cmds[cmd_idx]->reds = reds;
 	ctx->cmds[cmd_idx]->cmd_with_args = wrds;
+	return (0);
+}
+
+int parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
+{
+	t_token		*tok;
+	// parse word
+	tok = get_next_token(*pos);
+	// TODO: fatal err, err, ok
+	if (tok->len == 0)
+	{
+			// can't parse token but not end of line
+			// TODO: set ctx err
+			return (1);
+	}
+	// TODO: check result
+	add_word(wrds, tok->tok, wrd_cnt, wrd_max);
+	*pos = *pos + tok->len;
 	return (0);
 }
 
