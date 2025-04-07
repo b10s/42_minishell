@@ -105,18 +105,26 @@ t_red	*get_redirection(char **pos_in_cmd, int skip, int type)
 	return (red);
 }
 
+
+void	free_red(t_red *red)
+{
+	if (red != NULL)
+	{
+		free(red->fname_or_delim);
+		free(red);
+	}
+}
+
 int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 {
 	t_red		**reds;
 	char		**wrds;
 	t_token		*tok;
-	t_red		*red;
 	int			red_cnt;
 	int			red_max;
 	int			wrd_cnt;
 	int			wrd_max;
 
-	red = NULL;
 	red_cnt = 0;
 	red_max = 5;
 	wrd_cnt = 0;
@@ -132,34 +140,10 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 			pos_in_cmd++;
 			continue ;
 		}
-		free(red);
-		red = NULL;
-		if (*pos_in_cmd == '>')
-		{
-			if (pos_in_cmd[1] == '>')
-				red = get_redirection(&pos_in_cmd, 2, OUT_APPEND);
-			else
-				red = get_redirection(&pos_in_cmd, 1, OUT);
-		}
-		if (red != NULL)
-		{
-			// TODO: check result
-			add_reds(&reds, red, &red_cnt, &red_max);
+		if (parse_redirections(&reds, &pos_in_cmd, &red_cnt, &red_max) == 1)
 			continue ;
-		}
-		if (*pos_in_cmd == '<')
-		{
-			if (pos_in_cmd[1] == '<')
-				red = get_redirection(&pos_in_cmd, 2, HERE_DOC);
-			else
-				red = get_redirection(&pos_in_cmd, 1, IN);
-		}
-		if (red != NULL)
-		{
-			// TODO: check result
-			add_reds(&reds, red, &red_cnt, &red_max);
-			continue ;
-		}
+
+		// parse word
 		tok = get_next_token(pos_in_cmd);
 		// TODO: fatal err, err, ok
 		if (tok->len == 0)
@@ -170,16 +154,54 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 				// can't parse token but not end of line
 				// TODO: set ctx err
 				return (1);
-				//return (NULL);
 		}
 		// TODO: check result
 		add_word(&wrds, tok->tok, &wrd_cnt, &wrd_max);
 		pos_in_cmd = pos_in_cmd + tok->len;
-		if (*pos_in_cmd == ' ')
-			pos_in_cmd++;
 	}
 	ctx->cmds[cmd_idx]->reds = reds;
 	ctx->cmds[cmd_idx]->cmd_with_args = wrds;
+	return (0);
+}
+
+int parse_redirections(t_red ***reds, char **pos, int *red_cnt, int *red_max)
+{
+	char	*pos_in_cmd;
+	t_red		*red;
+
+	pos_in_cmd = *pos;
+	red = NULL;
+	if (*pos_in_cmd == '>')
+	{
+		if (pos_in_cmd[1] == '>')
+			red = get_redirection(&pos_in_cmd, 2, OUT_APPEND);
+		else
+			red = get_redirection(&pos_in_cmd, 1, OUT);
+		if (red != NULL)
+		{
+			// TODO: check result
+			add_reds(reds, red, red_cnt, red_max);
+			*pos = pos_in_cmd;
+			free_red(red);
+			return (1);
+		}
+	}
+
+	if (*pos_in_cmd == '<')
+	{
+		if (pos_in_cmd[1] == '<')
+			red = get_redirection(&pos_in_cmd, 2, HERE_DOC);
+		else
+			red = get_redirection(&pos_in_cmd, 1, IN);
+		if (red != NULL)
+		{
+			// TODO: check result
+			add_reds(reds, red, red_cnt, red_max);
+			*pos = pos_in_cmd;
+			free_red(red);
+			return (1);
+		}
+	}
 	return (0);
 }
 

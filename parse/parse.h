@@ -92,6 +92,8 @@ char	*remove_spaces(char *line);
 void	parse_commands(t_context *ctx, char **commands);
 int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx);
 t_red	*get_redirection(char **pos_in_cmd, int skip, int type);
+void	free_red(t_red *red);
+int parse_redirections(t_red ***reds, char **pos, int *red_cnt, int *red_max);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
