@@ -65,6 +65,12 @@ t_context	*parse(char *line, t_minishell *ms)
 void	parse_commands(t_context *ctx, char **commands)
 {
 	int			i;
+	int			a[4];
+
+	a[RED_CNT] = 0;
+	a[RED_MAX] = 5;
+	a[WRD_CNT] = 0;
+	a[WRD_MAX] = 5;
 
 	i = 0;
 	while (i < ctx->cmd_cnt)
@@ -77,7 +83,7 @@ void	parse_commands(t_context *ctx, char **commands)
 		ctx->cmds[i]->here_doc_filename = NULL;
 		ctx->cmds[i]->cmd_with_args = NULL;
 		ctx->cmds[i]->reds = NULL;
-		if (parse_single_cmd(commands[i], i, ctx) != 0)
+		if (parse_single_cmd(commands[i], i, a, ctx) != 0)
 			break ;
 		i++;
 	}
@@ -114,21 +120,16 @@ void	free_red(t_red *red)
 	}
 }
 
-int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
+//NOTE: since there is syntax check before parse,
+// no need to return err in ctx
+//  $ >
+int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, int a[4], t_context *ctx)
 {
 	t_red		**reds;
 	char		**wrds;
-	int			red_cnt;
-	int			red_max;
-	int			wrd_cnt;
-	int			wrd_max;
 
-	red_cnt = 0;
-	red_max = 5;
-	wrd_cnt = 0;
-	wrd_max = 5;
-	wrds = ft_calloc((wrd_max + 1), sizeof(char *));
-	reds = ft_calloc((red_max + 1), sizeof(t_red *));
+	wrds = ft_calloc((a[WRD_MAX] + 1), sizeof(char *));
+	reds = ft_calloc((a[RED_MAX] + 1), sizeof(t_red *));
 	if (wrds == NULL || reds == NULL)
 		exit (1);
 	while (*pos_in_cmd != '\0')
@@ -138,13 +139,10 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx)
 			pos_in_cmd++;
 			continue ;
 		}
-		//NOTE: since there is syntax check before parse,
-		// no need to return err in ctx
-		//  $ >
-		if (parse_redirections(&reds, &pos_in_cmd, &red_cnt, &red_max) == 1)
+		if (parse_reds(&reds, &pos_in_cmd, &a[RED_CNT], &a[RED_MAX]) == 1)
 			continue ;
 		//TODO: set ctx with err msg: unknown char beginning of token
-		if (parse_words(&wrds, &pos_in_cmd, &wrd_cnt, &wrd_max) == 1)
+		if (parse_words(&wrds, &pos_in_cmd, &a[WRD_CNT], &a[WRD_MAX]) == 1)
 			return (1);
 	}
 	ctx->cmds[cmd_idx]->reds = reds;
@@ -170,7 +168,7 @@ int	parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 	return (0);
 }
 
-int	parse_redirections(t_red ***reds, char **pos, int *red_cnt, int *red_max)
+int	parse_reds(t_red ***reds, char **pos, int *red_cnt, int *red_max)
 {
 	char	*pos_in_cmd;
 	t_red	*red;
