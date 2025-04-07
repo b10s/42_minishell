@@ -90,7 +90,8 @@ void		add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max);
 int			count_commands(char **cmds);
 char	*remove_spaces(char *line);
 void	parse_commands(t_context *ctx, char **commands);
-void	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx);
+int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, t_context *ctx);
+t_red	*get_redirection(char **pos_in_cmd, int skip, int type);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
