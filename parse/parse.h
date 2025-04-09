@@ -99,6 +99,7 @@ t_red		*get_redirection(char **pos_in_cmd, int skip, int type);
 void		free_red(t_red *red);
 int			parse_reds(t_red ***reds, char **pos, int *red_cnt, int *red_max);
 int			parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max);
+t_red		*get_red(char **pos);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
