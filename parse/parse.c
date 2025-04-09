@@ -234,31 +234,16 @@ char	*remove_spaces(char *line)
 	return (line);
 }
 
-char	*rm_spaces_near_redir(char *str)
+void	rm_sp_near_red(char *new_str, char *str, char pre, short a[2])
 {
-	size_t	new_len;
-	short	qq;
-	short	qw;
-	char	*new_str;
-	char	pre;
-	char	*tmp;
-
-	pre = '\0';
-	new_len = ft_strlen(str) - count_spaces_to_rm_near_redir(str) + 1;
-	new_str = malloc(sizeof(char) * new_len);
-	if (new_str == NULL)
-		return (NULL);
-	tmp = new_str;
-	qq = 0;
-	qw = 0;
 	while (*str != '\0')
 	{
-		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1;
-		if (*str == '\"' && qw == 0)
-			qq = qq ^ 1;
+		if (*str == '\'' && a[QQ] == 0)
+			a[QW] = a[QW] ^ 1;
+		if (*str == '\"' && a[QW] == 0)
+			a[QQ] = a[QQ] ^ 1;
 		*new_str = *str;
-		if ((*str == '<' || *str == '>') && qq == 0 && qw == 0)
+		if ((*str == '<' || *str == '>') && a[QQ] == 0 && a[QW] == 0)
 		{
 			if (pre == ' ')
 			{
@@ -266,7 +251,7 @@ char	*rm_spaces_near_redir(char *str)
 				*new_str = *str;
 			}
 		}
-		if (*str == ' ' && qq == 0 && qw == 0)
+		if (*str == ' ' && a[QQ] == 0 && a[QW] == 0)
 			if (pre == '<' || pre == '>')
 				new_str--;
 		pre = *str;
@@ -274,7 +259,25 @@ char	*rm_spaces_near_redir(char *str)
 		new_str++;
 	}
 	*new_str = '\0';
-	return (tmp);
+}
+
+//TODO: free if there is mem leak: str, new_str - check caller
+char	*rm_spaces_near_redir(char *str)
+{
+	size_t	new_len;
+	short	a[2];
+	char	*new_str;
+	char	pre;
+
+	pre = '\0';
+	new_len = ft_strlen(str) - count_spaces_to_rm_near_redir(str) + 1;
+	new_str = malloc(sizeof(char) * new_len);
+	if (new_str == NULL)
+		exit (1);
+	a[QQ] = 0;
+	a[QW] = 0;
+	rm_sp_near_red(new_str, str, pre, a);
+	return (new_str);
 }
 
 // TODO: test what substr returns in case 0, 0

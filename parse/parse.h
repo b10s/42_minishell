@@ -40,6 +40,9 @@
 # define RED_MAX 1
 # define WRD_CNT 2
 # define WRD_MAX 3
+# define QQ 0
+# define QW 1
+# define SP 2
 
 typedef struct s_token
 {
@@ -100,6 +103,7 @@ void		free_red(t_red *red);
 int			parse_reds(t_red ***reds, char **pos, int *red_cnt, int *red_max);
 int			parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max);
 t_red		*get_red(char **pos);
+void		rm_sp_near_red(char *new_str, char *str, char pre, short a[2]);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);

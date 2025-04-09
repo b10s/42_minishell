@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "./parse.h"
-#define QQ 0
-#define QW 1
-#define SP 2
 
 size_t	count_spaces_to_rm_near_redir(char *str)
 {
