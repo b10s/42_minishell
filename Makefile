@@ -47,6 +47,7 @@ SRCS		= main.c \
 			  parse/utils.c \
 			  parse/token.c \
 			  parse/remove_spaces.c \
+			  parse/redirections.c \
 			  piping/execute_builtin.c \
 			  piping/find_cmd_path.c \
 			  piping/gen_exec.c \
