@@ -45,24 +45,11 @@ int	get_token_len(char *str)
 	while (*str != '\0')
 	{
 		if (*str == '\'' && qq == 0)
-		{
 			qw = qw ^ 1;
-			len++;
-			str++;
-			continue ;
-		}
-		if (*str == '\"' && qw == 0)
-		{
+		else if (*str == '\"' && qw == 0)
 			qq = qq ^ 1;
-			len++;
-			str++;
-			continue ;
-		}
-		if (qw == 1 || qq == 1)
-		{
-			if (ft_isprint(*str) != 1)
-				break ;
-		}
+		else if ((qw == 1 || qq == 1) && ft_isprint(*str) != 1)
+			break ;
 		else
 		{
 			if (token_allowed_chars(*str) != 1)
