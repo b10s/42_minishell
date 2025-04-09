@@ -281,39 +281,32 @@ char	*rm_spaces_near_redir(char *str)
 }
 
 // TODO: test what substr returns in case 0, 0
-		//		empty string or NULL? e.g. `a|b|` 
+//		empty string or NULL? e.g. `a|b|` 
+//TODO check what count_pipes may return
+//TODO check what substr, strtrim may return
+//TODO what to return if str == NULL
 char	**split_pipes(char *str)
 {
 	char	**cmds;
 	char	**ptr;
 	char	*tmp;
-	int		cmd_len;
-	int		cmd_cnt;
 
-	cmds = NULL;
-	if (str == NULL)
-		return (NULL);
-	cmd_cnt = count_pipes(str);
-	cmds = malloc(sizeof(char *) * (cmd_cnt + 1));
+	cmds = malloc(sizeof(char *) * (count_pipes(str) + 1));
 	if (cmds == NULL)
-		return (NULL);
+		exit (1);
 	ptr = cmds;
-	cmd_len = cmd_size_till_pipe(str);
-	while (cmd_len != 0)
+	while (cmd_size_till_pipe(str) != 0)
 	{
-		*cmds = ft_substr(str, 0, cmd_len);
+		*cmds = ft_substr(str, 0, cmd_size_till_pipe(str));
 		tmp = ft_strtrim(*cmds, " ");
 		free(*cmds);
 		*cmds = tmp;
 		if (tmp == NULL)
 			return (NULL);
-		if (*cmds == NULL)
-			return (NULL);
 		cmds++;
-		str = str + cmd_len;
+		str = str + cmd_size_till_pipe(str);
 		if (*str == '|')
 			str++;
-		cmd_len = cmd_size_till_pipe(str);
 	}
 	*cmds = NULL;
 	return (ptr);
