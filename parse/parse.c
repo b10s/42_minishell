@@ -123,7 +123,7 @@ void	free_red(t_red *red)
 //NOTE: since there is syntax check before parse,
 // no need to return err in ctx
 //  $ >
-int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, int a[4], t_context *ctx)
+int	parse_single_cmd(char *pos, int cmd_idx, int a[4], t_context *ctx)
 {
 	t_red		**reds;
 	char		**wrds;
@@ -132,17 +132,17 @@ int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, int a[4], t_context *ctx)
 	reds = ft_calloc((a[RED_MAX] + 1), sizeof(t_red *));
 	if (wrds == NULL || reds == NULL)
 		exit (1);
-	while (*pos_in_cmd != '\0')
+	while (*pos != '\0')
 	{
-		if (*pos_in_cmd == ' ')
+		if (*pos == ' ')
 		{
-			pos_in_cmd++;
+			pos++;
 			continue ;
 		}
-		if (parse_reds(&reds, &pos_in_cmd, &a[RED_CNT], &a[RED_MAX]) == 1)
+		if (parse_reds(&reds, &pos, &a[RED_CNT], &a[RED_MAX]) == 1)
 			continue ;
 		//TODO: set ctx with err msg: unknown char beginning of token
-		if (parse_words(&wrds, &pos_in_cmd, &a[WRD_CNT], &a[WRD_MAX]) == 1)
+		if (parse_words(&wrds, &pos, &a[WRD_CNT], &a[WRD_MAX]) == 1)
 			return (1);
 	}
 	ctx->cmds[cmd_idx]->reds = reds;

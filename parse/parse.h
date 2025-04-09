@@ -92,13 +92,13 @@ void		add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max);
 void		print_ctx(t_context *ctx);
 void		add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max);
 int			count_commands(char **cmds);
-char	*remove_spaces(char *line);
-void	parse_commands(t_context *ctx, char **commands);
-int	parse_single_cmd(char *pos_in_cmd, int cmd_idx, int a[4], t_context *ctx);
-t_red	*get_redirection(char **pos_in_cmd, int skip, int type);
-void	free_red(t_red *red);
-int parse_reds(t_red ***reds, char **pos, int *red_cnt, int *red_max);
-int parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max);
+char		*remove_spaces(char *line);
+void		parse_commands(t_context *ctx, char **commands);
+int			parse_single_cmd(char *pos, int cmd_idx, int a[4], t_context *ctx);
+t_red		*get_redirection(char **pos_in_cmd, int skip, int type);
+void		free_red(t_red *red);
+int			parse_reds(t_red ***reds, char **pos, int *red_cnt, int *red_max);
+int			parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
