@@ -71,7 +71,6 @@ void	parse_commands(t_context *ctx, char **commands)
 	a[RED_MAX] = 5;
 	a[WRD_CNT] = 0;
 	a[WRD_MAX] = 5;
-
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
@@ -123,6 +122,8 @@ void	free_red(t_red *red)
 //NOTE: since there is syntax check before parse,
 // no need to return err in ctx
 //  $ >
+//TODO: set ctx with err msg: unknown char beginning of token
+// after call of parse_words()
 int	parse_single_cmd(char *pos, int cmd_idx, int a[4], t_context *ctx)
 {
 	t_red		**reds;
@@ -141,7 +142,6 @@ int	parse_single_cmd(char *pos, int cmd_idx, int a[4], t_context *ctx)
 		}
 		if (parse_reds(&reds, &pos, &a[RED_CNT], &a[RED_MAX]) == 1)
 			continue ;
-		//TODO: set ctx with err msg: unknown char beginning of token
 		if (parse_words(&wrds, &pos, &a[WRD_CNT], &a[WRD_MAX]) == 1)
 			return (1);
 	}
@@ -150,19 +150,19 @@ int	parse_single_cmd(char *pos, int cmd_idx, int a[4], t_context *ctx)
 	return (0);
 }
 
+// TODO: verify where fatal err, err, ok
+// TODO: set ctx err - when tok-<len is 0
+// can't parse token but not end of line
+// TODO: check result of add_word
 int	parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 {
 	t_token		*tok;
-	// parse word
+
 	tok = get_next_token(*pos);
-	// TODO: fatal err, err, ok
 	if (tok->len == 0)
 	{
-		// can't parse token but not end of line
-		// TODO: set ctx err
 		return (1);
 	}
-	// TODO: check result
 	add_word(wrds, tok->tok, wrd_cnt, wrd_max);
 	*pos = *pos + tok->len;
 	return (0);
@@ -202,7 +202,6 @@ int	parse_reds(t_red ***reds, char **pos, int *red_cnt, int *red_max)
 
 	pos_in_cmd = *pos;
 	red = NULL;
-
 	red = get_red(&pos_in_cmd);
 	if (red != NULL)
 	{
