@@ -312,52 +312,50 @@ char	**split_pipes(char *str)
 	return (ptr);
 }
 
+void	rm_ml_sp(char *new_str, char *str, short flags[3])
+{
+	while (*str != '\0')
+	{
+		if (*str == '\'' && flags[QQ] == 0)
+			flags[QW] = flags[QW] ^ 1;
+		if (*str == '\"' && flags[QW] == 0)
+			flags[QQ] = flags[QQ] ^ 1;
+		if (*str == ' ' && flags[QQ] == 0 && flags[QW] == 0)
+		{
+			if (flags[SP] != 1)
+			{
+				*new_str = *str;
+				new_str++;
+			}
+			flags[SP] = 1;
+		}
+		else
+		{
+			flags[SP] = 0;
+			*new_str = *str;
+			new_str++;
+		}
+		str++;
+	}
+	*new_str = '\0';
+}
+
 // do not remove spaces in ' hey ' and in " hi "
 char	*rm_multi_spaces(char *str)
 {
 	size_t	spaces_to_rm;
 	size_t	str_len;
 	char	*new_str;
-	char	*tmp;
-	short	qw;
-	short	qq;
-	short	sp;
+	short	flags[3];
 
-	qq = 0;
-	qw = 0;
-	sp = 0;
+	flags[QQ] = 0;
+	flags[QW] = 0;
+	flags[SP] = 0;
 	spaces_to_rm = count_spaces_to_rm(str);
 	str_len = ft_strlen(str);
 	new_str = malloc(str_len - spaces_to_rm + 1);
 	if (new_str == NULL)
 		exit (1);
-	tmp = new_str;
-	while (*str != '\0')
-	{
-		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1;
-		if (*str == '\"' && qw == 0)
-			qq = qq ^ 1;
-		if (*str == ' ' && qq == 0 && qw == 0)
-		{
-			if (sp != 1)
-			{
-				*tmp = *str;
-				tmp++;
-				str++;
-			}
-			else
-				str++;
-			sp = 1;
-		}
-		else
-		{
-			sp = 0;
-			*tmp = *str;
-			str++;
-			tmp++;
-		}
-	}
-	*tmp = '\0';
+	rm_ml_sp(new_str, str, flags);
 	return (new_str);
 }
