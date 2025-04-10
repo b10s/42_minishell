@@ -43,6 +43,7 @@
 # define QQ 0
 # define QW 1
 # define SP 2
+# define LEN 2
 
 typedef struct s_token
 {

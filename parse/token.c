@@ -35,30 +35,31 @@ int	token_allowed_chars(char c)
 // or all printable ascii inside quotes ' or "
 int	get_token_len(char *str)
 {
-	int		len;
-	short	qq;
-	short	qw;
+	int	flags[3];
 
-	len = 0;
-	qq = 0;
-	qw = 0;
+	flags[QQ] = 0;
+	flags[QW] = 0;
+	flags[LEN] = 0;
 	while (*str != '\0')
 	{
-		if (*str == '\'' && qq == 0)
-			qw = qw ^ 1;
-		else if (*str == '\"' && qw == 0)
-			qq = qq ^ 1;
-		else if ((qw == 1 || qq == 1) && ft_isprint(*str) != 1)
-			break ;
+		if (*str == '\'' && flags[QQ] == 0)
+			flags[QW] = flags[QW] ^ 1;
+		else if (*str == '\"' && flags[QW] == 0)
+			flags[QQ] = flags[QQ] ^ 1;
+		if (flags[QW] == 1 || flags[QQ] == 1)
+		{
+			if (ft_isprint(*str) != 1)
+				break ;
+		}
 		else
 		{
 			if (token_allowed_chars(*str) != 1)
 				break ;
 		}
 		str++;
-		len++;
+		flags[LEN]++;
 	}
-	return (len);
+	return (flags[LEN]);
 }
 
 t_token	*get_next_token(char *str)
