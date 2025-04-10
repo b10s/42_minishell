@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:56:22 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/10 02:37:13 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/10 20:33:20 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ char	*find_cmd_path(char *cmd, t_envs *envs)
 	cmd_path = r_cmd_path(paths, cmd);
 	if (cmd_path == NULL)
 		exit(1);
+	if (ft_strchr(cmd_path, '/') == NULL)
+		free_exit_paths(paths, &cmd_path, 127, 1);
 	if (access(cmd_path, F_OK) != 0)
 		free_exit_paths(paths, &cmd_path, 127, 1);
 	if (access(cmd_path, X_OK) != 0)
