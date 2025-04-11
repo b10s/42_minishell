@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:47:33 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/11 22:35:03 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:44:33 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_newline(char **args, int *newline)
 	i = 0;
 	while (args[i] != NULL)
 	{
-		if (args[i][0] == '-')
+		if (args[i][0] == '-' && args[i][1] == 'n')
 		{
 			j = 1;
 			while (args[i][j] == 'n')
@@ -30,6 +30,8 @@ int	is_newline(char **args, int *newline)
 			else
 				break ;
 		}
+		else
+			break ;
 		i++;
 	}
 	return (i);
