@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:57:55 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/08 03:40:30 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:28:05 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	open_error(void)
 {
 	perror("open");
 	if (errno == ENFILE || errno == EMFILE || errno == EIO)
-        exit(1);
+		exit(1);
 	return (EXIT_FAILURE);
 }
 

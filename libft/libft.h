@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:43:01 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/01/03 16:17:56 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:27:29 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,14 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-
 //ft_printf
-int	ft_printf(const char *str, ...);
-int	ft_printchar(char ch);
-int	ft_printstr(char *str);
-int	ft_printptr(void *ptr);
-int	ft_printint(int num);
-int	ft_printuint(unsigned int num);
-int	ft_printuhex(uintptr_t num, int upper);
+int		ft_printf(const char *str, ...);
+int		ft_printchar(char ch);
+int		ft_printstr(char *str);
+int		ft_printptr(void *ptr);
+int		ft_printint(int num);
+int		ft_printuint(unsigned int num);
+int		ft_printuhex(uintptr_t num, int upper);
 
 //bonus
 

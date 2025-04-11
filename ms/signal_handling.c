@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:29:13 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/06 11:52:43 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:30:22 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,5 @@ void	signal_handler(int sigint)
 	g_signal = SIGINT;
 	rl_replace_line("^C", 0);
 	rl_redisplay();
-	//printf("^C");
 	rl_done = 1;
 }
