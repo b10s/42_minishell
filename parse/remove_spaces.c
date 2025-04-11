@@ -46,7 +46,7 @@ char	*rm_multi_spaces(char *str)
 	flags[SP] = 0;
 	spaces_to_rm = count_spaces_to_rm(str);
 	str_len = ft_strlen(str);
-	new_str = malloc(str_len - spaces_to_rm + 1);
+	new_str = ft_calloc(str_len - spaces_to_rm + 1, sizeof(char));
 	if (new_str == NULL)
 		exit (1);
 	rm_ml_sp(new_str, str, flags);
@@ -91,7 +91,7 @@ char	*rm_spaces_near_redir(char *str)
 
 	pre = '\0';
 	new_len = ft_strlen(str) - count_spaces_to_rm_near_redir(str) + 1;
-	new_str = malloc(sizeof(char) * new_len);
+	new_str = ft_calloc(new_len, sizeof(char));
 	if (new_str == NULL)
 		exit (1);
 	a[QQ] = 0;

@@ -66,7 +66,7 @@ t_token	*get_next_token(char *str)
 {
 	t_token	*tok;
 
-	tok = malloc(sizeof(t_token));
+	tok = ft_calloc(1, sizeof(t_token));
 	if (tok == NULL)
 		exit (1);
 	tok->beg = str;
@@ -74,7 +74,7 @@ t_token	*get_next_token(char *str)
 	tok->tok = NULL;
 	if (tok->len == 0)
 		return (tok);
-	tok->tok = malloc(sizeof(char) * (tok->len + 1));
+	tok->tok = ft_calloc((tok->len + 1), sizeof(char));
 	if (tok->tok == NULL)
 		exit (1);
 	tok->tok = ft_memcpy(tok->tok, str, tok->len);
