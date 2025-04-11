@@ -134,6 +134,8 @@ int	parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 	}
 	add_word(wrds, tok->tok, wrd_cnt, wrd_max);
 	*pos = *pos + tok->len;
+	//TODO: free token - seems to be leak; verify using valgridn before and after
+	// because we use strdup to copy tok
 	return (0);
 }
 
