@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:56:03 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/12 17:42:28 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:22:34 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*get_value(char *namevalue)
 			value = ft_strdup("");
 			if (value == NULL)
 				exit(1);
+			return (value);
 		}
 		namevalue++;
 	}
