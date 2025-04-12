@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/01 14:00:41 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:08:59 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ static char	*join_line_newline(char *lines, char *to_join)
 	char	*newline;
 
 	if (lines == NULL || to_join == NULL)
-		return (free(lines), free(to_join), NULL);
+		exit(1);
 	newline = ft_strjoin(lines, to_join);
+	if (newline == NULL)
+		exit(1);
 	free(lines);
 	free(to_join);
 	return (newline);

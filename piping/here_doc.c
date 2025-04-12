@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 21:51:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/01 14:02:32 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:09:23 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	input_loop(t_cmd *cmd, t_minishell *ms, char *limiter, int numlines)
 	limlen = ft_strlen(limiter);
 	lines = (char *)ft_calloc(1, sizeof(char));
 	if (lines == NULL)
-		return (EXIT_FAILURE);
+		exit(1);
 	while (1)
 	{
 		nline = readline("> ");
@@ -72,7 +72,7 @@ int	input_loop(t_cmd *cmd, t_minishell *ms, char *limiter, int numlines)
 			return (write_lines(cmd, ms, lines, nline));
 		lines = join_line_newline(lines, nline);
 		if (lines == NULL)
-			return (EXIT_FAILURE);
+			exit(1);
 		numlines++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 17:10:47 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/02/28 21:54:30 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:03:46 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*find_unique_file_name(void)
 
 	name = (char *)ft_calloc(30, sizeof(char));
 	if (name == NULL)
-		return (NULL);
+		exit(1);
 	ft_bzero(name, 30);
 	numender = 0;
 	while (numender < INT_MAX)

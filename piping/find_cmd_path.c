@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:56:22 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/12 17:38:00 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:11:50 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	*join_path_cmd(char *path, char *cmd)
 	if (path_fslash == NULL)
 		exit(1);
 	joined = ft_strjoin(path_fslash, cmd);
+	if (joined == NULL)
+		exit(1);
 	free(path_fslash);
 	return (joined);
 }
