@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/04/12 17:07:31 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/12 18:23:49 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ t_context	*parse(char *line, t_minishell *ms)
 	if (ctx->cmds == NULL)
 		exit (1);
 	parse_commands(ctx, commands);
-	if (interp_remquotelayer(ctx, ms) == EXIT_FAILURE)
-		return (free_ctx(ctx, ms), NULL);
+	interp_remquotelayer(ctx, ms);
 	return (ctx);
 }
 
