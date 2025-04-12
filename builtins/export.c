@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:29:06 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/23 12:08:03 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:41:14 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	put_var(char *var)
 	name = get_name(var);
 	value = get_value(var);
 	if (name == NULL || value == NULL)
-		return (free(name), free(value), EXIT_FAILURE);
+		exit(1);
 	ft_printf("declare -x ");
 	ft_printf("%s=\"%s\"\n", name, value);
 	free(name);
@@ -67,7 +67,10 @@ int	cmd_export(char **args, t_envs *envs)
 	while (args[i] != NULL)
 	{
 		if (valid_var_check(args[i], CMD_EXPORT) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		{
+			i++;
+			continue ;
+		}
 		if (add_var(args[i], envs) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:28:31 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/28 18:31:57 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:06:09 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@
 # define QQ 0
 # define QW 1
 # define SP 2
+# define LEN 2
 
 typedef struct s_token
 {
-	char	*beg;
 	int		len;
 	char	*tok;
 }	t_token;

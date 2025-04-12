@@ -6,11 +6,36 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:47:33 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/19 18:53:19 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:44:33 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+int	is_newline(char **args, int *newline)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (args[i] != NULL)
+	{
+		if (args[i][0] == '-' && args[i][1] == 'n')
+		{
+			j = 1;
+			while (args[i][j] == 'n')
+				j++;
+			if (args[i][j] == '\0')
+				*newline = 0;
+			else
+				break ;
+		}
+		else
+			break ;
+		i++;
+	}
+	return (i);
+}
 
 //prints args to STDOUT with a space inbetween them, then adds a newline
 //if there are no args it just adds a newline
@@ -23,13 +48,7 @@ int	cmd_echo(char **args)
 	if (args[0] == NULL)
 		return (printf("\n"), 0);
 	newline = 1;
-	if (ft_strncmp(args[0], "-n", 3) == 0)
-	{
-		if (args[1] == NULL)
-			return (EXIT_SUCCESS);
-		newline = 0;
-		args++;
-	}
+	args += is_newline(args, &newline);
 	i = 0;
 	while (args[i] != NULL)
 	{
