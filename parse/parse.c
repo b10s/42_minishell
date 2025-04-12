@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/04/12 18:23:49 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:40:34 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_context	*parse(char *line, t_minishell *ms)
 	if (line == NULL)
 		return (NULL);
 	commands = split_pipes(line);
+	free(line);
 	if (commands == NULL)
 		return (NULL);
 	ctx->cmd_cnt = count_commands(commands);
