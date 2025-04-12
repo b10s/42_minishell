@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 23:48:58 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:07:31 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ int	parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 	}
 	add_word(wrds, tok->tok, wrd_cnt, wrd_max);
 	*pos = *pos + tok->len;
-	//TODO: free token - seems to be leak; verify using valgridn before and after
-	// because we use strdup to copy tok
+	free(tok->tok);
+	free(tok);
 	return (0);
 }
 

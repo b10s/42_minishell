@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/22 23:58:13 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:07:08 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ t_token	*get_next_token(char *str)
 	tok = ft_calloc(1, sizeof(t_token));
 	if (tok == NULL)
 		exit (1);
-	tok->beg = str;
 	tok->len = get_token_len(str);
 	tok->tok = NULL;
 	if (tok->len == 0)
