@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:14:55 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/23 02:45:37 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:52:53 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ int	remake_env_cpy_bigger(t_envs *envs)
 	oldlen = count_variables(envs);
 	newenv = (char **)ft_calloc(oldlen + 2, sizeof(char *));
 	if (newenv == NULL)
-		return (EXIT_FAILURE);
-	if (copy_env_cpy(newenv, envs) == EXIT_FAILURE)
-		return (free_split(newenv), EXIT_FAILURE);
+		exit(1);
+	copy_env_cpy(newenv, envs);
 	free_split(envs->env_cpy);
 	envs->env_cpy = newenv;
 	return (EXIT_SUCCESS);
@@ -65,11 +64,11 @@ int	add_var(const char *name, const char *value, t_envs *envs)
 	name_eq_value = ft_strjoin(name_eq, value);
 	if (name_eq_value == NULL)
 		exit(1);
+	free(name_eq);
 	i = 0;
 	while (envs->env_cpy[i] != NULL)
 		i++;
 	envs->env_cpy[i] = name_eq_value;
-	free(name_eq);
 	return (EXIT_SUCCESS);
 }
 
@@ -79,10 +78,7 @@ int	ft_setenv(const char *name, const char *value, int overwrite, t_envs *envs)
 
 	var_pos = get_variable_pos(name, envs);
 	if (var_pos == -1)
-	{
-		if (remake_env_cpy_bigger(envs) == EXIT_FAILURE)
-			exit(1);
-	}
+		remake_env_cpy_bigger(envs);
 	else if (overwrite == 0)
 		return (EXIT_SUCCESS);
 	else

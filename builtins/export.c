@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:29:06 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/11 22:41:14 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:57:07 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static int	add_var(char *arg, t_envs *envs)
 	value = get_value(arg);
 	if (ft_setenv(name, value, 1, envs) == EXIT_FAILURE)
 		exit(1);
+	free(name);
+	free(value);
 	return (EXIT_SUCCESS);
 }
 
