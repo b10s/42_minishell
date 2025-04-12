@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/04/12 20:49:06 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/12 21:08:17 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ t_context	*parse(char *line, t_minishell *ms)
 	}
 	line = remove_spaces(line);
 	commands = split_pipes(line);
-	//free(line);
+	free(line);
 	if (commands == NULL)
 		return (NULL);
 	ctx->cmd_cnt = count_commands(commands);
 	ctx->cmds = ft_calloc((ctx->cmd_cnt + 1), sizeof(t_cmd *));
 	if (ctx->cmds == NULL)
-		exit (1);
+		exit(1);
 	parse_commands(ctx, commands);
 	interp_remquotelayer(ctx, ms);
 	return (ctx);
@@ -142,13 +142,14 @@ int	parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 //TODO check what count_pipes may return
 //TODO check what substr, strtrim may return
 //TODO what to return if str == NULL
+//NOTE pipes + 2 in case of 0 pipes will eat extra 8 bytes but it is okay
 char	**split_pipes(char *str)
 {
 	char	**cmds;
 	char	**ptr;
 	char	*tmp;
 
-	cmds = ft_calloc((count_pipes(str) + 1), sizeof(char *));
+	cmds = ft_calloc((count_pipes(str) + 2), sizeof(char *));
 	if (cmds == NULL)
 		exit (1);
 	ptr = cmds;
@@ -165,6 +166,5 @@ char	**split_pipes(char *str)
 		if (*str == '|')
 			str++;
 	}
-	*cmds = NULL;
 	return (ptr);
 }
