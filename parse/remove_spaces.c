@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   remove_spaces.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 23:48:58 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/12 20:48:27 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ char	*remove_spaces(char *line)
 	free(line);
 	line = tmp;
 	if (line == NULL)
-		return (NULL);
+		exit(1);
 	tmp = ft_strtrim(line, " ");
 	free(line);
 	line = tmp;
 	if (line == NULL)
-		return (NULL);
+		exit(1);
 	return (line);
 }
 
