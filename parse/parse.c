@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/04/12 21:08:17 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/12 21:29:17 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_context	*parse(char *line, t_minishell *ms)
 	if (ctx->cmds == NULL)
 		exit(1);
 	parse_commands(ctx, commands);
+	free_split(commands);
 	interp_remquotelayer(ctx, ms);
 	return (ctx);
 }
@@ -160,7 +161,7 @@ char	**split_pipes(char *str)
 		free(*cmds);
 		*cmds = tmp;
 		if (tmp == NULL)
-			return (NULL);
+			exit(1);
 		cmds++;
 		str = str + cmd_size_till_pipe(str);
 		if (*str == '|')
