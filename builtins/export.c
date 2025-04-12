@@ -20,7 +20,7 @@ int	put_var(char *var)
 	name = get_name(var);
 	value = get_value(var);
 	if (name == NULL || value == NULL)
-		return (free(name), free(value), EXIT_FAILURE);
+		exit(1);
 	ft_printf("declare -x ");
 	ft_printf("%s=\"%s\"\n", name, value);
 	free(name);

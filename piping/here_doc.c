@@ -27,7 +27,7 @@ char	*join_line_newline(char *lines, char *to_join)
 	char	*newline;
 
 	if (lines == NULL || to_join == NULL)
-		return (free(lines), free(to_join), NULL);
+		exit(1);
 	newline = ft_strjoin(lines, to_join);
 	if (newline == NULL)
 		exit(1);
