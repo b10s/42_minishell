@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:56 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/29 00:19:29 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:02:05 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,8 @@ int		apoc_out(int i, t_context *ctx, t_minishell *ms);
 int		gen_exec(int i, t_context *ctx, t_minishell *ms);
 //the one
 int		pipex(t_context *ctx, t_minishell *ms);
+
+//error msg
+void	put_cmd_error(char *cmd, char *error_msg);
 
 #endif

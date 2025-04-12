@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   cmd_error_message.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/12 17:00:59 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/12 21:56:06 by adrgutie         ###   ########.fr       */
+/*   Created: 2025/04/12 21:00:22 by adrgutie          #+#    #+#             */
+/*   Updated: 2025/04/12 21:58:53 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void	put_cmd_error(char *cmd, char *error_msg)
 {
-	if (!s)
-		return ;
-	write(fd, s, ft_strlen(s));
-	ft_putchar_fd('\n', fd);
+	char	*combo;
+
+	combo = ft_strjoin(cmd, error_msg);
+	if (combo == NULL)
+		exit(1);
+	ft_putstr_fd(combo, 2);
+	free(combo);
 }

@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:48:17 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/06 20:51:57 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:53:50 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 #define IN_OUT 1
 #define HD_AM 2
 #define PIPE 3
+#define NLINE 4
 
 int	is_special(char c)
 {
-	if (c == '>' || c == '<' || c == '|')
+	if (c == '>' || c == '<' || c == '|' || c == '\n')
 		return (1);
 	return (0);
 }
@@ -42,11 +43,15 @@ int	find_type(char *line)
 			return (HD_AM);
 		return (IN_OUT);
 	}
+	if (line[0] == '\n')
+		return (NLINE);
 	return (0);
 }
 
 int	check_after(char *line, int a[4])
 {
+	if (line[-1] == '\n')
+		return (EXIT_FAILURE);
 	while (*line == ' ')
 		line++;
 	if (*line == '\0')
@@ -63,7 +68,7 @@ int	check_after(char *line, int a[4])
 
 int	syntax_check(char *line)
 {
-	int	a[4];
+	int	a[5];
 
 	if (*line == '|')
 		return (2);

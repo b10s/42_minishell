@@ -6,7 +6,7 @@
 #    By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/01 16:32:54 by adrgutie          #+#    #+#              #
-#    Updated: 2025/04/10 10:32:17 by adrgutie         ###   ########.fr        #
+#    Updated: 2025/04/12 21:08:40 by adrgutie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCS		= main.c \
 			  parse/token.c \
 			  parse/remove_spaces.c \
 			  parse/redirections.c \
+			  piping/cmd_error_message.c \
 			  piping/execute_builtin.c \
 			  piping/find_cmd_path.c \
 			  piping/gen_exec.c \
