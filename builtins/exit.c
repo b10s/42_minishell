@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:06:25 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/03/26 20:36:32 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:10:12 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ int	cmd_exit(char **args, t_minishell *ms, t_context *ctx)
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[0], 2);
 		free_stuff(ms, ctx);
-		ft_putendl_fd(": numeric argument required", 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 		exit(2);
 	}
 	else if (args[1] != NULL)
-		return (ft_putendl_fd("exit: too many arguments", 2), EXIT_FAILURE);
+		return (ft_putstr_fd("exit: too many arguments\n", 2), EXIT_FAILURE);
 	exit_status = get_uchar(args[0]);
 	free_stuff(ms, ctx);
 	exit(exit_status);
