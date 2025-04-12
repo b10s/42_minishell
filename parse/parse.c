@@ -74,7 +74,7 @@ void	parse_commands(t_context *ctx, char **commands)
 	i = 0;
 	while (i < ctx->cmd_cnt)
 	{
-		ctx->cmds[i] = malloc(sizeof(t_cmd));
+		ctx->cmds[i] = ft_calloc(1, sizeof(t_cmd));
 		if (ctx->cmds[i] == NULL)
 			exit (1);
 		ctx->cmds[i]->out_fd = -1;
@@ -134,6 +134,8 @@ int	parse_words(char ***wrds, char **pos, int *wrd_cnt, int *wrd_max)
 	}
 	add_word(wrds, tok->tok, wrd_cnt, wrd_max);
 	*pos = *pos + tok->len;
+	//TODO: free token - seems to be leak; verify using valgridn before and after
+	// because we use strdup to copy tok
 	return (0);
 }
 
@@ -148,7 +150,7 @@ char	**split_pipes(char *str)
 	char	**ptr;
 	char	*tmp;
 
-	cmds = malloc(sizeof(char *) * (count_pipes(str) + 1));
+	cmds = ft_calloc((count_pipes(str) + 1), sizeof(char *));
 	if (cmds == NULL)
 		exit (1);
 	ptr = cmds;

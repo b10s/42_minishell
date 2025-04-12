@@ -71,7 +71,7 @@ t_red	*get_redirection(char **pos_in_cmd, int skip, int type)
 	if (tok->len == 0)
 		return (NULL);
 	*pos_in_cmd = *pos_in_cmd + tok->len;
-	red = malloc(sizeof(t_red *));
+	red = ft_calloc(1, sizeof(t_red *));
 	if (red == NULL)
 		exit (1);
 	red->type = type;

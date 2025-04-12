@@ -14,7 +14,8 @@
 
 int	add_new_red(t_red **reds_ptr, t_red *r);
 
-//TODO err handle for NULL for calloc
+//TODO err handle for NULL for calloc and ft_strdup
+//NOTE free(*words) is enoug since char * we reuse in new_words
 void	add_word(char ***words, char *w, int *wrd_cnt, int *wrd_max)
 {
 	char	**new_words;
