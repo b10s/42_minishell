@@ -6,7 +6,7 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/04/13 18:35:07 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/13 18:43:50 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_red	*get_redirection(char **pos_in_cmd, int skip, int type)
 		exit (1);
 	red->type = type;
 	red->fname_or_delim = tok->tok;
+	free(tok);
 	return (red);
 }
 

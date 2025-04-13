@@ -6,13 +6,11 @@
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/04/13 18:39:26 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/13 19:08:19 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./parse.h"
-
-int	add_new_red(t_red **reds_ptr, t_red *r);
 
 //TODO err handle for NULL for calloc and ft_strdup
 //NOTE free(*words) is enoug since char * we reuse in new_words
@@ -55,8 +53,8 @@ void	add_reds(t_red ***reds, t_red *r, int *red_cnt, int *red_max)
 	reds_ptr = *reds;
 	if (*red_cnt == *red_max)
 	{
-		*red_max += 5;
-		new_reds = ft_calloc((*red_max + 1), sizeof(t_red *));
+		(*red_max) += 5;
+		new_reds = ft_calloc((*red_max) + 1, sizeof(t_red *));
 		while (reds_ptr[i] != NULL)
 		{
 			new_reds[i] = reds_ptr[i];
@@ -86,7 +84,7 @@ int	add_new_red(t_red **reds_ptr, t_red *r)
 		i++;
 	reds_ptr[i] = ft_calloc(1, sizeof(t_red));
 	if (reds_ptr[i] == NULL)
-		return (1);
+		exit(1);
 	reds_ptr[i]->type = r->type;
 	reds_ptr[i]->fname_or_delim = ft_strdup(r->fname_or_delim);
 	if (reds_ptr[i]->fname_or_delim == NULL)

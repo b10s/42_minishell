@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:56:47 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/06 02:40:01 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:06:36 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_reds(t_cmd *cmd)
 	while (cmd->reds[i] != NULL)
 	{
 		free(cmd->reds[i]->fname_or_delim);
+		free(cmd->reds[i]);
 		i++;
 	}
 	free(cmd->reds);
