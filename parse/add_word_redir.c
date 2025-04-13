@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   add_word_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/22 23:58:13 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/13 18:39:26 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	add_new_red(t_red **reds_ptr, t_red *r)
 	i = 0;
 	while (reds_ptr[i] != NULL)
 		i++;
-	reds_ptr[i] = ft_calloc(1, sizeof(t_red *));
+	reds_ptr[i] = ft_calloc(1, sizeof(t_red));
 	if (reds_ptr[i] == NULL)
 		return (1);
 	reds_ptr[i]->type = r->type;
