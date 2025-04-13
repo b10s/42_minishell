@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aenshin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/03/23 23:48:58 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/13 18:35:07 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_red	*get_redirection(char **pos_in_cmd, int skip, int type)
 	if (tok->len == 0)
 		return (NULL);
 	*pos_in_cmd = *pos_in_cmd + tok->len;
-	red = ft_calloc(1, sizeof(t_red *));
+	red = ft_calloc(1, sizeof(t_red));
 	if (red == NULL)
 		exit (1);
 	red->type = type;
