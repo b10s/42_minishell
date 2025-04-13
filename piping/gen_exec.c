@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:40:41 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/13 19:14:08 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:29:05 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	gen_exec(int i, t_context *ctx, t_minishell *ms)
 	int		w_b;
 	int		ret;
 
+	ret = 0;
 	w_b = which_builtin(ctx->cmds[i]->cmd_with_args[0]);
 	if (ctx->cmd_cnt == 1 && w_b != CMD_NOT_BUILTIN)
 		;
@@ -79,5 +80,5 @@ int	gen_exec(int i, t_context *ctx, t_minishell *ms)
 		if (ctx->pid[i] == 0)
 			exit(ret);
 	}
-	return (EXIT_SUCCESS);
+	return (ret);
 }
