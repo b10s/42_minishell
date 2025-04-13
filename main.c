@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/13 16:23:16 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:33:42 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ int	signal_rlerr_emptyl(t_minishell *ms)
 	{
 		exit_status = ms->exit_status;
 		free_minishell(ms);
+		ms = NULL;
 		printf("exit\n");
-		exit(ms->exit_status);
+		exit(exit_status);
 	}
 	if (ms->line[0] == '\0')
 		return (1);
