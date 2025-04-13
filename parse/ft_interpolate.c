@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:11:18 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/12 18:08:59 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:25:51 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char	*update_line(char *line, t_minishell *ms, \
 	value_len = ft_strlen(value);
 	line = sandwich(line, *i, *i + 1 + namelen, value);
 	(*i) += (value_len - 1);
+	free(name);
 	return (line);
 }
 
