@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:35:57 by aenshin           #+#    #+#             */
-/*   Updated: 2025/04/12 21:29:17 by aenshin          ###   ########.fr       */
+/*   Updated: 2025/04/13 21:10:10 by aenshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_context	*parse(char *line, t_minishell *ms)
 	if (validate_quotes(line) != 0)
 	{
 		ctx->err = (char *)&QUOTES_ERR;
+		free(line);
 		return (ctx);
 	}
 	line = remove_spaces(line);
