@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:40:41 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/10 02:57:05 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:23:45 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	execute_cmd(int i, t_context *ctx, t_minishell *ms)
 	close_all_fds_except_used(i, ctx);
 	cmd_and_args = ctx->cmds[i]->cmd_with_args;
 	cmd_path = find_cmd_path(cmd_and_args[0], ms->envs);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (execve(cmd_path, cmd_and_args, ms->envs->env_cpy) == -1)
 	{
 		free(cmd_path);
@@ -41,6 +43,15 @@ int	execute_cmd(int i, t_context *ctx, t_minishell *ms)
 		exit(EXIT_FAILURE);
 	}
 	return (EXIT_FAILURE);
+}
+
+void	change_signal_handler_for_child(int i, t_context *ctx)
+{
+	if (ctx->pid[i] == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
 }
 
 int	gen_exec(int i, t_context *ctx, t_minishell *ms)
@@ -57,6 +68,7 @@ int	gen_exec(int i, t_context *ctx, t_minishell *ms)
 		if ((ctx->pid[i]) == -1)
 			return (perror("fork"), exit(1), EXIT_FAILURE);
 	}
+	change_signal_handler_for_child(i, ctx);
 	if (ctx->pid[i] == 0 || ctx->pid[i] == -2)
 	{
 		if (w_b != CMD_NOT_BUILTIN)
