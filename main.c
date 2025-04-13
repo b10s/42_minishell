@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:41:16 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/13 18:07:13 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:10:47 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_minishell	*init_ms_and_signal_setup(void)
 		exit(1);
 	rl_event_hook = signal_event_hook;
 	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, ignore_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
 	return (ms);
 }

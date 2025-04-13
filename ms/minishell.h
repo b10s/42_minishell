@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 18:44:19 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/13 18:07:03 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:10:54 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void		free_minishell(t_minishell *ms);
 //signal handler
 void		signal_handler(int sigint);
 int			signal_event_hook(void);
-void		ignore_sigquit(int sigquit);
 
 //init minishell
 t_minishell	*init_minishell(void);
