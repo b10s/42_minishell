@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:48:17 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/12 21:53:50 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/14 02:16:08 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_after(char *line, int a[4])
 {
 	if (line[-1] == '\n')
 		return (EXIT_FAILURE);
-	while (*line == ' ')
+	while (*line == ' ' || *line == '\t')
 		line++;
 	if (*line == '\0')
 		return (EXIT_FAILURE);
