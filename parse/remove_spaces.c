@@ -61,7 +61,7 @@ void	rm_ml_sp(char *new_str, char *str, short flags[3])
 			flags[QW] = flags[QW] ^ 1;
 		if (*str == '\"' && flags[QW] == 0)
 			flags[QQ] = flags[QQ] ^ 1;
-		if (*str == ' ' && flags[QQ] == 0 && flags[QW] == 0)
+		if (is_space(*str) == 1 && flags[QQ] == 0 && flags[QW] == 0)
 		{
 			if (flags[SP] != 1)
 			{

@@ -111,7 +111,7 @@ size_t	count_spaces_to_rm(char *str)
 			flags[QW] = flags[QW] ^ 1;
 		if (*str == '\"' && flags[QW] == 0)
 			flags[QQ] = flags[QQ] ^ 1;
-		if (*str == ' ' && flags[QQ] == 0 && flags[QW] == 0)
+		if (is_space(*str) == 1 && flags[QQ] == 0 && flags[QW] == 0)
 		{
 			if (flags[SP] == 1)
 				cnt++;

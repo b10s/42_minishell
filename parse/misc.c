@@ -80,3 +80,10 @@ int	validate_quotes(char *str)
 		return (1);
 	return (0);
 }
+
+int	is_space(char c)
+{
+	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
