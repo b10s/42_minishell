@@ -104,7 +104,7 @@ int	parse_single_cmd(char *pos, int cmd_idx, int a[4], t_context *ctx)
 		exit (1);
 	while (*pos != '\0')
 	{
-		if (*pos == ' ')
+		if (is_space(*pos) == 1)
 		{
 			pos++;
 			continue ;
