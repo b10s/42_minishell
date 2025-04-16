@@ -28,36 +28,6 @@ t_context	*init_ctx(void)
 	return (ctx);
 }
 
-//TODO replace to ft_printf - double check if we can use printf
-void	print_ctx(t_context *ctx)
-{
-	int	i;
-	int	j;
-
-	printf("\t=== print context ===\n");
-	i = 0;
-	if (ctx->cmds == NULL)
-		return ;
-	while (ctx->cmds[i] != NULL)
-	{
-		j = 0;
-		printf("\ncmd: ");
-		while (ctx->cmds[i]->cmd_with_args[j] != NULL)
-			printf(" [%s]", ctx->cmds[i]->cmd_with_args[j++]);
-		printf("\nred:\n");
-		j = 0;
-		while (ctx->cmds[i]->reds[j] != NULL)
-		{
-			printf("  [%s] of type [%d]\n",
-				ctx->cmds[i]->reds[j]->fname_or_delim,
-				ctx->cmds[i]->reds[j]->type);
-			j++;
-		}
-		printf("\n\n");
-		i++;
-	}
-}
-
 int	count_single_quotes(char *str)
 {
 	short	qw;

@@ -106,6 +106,7 @@ t_red		*get_red(char **pos);
 void		rm_sp_near_red(char *new_str, char *str, char pre, short a[2]);
 void		rm_ml_sp(char *new_str, char *str, short flags[3]);
 int			add_new_red(t_red **reds_ptr, t_red *r);
+void		print_cmd(t_cmd *cmd);
 
 //interpolation
 char		*ft_interpolate(char *line, t_minishell *ms, int quote_check);
