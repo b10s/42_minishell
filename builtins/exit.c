@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:06:25 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/15 21:20:18 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:51:24 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	num_loop(char *str, int i, int sign)
 			return (0);
 		if (sign == -1 && (num > (-(LONG_MIN + digit)) / 10))
 			return (0);
-		num = num * 10 * digit;
+		num = num * 10 + digit;
 		i++;
 	}
 	if (str[i] != '\0')

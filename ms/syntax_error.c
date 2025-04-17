@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:48:17 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/14 02:16:08 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:32:48 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 int	is_special(char c)
 {
-	if (c == '>' || c == '<' || c == '|' || c == '\n')
+	if (ft_strchr("<>|\n", c) != NULL)
 		return (1);
 	return (0);
 }
@@ -66,11 +66,20 @@ int	check_after(char *line, int a[4])
 	return (EXIT_SUCCESS);
 }
 
+int	check_start_pipe(char **line)
+{
+	while (**line == '\t' || **line == ' ')
+		(*line)++;
+	if (**line == '|')
+		return (2);
+	return (0);
+}
+
 int	syntax_check(char *line)
 {
 	int	a[5];
 
-	if (*line == '|')
+	if (check_start_pipe(&line) == 2)
 		return (2);
 	ft_bzero(a, sizeof(a));
 	while (line[a[I]] != '\0')
