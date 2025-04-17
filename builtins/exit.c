@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:06:25 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/17 20:28:09 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:45:07 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	get_uchar(char *str)
 	int				i;
 	int				pos_or_neg;
 
+	while ((*str >= 8 && *str <= 13) || *str == ' ')
+		str++;
 	i = 0;
 	pos_or_neg = 1;
 	if (str[0] == '-')
