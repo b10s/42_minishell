@@ -6,7 +6,7 @@
 /*   By: adrgutie <adrgutie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:28:21 by adrgutie          #+#    #+#             */
-/*   Updated: 2025/04/10 02:56:04 by adrgutie         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:26:06 by adrgutie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ int	pipeloop(int i, t_context *ctx, t_minishell *ms)
 		if (g_signal == 2)
 			return (restore_inout_close(ms), g_signal + 128);
 		open_fail = 1;
+	}
+	if (ctx->cmds[0]->cmd_with_args[0] != NULL)
+	{
+		if (ft_strncmp(ctx->cmds[0]->cmd_with_args[0], "exit", 5) == 0 \
+			&& ctx->cmd_cnt == 1)
+			printf("exit\n");
 	}
 	apoc_in(i, ctx, ms);
 	apoc_out(i, ctx, ms);
