@@ -17,7 +17,7 @@ int	token_allowed_chars(char c)
 	int	res;
 
 	res = 0;
-	if (c == ' ')
+	if (is_space(c) == 1)
 		return (0);
 	if (c == '<' || c == '>')
 		return (0);

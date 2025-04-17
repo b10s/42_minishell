@@ -30,9 +30,9 @@ size_t	count_spaces_to_rm_near_redir(char *str)
 		if (*str == '\"' && qw == 0)
 			qq = qq ^ 1;
 		if ((*str == '<' || *str == '>') && qq == 0 && qw == 0)
-			if (pre == ' ')
+			if (is_space(pre) == 1)
 				cnt++;
-		if (*str == ' ' && qq == 0 && qw == 0)
+		if (is_space(*str) == 1 && qq == 0 && qw == 0)
 			if (pre == '<' || pre == '>')
 				cnt++;
 		pre = *str;

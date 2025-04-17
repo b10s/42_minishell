@@ -111,13 +111,13 @@ void	rm_sp_near_red(char *new_str, char *str, char pre, short a[2])
 		*new_str = *str;
 		if ((*str == '<' || *str == '>') && a[QQ] == 0 && a[QW] == 0)
 		{
-			if (pre == ' ')
+			if (is_space(pre) == 1)
 			{
 				new_str--;
 				*new_str = *str;
 			}
 		}
-		if (*str == ' ' && a[QQ] == 0 && a[QW] == 0)
+		if (is_space(*str) == 1 && a[QQ] == 0 && a[QW] == 0)
 			if (pre == '<' || pre == '>')
 				new_str--;
 		pre = *str;
